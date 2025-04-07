@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "name": "Macallan 18",
+        "description": "A luxurious single malt Scotch whisky aged for 18 years, known for its rich flavors of dried fruits, spice, and oak.",
+        "image": "",
+        "price": 899.99,
+        "quantity": 10
+    },
+    {
+        "id": 2,
+        "name": "Yamazaki 12",
+        "description": "A Japanese single malt whisky with elegant notes of peach, vanilla, and mizunara oak.",
+        "image": "",
+        "price": 299.99,
+        "quantity": 10
+    },
+    {
+        "id": 3,
+        "name": "Buffalo Trace",
+        "description": "A classic Kentucky straight bourbon with notes of vanilla, caramel, and oak.",
+        "image": "",
+        "price": 59.99,
+        "quantity": 10
+    },
+    {
+        "id": 4,
+        "name": "Lagavulin 16",
+        "description": "An intensely flavored Islay single malt with rich peat smoke, maritime notes, and sweet intensity.",
+        "image": "",
+        "price": 129.99,
+        "quantity": 10
+    },
+    {
+        "id": 5,
+        "name": "Redbreast 12",
+        "description": "A single pot still Irish whiskey with complex spice and fruit notes.",
+        "image": "",
+        "price": 89.99,
+        "quantity": 10
+    },
+    {
+        "id": 6,
+        "name": "Glenfiddich 15",
+        "description": "A Speyside single malt aged in three different casks, offering honey, vanilla, and rich fruit notes.",
+        "image": "",
+        "price": 79.99,
+        "quantity": 10
+    },
+    {
+        "id": 7,
+        "name": "Blanton's Original",
+        "description": "A premium single barrel bourbon with notes of citrus, caramel, and warm spices.",
+        "image": "",
+        "price": 119.99,
+        "quantity": 10
+    },
+    {
+        "id": 8,
+        "name": "Highland Park 18",
+        "description": "An Orkney single malt with perfect balance of sweet honey and delicate smoke.",
+        "image": "",
+        "price": 189.99,
+        "quantity": 10
+    },
+    {
+        "id": 9,
+        "name": "Nikka From The Barrel",
+        "description": "A complex Japanese whisky blend with bold flavors of winter spice and oak.",
+        "image": "",
+        "price": 79.99,
+        "quantity": 10
+    },
+    {
+        "id": 10,
+        "name": "Glenmorangie Signet",
+        "description": "A unique Highland single malt made with roasted chocolate malt barley.",
+        "image": "",
+        "price": 249.99,
+        "quantity": 10
+    }
+]

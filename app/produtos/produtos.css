@@ -1,0 +1,26 @@
+.container-main {
+	background: url('/whisky.webp');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+
+
+.our-products {
+	background-color: #000000c2;
+}
+
+.w-16 img {
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Efeito hover nos produtos */
+.w-32:hover img {
+    transform: scale(1.1);
+}
+
+.w-32:hover h2 {
+    color: #f4b42c;
+}

@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Pragati+Narrow:wght@400;700&display=swap');
+
+.age-gate-container {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Pragati Narrow', sans-serif;
+	background-color: black;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.background-animation {
+	z-index: -1;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	mask-image: url('/Goat.png');
+	-webkit-mask-image: url('/Goat.png');
+	mask-size: contain;
+	-webkit-mask-size: contain;
+	mask-position: center;
+	-webkit-mask-position: center;
+	mask-repeat: no-repeat;
+	-webkit-mask-repeat: no-repeat;
+}
+
+/* Telas médias - aumenta o tamanho da cabra */
+@media (max-width: 768px) {
+	.background-animation {
+		mask-size: 170%;
+		-webkit-mask-size: 170%;
+	}
+}
+
+/* Telas pequenas - mantém o mesmo tamanho */
+@media (max-width: 480px) {
+	.background-animation {
+		mask-size: 170%;
+		-webkit-mask-size: 170%;
+	}
+}
+
+.background-animation::before {
+	content: '';
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+	background: url('/age_gate_bg.webp') center/cover;
+	animation: moveBackground 20s linear infinite;
+}
+
+/* Telas menores - aumenta o tamanho do background */
+@media (max-width: 768px) {
+	.background-animation::before {
+		top: -100%;
+		left: -100%;
+		width: 300%;
+		height: 300%;
+	}
+}
+
+/* Telas muito pequenas - aumenta ainda mais */
+@media (max-width: 480px) {
+	.background-animation::before {
+		top: -150%;
+		left: -150%;
+		width: 400%;
+		height: 400%;
+	}
+}
+
+@keyframes moveBackground {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.age-gate-content {
+	z-index: 1;
+	color: white;
+	min-height: 100vh;
+}
+
+/* Ajuste de espaçamento para elementos específicos */
+.age-gate-content h1 {
+	margin-bottom: 1rem;
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: lighter;
+}
+
+.age-gate-content h3 {
+	margin-bottom: 2rem;
+}
+
+.slide-up {
+	transform: translateY(-100%);
+}
+
+/* Animação de respiração */
+.breathing {
+	animation: breathing 1s ease-in-out infinite;
+}
+
+@keyframes breathing {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+/* Animação de zoom dramático */
+.breathing.zoom {
+	animation: breathingZoom 4s ease-in-out forwards;
+}
+
+@keyframes breathingZoom {
+	0% {
+		transform: scale(1);
+	}
+	20% {
+		transform: scale(1.1);
+	}
+	40% {
+		transform: scale(1.2);
+	}
+	60% {
+		transform: scale(1.5);
+	}
+	80% {
+		transform: scale(2);
+	}
+	100% {
+		transform: scale(2.5);
+	}
+}
+
+/* Animação de fade out para os textos */
+.fade-out {
+	opacity: 0;
+	transition: opacity 0.5s ease-out;
+}
+
+/* Animação de entrar na imagem */
+.enter-image {
+	animation: enterImage 0.8s ease-in-out forwards;
+}
+
+@keyframes enterImage {
+	0% {
+		transform: scale(1);
+		filter: brightness(1);
+	}
+	100% {
+		transform: scale(16);
+		filter: brightness(1.5);
+	}
+}
+
+/* Animação de fade out para o container inteiro */
+.age-gate-container.fade-out {
+	opacity: 0;
+	transition: opacity 0.5s ease-out;
+} 

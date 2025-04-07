@@ -1,0 +1,606 @@
+@import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 26, 26, 26;
+  --background-end-rgb: 34, 34, 34;
+}
+
+/* Garantindo que o fundo seja sempre preto */
+html, body {
+  background-color: #000;
+  min-height: 100vh;
+
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+  font-family: 'Inter', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-[#1a1a1a] text-white antialiased;
+  }
+}
+
+@layer components {
+  .elegant-button {
+    @apply bg-amber-600 text-white px-8 py-3 rounded-lg font-serif tracking-wide
+           hover:bg-amber-500 transition-all duration-500
+           focus:outline-none focus:ring-2 focus:ring-amber-600/50
+           shadow-lg hover:shadow-xl
+           transform hover:-translate-y-1;
+  }
+
+  .elegant-button-outline {
+    @apply border-2 border-amber-600/30 text-amber-100 px-8 py-3 rounded-lg font-serif tracking-wide
+           hover:border-amber-600/50 hover:text-white transition-all duration-500
+           focus:outline-none focus:ring-2 focus:ring-amber-600/50
+           shadow-lg hover:shadow-xl
+           transform hover:-translate-y-1;
+  }
+
+  .elegant-input {
+    @apply bg-[#1a1a1a] border-2 border-amber-600/30 text-white px-6 py-3 rounded-lg
+           focus:outline-none focus:border-amber-600/50 focus:ring-2 focus:ring-amber-600/20
+           placeholder-gray-500 transition-all duration-300;
+  }
+
+  .elegant-title {
+    @apply font-serif text-amber-100 tracking-wider;
+  }
+
+  .elegant-subtitle {
+    @apply text-gray-400 font-light tracking-wide;
+  }
+
+  .elegant-card {
+    @apply bg-[#222] rounded-xl p-8 border border-amber-600/10
+           hover:border-amber-600/30 transition-all duration-500
+           shadow-lg hover:shadow-xl
+           transform hover:-translate-y-1;
+  }
+}
+
+/* Animações personalizadas */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-[#1a1a1a];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-amber-600/30 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-amber-600/50;
+}
+
+/* Efeitos de Hover */
+.hover-lift {
+  @apply transition-transform duration-300 hover:-translate-y-1;
+}
+
+.hover-glow {
+  @apply transition-shadow duration-300 hover:shadow-[0_0_15px_rgba(245,158,11,0.3)];
+}
+
+/* Gradientes */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-100 to-amber-300;
+}
+
+.gradient-border {
+  @apply relative;
+}
+
+.gradient-border::after {
+  content: '';
+  @apply absolute inset-0 rounded-lg;
+  background: linear-gradient(45deg, rgba(245,158,11,0.3), rgba(245,158,11,0.1));
+  z-index: -1;
+}
+
+/* Efeitos de Glass */
+.glass-effect {
+  @apply bg-white/5 backdrop-blur-sm border border-white/10;
+}
+
+/* Transições Suaves */
+.smooth-transition {
+  @apply transition-all duration-500 ease-in-out;
+}
+
+/* Sombras Premium */
+.premium-shadow {
+  @apply shadow-[0_8px_30px_rgb(0,0,0,0.12)];
+}
+
+/* Bordas Elegantes */
+.elegant-border {
+  @apply border border-amber-600/20 rounded-lg;
+}
+
+/* Efeitos de Hover em Cards */
+.card-hover {
+  @apply transition-all duration-500 hover:shadow-xl hover:-translate-y-1 hover:border-amber-600/30;
+}
+
+/* Botões com Efeito de Brilho */
+.glow-button {
+  @apply relative overflow-hidden;
+}
+
+.glow-button::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.glow-button:hover::before {
+  transform: translateX(100%);
+}
+
+/* Animação para o componente de carregamento */
+@keyframes progress {
+  0% { width: 0; }
+  50% { width: 100%; }
+  100% { width: 0; }
+}
+
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}
+
+/* Animação do copo de whisky adaptada */
+.whisky-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 280px;
+}
+
+.whisky-glass {
+  position: relative;
+  width: 250px;
+  height: 210px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top: none;
+  border-radius: 18px 18px 35px 35px;
+  overflow: hidden;
+  box-shadow: inset 0 -12px 20px rgba(0, 0, 0, 0.3);
+}
+
+.whisky-glass::before {
+  content: '';
+  position: absolute;
+  top: 5%;
+  left: 20px;
+  width: 30px;
+  height: 80%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent 70%);
+  transform: skewX(-10deg);
+  border-radius: 12px;
+  opacity: 0.8;
+  animation: shimmer 5s ease-in-out infinite alternate;
+}
+
+.whisky-glass::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: 25px;
+  width: 18px;
+  height: 60%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: skewX(15deg);
+  border-radius: 8px;
+  opacity: 0.6;
+  animation: shimmer 6s ease-in-out infinite alternate-reverse;
+}
+
+.whisky-liquid {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  background: linear-gradient(to bottom, #e5a041, #a06117);
+  border-radius: 12px 12px 30px 30px;
+  animation: fillWhisky 2.5s ease-in-out infinite;
+  box-shadow: inset 0 4px 7px rgba(50, 20, 0, 0.4);
+}
+
+.whisky-stream {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 100%;
+  background: linear-gradient(to bottom, #e5a041, #a06117);
+  border-radius: 4px;
+  animation: pourWhisky 2.5s ease-in-out infinite;
+  z-index: 1;
+}
+
+/* Keyframes para animar o whisky */
+@keyframes fillWhisky {
+  0%,
+  100% {
+    height: 10%;
+    border-radius: 12px 12px 28px 28px;
+  }
+  50% {
+    height: 85%;
+    border-radius: 28px;
+  }
+}
+
+/* Keyframes para animar o fio de whisky caindo */
+@keyframes pourWhisky {
+  0% {
+    top: -100%;
+    opacity: 0;
+  }
+  10% {
+    top: -10%;
+    opacity: 1;
+  }
+  50% {
+    top: 15%;
+    opacity: 1;
+  }
+  51% {
+    opacity: 0;
+    top: 15%;
+  }
+  100% {
+    top: -100%;
+    opacity: 0;
+  }
+}
+
+/* Animação de brilho sutil para reflexos */
+@keyframes shimmer {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 0.9;
+  }
+}
+
+/* Animação elegante e sofisticada de loading */
+.elegant-loader {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.elegant-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(229, 160, 65, 0.3);
+  border-radius: 50%;
+  animation: elegant-spin 8s linear infinite;
+  box-shadow: 0 0 20px rgba(229, 160, 65, 0.2);
+}
+
+.elegant-ring::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  border: 1px solid rgba(229, 160, 65, 0.1);
+  animation: elegant-pulse 3s ease-in-out infinite;
+}
+
+.elegant-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #e5a041;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(229, 160, 65, 0.8);
+  animation: elegant-pulse 2s ease-in-out infinite;
+}
+
+.elegant-dot::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 160, 65, 0.3) 0%, rgba(229, 160, 65, 0) 70%);
+  animation: elegant-pulse 2s ease-in-out infinite;
+}
+
+@keyframes elegant-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes elegant-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}
+
+/* Animação de 3 bolinhas pulando */
+.bouncing-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 100px;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  background-color: #e5a041;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(229, 160, 65, 0.8);
+  position: relative;
+}
+
+.dot::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 8px;
+  background-color: rgba(229, 160, 65, 0.4);
+  border-radius: 50%;
+  filter: blur(6px);
+  animation: shadow-pulse 1.2s ease-in-out infinite;
+}
+
+.dot-1 {
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.dot-2 {
+  animation: bounce 1.2s ease-in-out infinite 0.2s;
+}
+
+.dot-3 {
+  animation: bounce 1.2s ease-in-out infinite 0.4s;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-50px);
+  }
+}
+
+@keyframes shadow-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateX(-50%) scale(0.7);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateX(-50%) scale(1.3);
+  }
+}
+
+/* Animação inspirada no Grumpy Turtle */
+.grumpy-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 60px;
+}
+
+.grumpy-circle {
+  width: 12px;
+  height: 12px;
+  background-color: #e5a041;
+  border-radius: 50%;
+  animation: grumpy-pulse 1.5s ease-in-out infinite;
+}
+
+.grumpy-circle:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.grumpy-circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.grumpy-circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes grumpy-pulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Animação de loading inspirada no Uiverse.io */
+.wrapper {
+  width: 200px;
+  height: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #e5a041;
+  left: 15%;
+  transform-origin: 50%;
+  animation: circle7124 .5s alternate infinite ease;
+}
+
+@keyframes circle7124 {
+  0% {
+    top: 60px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
+
+  40% {
+    height: 20px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+
+.circle:nth-child(2) {
+  left: 45%;
+  animation-delay: .2s;
+}
+
+.circle:nth-child(3) {
+  left: auto;
+  right: 15%;
+  animation-delay: .3s;
+}
+
+.shadow {
+  width: 20px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(229, 160, 65, 0.3);
+  position: absolute;
+  top: 62px;
+  transform-origin: 50%;
+  z-index: -1;
+  left: 15%;
+  filter: blur(1px);
+  animation: shadow046 .5s alternate infinite ease;
+}
+
+@keyframes shadow046 {
+  0% {
+    transform: scaleX(1.5);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: .7;
+  }
+
+  100% {
+    transform: scaleX(.2);
+    opacity: .4;
+  }
+}
+
+.shadow:nth-child(4) {
+  left: 45%;
+  animation-delay: .2s
+}
+
+.shadow:nth-child(5) {
+  left: auto;
+  right: 15%;
+  animation-delay: .3s;
+}
+
+/* Button Animation */
+.btn-hover-effect {
+  position: relative;
+  transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-hover-effect::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%) translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+  border-top-left-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  border-top-right-radius: 10px;
+}
+
+.btn-hover-effect:hover::before {
+  transform: translateX(0) translateY(0);
+}
+
+.btn-hover-effect:active {
+  transform: scale(0.98);
+  transition: transform 0.1s;
+}
