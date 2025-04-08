@@ -1,6 +1,6 @@
 'use client';
 
-import { useState} from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaGoogle, FaFingerprint, FaWineGlassAlt, FaUserPlus, FaSignInAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Image from 'next/image';
@@ -20,7 +20,30 @@ export default function LoginForm() {
   const [showError, setShowError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPopupHelp, setShowPopupHelp] = useState(false);
   const router = useRouter();
+
+  // Verificar se há uma URL de retorno
+  useEffect(() => {
+    // Verifica se o usuário veio do carrinho
+    const returnUrl = localStorage.getItem('returnUrl');
+    if (!returnUrl) {
+      // Se não houver URL de retorno, salva a página atual
+      localStorage.setItem('returnUrl', window.location.href);
+    }
+  }, []);
+
+  const redirectAfterLogin = () => {
+    const returnUrl = localStorage.getItem('returnUrl');
+    if (returnUrl && returnUrl.includes('/cart')) {
+      // Se veio do carrinho, volta para lá
+      localStorage.removeItem('returnUrl'); // Limpa a URL de retorno
+      router.push('/');
+    } else {
+      // Caso contrário, vai para a página inicial
+      router.push('/');
+    }
+  };
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,17 +54,27 @@ export default function LoginForm() {
     try {
       setIsLoading(true);
       setShowError(false);
+      setShowPopupHelp(false);
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       
       // Salva os dados do usuário no JSON
-      await saveUserData({
+      const userData = {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName,
         photoURL: user.photoURL,
         provider: 'google'
-      });
+      };
+      
+      await saveUserData(userData);
+      
+      // Salva os dados do usuário no localStorage
+      localStorage.setItem('user', JSON.stringify({
+        id: user.uid,
+        name: user.displayName || 'Usuário',
+        email: user.email
+      }));
 
       // Define o localStorage como ageVerified como true
       localStorage.setItem('ageVerified', 'true');
@@ -50,10 +83,24 @@ export default function LoginForm() {
       const ageVerifiedEvent = new CustomEvent('ageVerified', { detail: true });
       window.dispatchEvent(ageVerifiedEvent);
 
-      router.push('/');
-    } catch (error) {
+      redirectAfterLogin();
+    } catch (error: any) {
       console.error('Erro ao fazer login com Google:', error);
-      setError('Erro ao fazer login com Google');
+      
+      // Tratamento específico para o erro de popup fechado pelo usuário
+      if (error.code === 'auth/popup-closed-by-user') {
+        setError('O processo de login foi cancelado. Por favor, tente novamente.');
+        setShowPopupHelp(true);
+      } else if (error.code === 'auth/popup-blocked') {
+        setError('O popup de login foi bloqueado pelo navegador. Por favor, permita popups para este site.');
+        setShowPopupHelp(true);
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        setError('O processo de login foi cancelado. Por favor, tente novamente.');
+        setShowPopupHelp(true);
+      } else {
+        setError('Erro ao fazer login com Google. Por favor, tente novamente.');
+      }
+      
       setShowError(true);
     } finally {
       setIsLoading(false);
@@ -74,13 +121,22 @@ export default function LoginForm() {
           const user = userCredential.user;
   
           // Salva os dados do usuário no JSON
-          await saveUserData({
+          const userData = {
             uid: user.uid,
             email: user.email,
             password: password, // Em um sistema real, NUNCA armazene senhas em texto puro
             provider: 'email'
-          });
-  
+          };
+          
+          await saveUserData(userData);
+          
+          // Salva os dados do usuário no localStorage
+          localStorage.setItem('user', JSON.stringify({
+            id: user.uid,
+            name: email.split('@')[0], // Usa a parte antes do @ como nome
+            email: user.email
+          }));
+
           // Define o localStorage como ageVerified como true
           localStorage.setItem('ageVerified', 'true');
   
@@ -88,7 +144,7 @@ export default function LoginForm() {
           const ageVerifiedEvent = new CustomEvent('ageVerified', { detail: true });
           window.dispatchEvent(ageVerifiedEvent);
   
-          router.push('/');
+          redirectAfterLogin();
         } catch (error: any) {
           if (error.code === 'auth/operation-not-allowed') {
             setError('Autenticação por email/senha não está habilitada. Por favor, contate o administrador.');
@@ -101,32 +157,38 @@ export default function LoginForm() {
           console.error('Erro ao criar conta:', error);
         }
       } else {
-        try {
-          // Tenta fazer login diretamente com o Firebase
-          await signInWithEmailAndPassword(auth, email, password);
-  
-          // Define o localStorage como ageVerified como true
-          localStorage.setItem('ageVerified', 'true');
-  
-          // Dispara o evento personalizado
-          const ageVerifiedEvent = new CustomEvent('ageVerified', { detail: true });
-          window.dispatchEvent(ageVerifiedEvent);
-  
-          router.push('/');
-        } catch (error: any) {
-          if (error.code === 'auth/operation-not-allowed') {
-            setError('Autenticação por email/senha não está habilitada. Por favor, contate o administrador.');
-          } else if (error.code === 'auth/user-not-found') {
-            setError('Usuário não encontrado.');
-          } else if (error.code === 'auth/wrong-password') {
-            setError('Senha incorreta.');
-          } else {
-            setError('Erro ao fazer login. Verifique suas credenciais.');
-          }
-          setShowError(true);
-          console.error('Erro ao fazer login:', error);
-        }
+        // Login com email/senha
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Salva os dados do usuário no localStorage
+        localStorage.setItem('user', JSON.stringify({
+          id: user.uid,
+          name: email.split('@')[0], // Usa a parte antes do @ como nome
+          email: user.email
+        }));
+
+        // Define o localStorage como ageVerified como true
+        localStorage.setItem('ageVerified', 'true');
+
+        // Dispara o evento personalizado
+        const ageVerifiedEvent = new CustomEvent('ageVerified', { detail: true });
+        window.dispatchEvent(ageVerifiedEvent);
+
+        redirectAfterLogin();
       }
+    } catch (error: any) {
+      if (error.code === 'auth/operation-not-allowed') {
+        setError('Autenticação por email/senha não está habilitada. Por favor, contate o administrador.');
+      } else if (error.code === 'auth/user-not-found') {
+        setError('Usuário não encontrado.');
+      } else if (error.code === 'auth/wrong-password') {
+        setError('Senha incorreta.');
+      } else {
+        setError('Erro ao fazer login. Verifique suas credenciais.');
+      }
+      setShowError(true);
+      console.error('Erro ao fazer login:', error);
     } finally {
       setIsLoading(false);
     }
@@ -235,6 +297,28 @@ export default function LoginForm() {
               <span className="sr-only">Info</span>
               <div>
                 <span className="font-medium">Erro!</span> {error}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Mensagem de ajuda para popup fechado */}
+        <AnimatePresence>
+          {showPopupHelp && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center p-4 mb-4 text-sm text-amber-800 border border-amber-300 rounded-lg bg-amber-50 dark:bg-gray-800 dark:text-amber-400 dark:border-amber-800 max-w-md mx-auto w-full"
+              role="alert"
+            >
+              <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+              </svg>
+              <span className="sr-only">Dica</span>
+              <div>
+                <span className="font-medium">Dica:</span> Se você está tendo problemas com o popup, use o botão "Continuar com Google" abaixo.
               </div>
             </motion.div>
           )}

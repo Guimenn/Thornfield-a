@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, LogOut, User  } from "lucide-react";
 import "./navbar.css";
 import FullSearchBar from "../Search/FullSearchBar";
+import Button from "../Ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CartItem {
@@ -11,6 +12,12 @@ interface CartItem {
   price: number;
   quantity: number;
   image: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
 }
 
 export default function Navbar() {
@@ -24,6 +31,8 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Você pode substituir isso pela sua lógica de autenticação
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,6 +53,15 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  useEffect(() => {
+    // Verificar se há um usuário logado no localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleOpenMenu = () => {
     setIsOpen(true);
@@ -67,12 +85,21 @@ export default function Navbar() {
     setIsCartOpen(!isCartOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    setIsLoggedIn(false);
+    setIsUserMenuOpen(false);
+    // Redirecionar para a página inicial ou login
+    window.location.href = '/';
+  };
+
   const menuItems = [
     { name: "INÍCIO", href: "/" },
     { name: "NOSSA HISTÓRIA", href: "/historia" },
     { name: "COLEÇÃO", href: "/colecao" },
     { name: "PROCESSO", href: "/processo" },
-    { name: "EXPERIÊNCIAS", href: "/experiencias" }
+    { name: "EXPERIÊNCIAS", href: "/experiencias" },
   ];
 
   const imagensMenu = [
@@ -111,7 +138,7 @@ export default function Navbar() {
           <div className="flex h-[70px] items-center justify-start border-b border-white">
             <button
               onClick={handleOpenMenu}
-              className={`menu-button group ml-7 rounded-full p-3 transition-colors duration-300 hover:bg-white/5 ${isOpen ? "hidden" : ""}`}
+              className={`menu-button group ml-7 rounded-full p-3 transition-colors duration-300 cursor-pointer hover:bg-white/5 ${isOpen ? "hidden" : ""}`}
               aria-label="Abrir Menu"
             >
               <div className="menu-icon">
@@ -176,7 +203,7 @@ export default function Navbar() {
                   className="relative text-white transition-colors duration-300 hover:text-amber-600"
                   aria-label="Abrir pesquisa"
                 >
-                  <div className="absolute -inset-2 rounded-full bg-white/0 transition-all duration-300 hover:bg-white/5"></div>
+                  <div className="absolute cursor-pointer -inset-2 rounded-full bg-white/0 transition-all duration-300 hover:bg-white/5"></div>
                   <svg
                     width="32"
                     height="32"
@@ -200,7 +227,7 @@ export default function Navbar() {
             <div className="group relative h-[32px]">
               <button
                 onClick={handleUserMenuToggle}
-                className="relative text-white transition-colors duration-300 hover:text-amber-600"
+                className="relative text-white transition-colors duration-300 hover:text-amber-600 "
                 aria-label="Menu do usuário"
               >
                 <div className="absolute -inset-2 rounded-full bg-white/0 transition-all duration-300 group-hover:bg-white/5"></div>
@@ -221,12 +248,16 @@ export default function Navbar() {
                 </svg>
               </button>
 
-              {/* Menu do Usuário */}
-              <div className="invisible absolute top-full right-[-50px] mt-2 w-[130px] translate-y-2 transform rounded-lg border border-white/10 bg-gradient-to-b from-black/95 to-black/90 opacity-0 shadow-lg shadow-black/50 backdrop-blur-sm transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+              {/* Menu do Usuário - Desktop (hover) / Mobile (click) */}
+              <div
+                className={`absolute top-full right-[-50px] z-50 mt-2 w-[130px] rounded-lg border border-white/10 bg-gradient-to-b from-black/95 to-black/90 shadow-lg shadow-black/50 backdrop-blur-sm transition-all duration-300 
+                md:invisible md:translate-y-2 md:transform md:opacity-0 md:group-hover:visible md:group-hover:translate-y-0 md:group-hover:opacity-100
+                ${isUserMenuOpen ? "visible translate-y-0 opacity-100" : "invisible translate-y-2 opacity-0 md:invisible md:translate-y-2 md:opacity-0"}`}
+              >
                 {isLoggedIn ? (
                   <button
-                    onClick={() => setIsLoggedIn(false)}
-                    className="group/item flex w-full items-center space-x-2 px-4 py-2.5 text-left text-sm text-white/90 transition-all duration-300 hover:bg-white/10"
+                    onClick={handleLogout}
+                    className="group/item flex w-full items-center space-x-2 px-4 py-2.5 text-left text-sm text-white/90 transition-all duration-300 hover:bg-white/10 cursor-pointer"
                   >
                     <div className="relative">
                       <div className="absolute -inset-1 rounded-full bg-white/0 transition-all duration-300 group-hover/item:bg-white/5"></div>
@@ -251,6 +282,7 @@ export default function Navbar() {
                 ) : (
                   <a
                     href="/Login"
+                    onClick={() => setIsUserMenuOpen(false)}
                     className="group/item flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm text-white/90 transition-all duration-300 hover:bg-white/10"
                   >
                     <div className="relative rounded-full">
@@ -280,7 +312,7 @@ export default function Navbar() {
             {/* Ícone de Sacola */}
             <button
               onClick={handleCartClick}
-              className="relative text-white transition-colors duration-300 hover:text-amber-600"
+              className="relative text-white transition-colors duration-300 hover:text-amber-600 cursor-pointer"
               aria-label="Carrinho de compras"
             >
               <div className="absolute -inset-2 rounded-full bg-white/0 transition-all duration-300 hover:bg-white/5"></div>
@@ -488,9 +520,7 @@ export default function Navbar() {
                 .toFixed(2)}
             </span>
           </div>
-          <button className="w-full bg-amber-600 py-2 text-white transition-colors duration-300 hover:bg-amber-700">
-            Finalizar Compra
-          </button>
+          <Button className="w-full">Finalizar Compra</Button>
         </div>
       </div>
 

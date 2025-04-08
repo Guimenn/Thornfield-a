@@ -1,5 +1,5 @@
-'use client';
-import { useState, useEffect, useRef } from 'react';
+"use client";
+import { useState, useEffect, useRef } from "react";
 
 interface SearchProps {
   isOpen: boolean;
@@ -7,11 +7,17 @@ interface SearchProps {
 }
 
 export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<{id: number; name: string; description: string; price: number}[]>([]);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<
+    { id: number; name: string; description: string; price: number }[]
+  >([]);
   const [isSearching, setIsSearching] = useState(false);
   const [popularSearches] = useState([
-    'Single Malt', 'Bourbon', 'Whisky Japonês', 'Scotch', 'Irish Whiskey'
+    "Single Malt",
+    "Bourbon",
+    "Whisky Japonês",
+    "Scotch",
+    "Irish Whiskey",
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -23,7 +29,7 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      if (query.trim() !== '') {
+      if (query.trim() !== "") {
         handleSearch();
       } else {
         setResults([]);
@@ -37,15 +43,17 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const handleSearch = async () => {
-    if (query.trim() === '') return;
-    
+    if (query.trim() === "") return;
+
     setIsSearching(true);
     try {
-      const response = await fetch(`/api/bebida?q=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `/api/bebida?q=${encodeURIComponent(query)}`,
+      );
       const data = await response.json();
       setResults(data);
     } catch (error) {
-      console.error('Erro na pesquisa:', error);
+      console.error("Erro na pesquisa:", error);
     } finally {
       setIsSearching(false);
     }
@@ -53,7 +61,7 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
 
   const handleProductClick = (id: number) => {
     window.location.href = `/produto/${id}`;
-    setQuery('');
+    setQuery("");
     setResults([]);
     onClose();
   };
@@ -62,57 +70,72 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
     setQuery(term);
   };
 
+  // Add this effect to disable scrolling when search is open
+  useEffect(() => {
+    if (isOpen) {
+      // Disable scrolling
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // Re-enable scrolling when component unmounts or search closes
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
-    <div className="w-full">
-      <input
-        ref={inputRef}
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Pesquisar"
-        className="w-[60%] border-b border-black/20 bg-transparent py-2 text-black placeholder:text-black/50 focus:outline-none flex justify-center mx-auto"
-      />
-      
+    <div className="flex w-full flex-col items-center">
+      <div className="relative flex w-full justify-center">
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Pesquisar"
+          className="w-[49%] border-b border-black/20 bg-transparent py-2 text-black placeholder:text-black/50 focus:outline-none"
+        />
+      </div>
+
       {isSearching && (
-        <div className="absolute right-12 top-[25px]">
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-t-transparent border-amber-600"></div>
+        <div className="absolute top-[25px] right-12">
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-amber-600 border-t-transparent"></div>
         </div>
       )}
-      
-      {query.trim() !== '' && (
-        <div className="absolute left-0 right-0 top-[70px] max-h-[80vh] overflow-y-auto bg-white shadow-lg z-50">
+
+      {query.trim() !== "" && (
+        <div className="absolute top-[70px] right-0 left-0 z-50 max-h-[80vh] overflow-y-auto bg-white shadow-lg">
           {results.length > 0 ? (
-            <div className="divide-y divide-gray-100">
+            <div className="mx-auto max-w-4xl divide-y divide-gray-100">
               {results.map((item) => (
-                <div 
+                <div
                   key={item.id}
                   onClick={() => handleProductClick(item.id)}
-                  className="flex cursor-pointer items-center p-4 hover:bg-gray-50"
+                  className="flex cursor-pointer items-center p-4 transition-colors duration-200 hover:bg-gray-50"
                 >
                   <div className="flex-1">
                     <h3 className="font-medium text-gray-900">{item.name}</h3>
-                    <p className="text-sm text-gray-500">{item.description.substring(0, 100)}...</p>
-                    <p className="mt-1 text-amber-600">R$ {item.price.toFixed(2)}</p>
+                   
                   </div>
                 </div>
               ))}
-              
             </div>
-          ) : query.trim() !== '' && !isSearching ? (
-            <div className="p-4 text-center text-gray-500">
+          ) : query.trim() !== "" && !isSearching ? (
+            <div className="p-6 text-center text-gray-500">
               <p>Nenhum resultado encontrado para &quot;{query}&quot;</p>
             </div>
           ) : null}
-          
-          {query.trim() === '' && (
-            <div className="p-4">
-              <h3 className="mb-2 font-medium text-gray-900">Pesquisas populares</h3>
-              <div className="flex flex-wrap gap-2">
+
+          {query.trim() === "" && (
+            <div className="mx-auto max-w-2xl p-6">
+              <h3 className="mb-4 text-center font-medium text-gray-900">
+                Pesquisas populares
+              </h3>
+              <div className="flex flex-wrap justify-center gap-2">
                 {popularSearches.map((term) => (
                   <button
                     key={term}
                     onClick={() => handlePopularSearch(term)}
-                    className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 hover:bg-amber-100"
+                    className="rounded-full bg-gray-100 px-4 py-2 text-sm text-gray-800 transition-colors duration-200 hover:bg-amber-100"
                   >
                     {term}
                   </button>

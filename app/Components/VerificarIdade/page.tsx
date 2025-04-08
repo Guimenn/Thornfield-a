@@ -128,7 +128,50 @@ export default function AgeGate() {
                 </div>
                 <button id='ButtonSite' className='bg-transparent text-white underline text-2xl rounded-md p-2 underline-offset-4 my-6' onClick={VerificarIdade}>ENTER SITE</button>
                 <p className='text-white text-xl font-light text-wrap w-[80%] text-center' id='text-terms'>
-                    Ao entrar neste site, você concorda com nossos <a href="#" className='underline'>Termos e Condições</a> e <a href="#" className='underline'>Aviso de Privacidade</a>.
+                    Ao entrar neste site, você concorda com nossos {' '}
+                    <a href="#" 
+                       className='underline'
+                       onClick={(e) => {
+                           e.preventDefault();
+                           const isLoggedIn = localStorage.getItem('isLoggedIn');
+                           const messageElement = document.getElementById('terms-message');
+                           if (!isLoggedIn) {
+                               if (messageElement) {
+                                   messageElement.innerHTML = 'Você precisa estar logado para acessar os Termos e Condições';
+                                   messageElement.style.color = 'red';
+                               }
+                           } else {
+                               // Handle terms access for logged in users
+                               if (messageElement) {
+                                   messageElement.innerHTML = '';
+                               }
+                               // Add your logic to show terms here
+                           }
+                       }}>
+                        Termos e Condições
+                    </a> e {' '}
+                    <a href="#" 
+                       className='underline'
+                       onClick={(e) => {
+                           e.preventDefault();
+                           const isLoggedIn = localStorage.getItem('isLoggedIn');
+                           const messageElement = document.getElementById('terms-message');
+                           if (!isLoggedIn) {
+                               if (messageElement) {
+                                   messageElement.innerHTML = 'Você precisa estar logado para acessar o Aviso de Privacidade';
+                                   messageElement.style.color = 'red';
+                               }
+                           } else {
+                               // Handle privacy notice access for logged in users
+                               if (messageElement) {
+                                   messageElement.innerHTML = '';
+                               }
+                               // Add your logic to show privacy notice here
+                           }
+                       }}>
+                        Aviso de Privacidade
+                    </a>.
+                    <div id="terms-message" className="mt-2"></div>
                 </p>
                 <p className='text-white text-base font-light text-wrap w-[80%] text-center' id='text-awards'>
                     *A linha Thornfield recebeu mais prêmios desde 2000 do que qualquer outro whisky single malt em duas das competições mais prestigiadas do mundo, a International Wine & Spirit Competition e o International Spirits Challenge.
