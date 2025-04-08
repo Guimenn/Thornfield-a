@@ -5,6 +5,8 @@ import "./navbar.css";
 import FullSearchBar from "../Search/FullSearchBar";
 import Button from "../Ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCart } from "../../context/CartContext";
+import { useRouter } from "next/navigation";
 
 interface CartItem {
   id: string;
@@ -30,9 +32,9 @@ export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Você pode substituir isso pela sua lógica de autenticação
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [user, setUser] = useState<User | null>(null);
-
+  const router = useRouter();
+  const { items, removeItem, updateQuantity, total } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,6 +94,11 @@ export default function Navbar() {
     setIsUserMenuOpen(false);
     // Redirecionar para a página inicial ou login
     window.location.href = '/';
+  };
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    router.push('/checkout');
   };
 
   const menuItems = [
@@ -460,15 +467,15 @@ export default function Navbar() {
 
         {/* Lista de Produtos */}
         <div className="h-[calc(100%-120px)] overflow-y-auto p-4">
-          {cartItems.length === 0 ? (
+          {items.length === 0 ? (
             <p className="mt-8 text-center text-white/60">
               Seu carrinho está vazio
             </p>
           ) : (
             <div className="space-y-4">
-              {cartItems.map((item, index) => (
+              {items.map((item) => (
                 <div
-                  key={index}
+                  key={item.id}
                   className="flex items-center space-x-4 border-b border-white/10 p-2"
                 >
                   <img
@@ -483,6 +490,7 @@ export default function Navbar() {
                     </p>
                     <div className="mt-1 flex items-center space-x-2">
                       <button
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         className="text-white/60 hover:text-white"
                         aria-label="Diminuir quantidade"
                       >
@@ -490,6 +498,7 @@ export default function Navbar() {
                       </button>
                       <span className="text-white">{item.quantity}</span>
                       <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         className="text-white/60 hover:text-white"
                         aria-label="Aumentar quantidade"
                       >
@@ -498,6 +507,7 @@ export default function Navbar() {
                     </div>
                   </div>
                   <button
+                    onClick={() => removeItem(item.id)}
                     className="text-white/60 hover:text-white"
                     aria-label="Remover item do carrinho"
                   >
@@ -514,13 +524,15 @@ export default function Navbar() {
           <div className="mb-4 flex items-center justify-between">
             <span className="text-white/60">Total:</span>
             <span className="text-white">
-              R${" "}
-              {cartItems
-                .reduce((total, item) => total + item.price * item.quantity, 0)
-                .toFixed(2)}
+              R$ {total.toFixed(2)}
             </span>
           </div>
-          <Button className="w-full">Finalizar Compra</Button>
+          <Button 
+            className="w-full"
+            onClick={handleCheckout}
+          >
+            Finalizar Compra
+          </Button>
         </div>
       </div>
 

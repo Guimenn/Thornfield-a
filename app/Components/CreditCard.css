@@ -1,0 +1,249 @@
+.credit-card-wrapper {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 400px;
+  height: 250px;
+  margin: 0 auto 2rem;
+}
+
+.credit-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.credit-card-wrapper.is-flipped .credit-card {
+  transform: rotateY(180deg);
+}
+
+.credit-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transform-style: preserve-3d;
+}
+
+.credit-card-front,
+.credit-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.credit-card-back {
+  transform: rotateY(180deg);
+}
+
+.card-background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-chip {
+  position: relative;
+  width: 50px;
+  height: 40px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.chip-line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.chip-line:nth-child(1) { top: 20%; }
+.chip-line:nth-child(2) { top: 40%; }
+.chip-line:nth-child(3) { top: 60%; }
+.chip-line:nth-child(4) { top: 80%; }
+
+.chip-main {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card-logo {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: #f59e0b;
+}
+
+.card-number {
+  font-size: 1.5rem;
+  color: #f8fafc;
+  letter-spacing: 2px;
+  text-align: left;
+  margin: 1rem 0;
+  font-family: monospace;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  color: #f8fafc;
+  text-align: left;
+}
+
+.card-holder,
+.card-expires {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.card-holder-label,
+.expires-label,
+.cvv-label {
+  font-size: 0.7rem;
+  color: #cbd5e1;
+  text-transform: uppercase;
+}
+
+.card-holder-name,
+.expires-value {
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.card-stripe {
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: #2d2d2d;
+}
+
+.card-cvv {
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  background: #f8fafc;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-align: right;
+}
+
+.cvv-value {
+  color: #1a1a1a;
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.credit-card {
+  animation: cardIn 0.6s ease-out;
+}
+
+.card-brand {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.card-brand.visa {
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.card-brand.mastercard {
+  color: #f59e0b;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
+}
+
+.card-brand.amex {
+  color: #2563eb;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
+}
+
+.card-brand.elo {
+  color: #f59e0b;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.5rem;
+}
+
+.card-brand.hipercard {
+  color: #ef4444;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
+}
+
+/* Estilos de fundo específicos para cada bandeira */
+.card-background.visa {
+  background: linear-gradient(135deg, #1a1f71 0%, #2b3582 100%);
+}
+
+.card-background.mastercard {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.card-background.amex {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.card-background.elo {
+  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+}
+
+.card-background.hipercard {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Ajustes para o texto do cartão baseado no fundo */
+.visa .card-number,
+.visa .card-info,
+.amex .card-number,
+.amex .card-info,
+.hipercard .card-number,
+.hipercard .card-info {
+  color: #fff;
+}
+
+.visa .card-holder-label,
+.visa .expires-label,
+.amex .card-holder-label,
+.amex .expires-label,
+.hipercard .card-holder-label,
+.hipercard .expires-label {
+  color: rgba(255, 255, 255, 0.8);
+} 

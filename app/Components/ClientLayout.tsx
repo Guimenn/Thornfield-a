@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from "./Navbar/Navbar";
 import { useRouter } from 'next/navigation';
+import { CartProvider } from '../context/CartContext';
 
 export default function ClientLayout({
   children,
@@ -73,13 +74,13 @@ export default function ClientLayout({
 
   // Se for a página de login, renderiza apenas o conteúdo
   if (isLoginPage) {
-    return <>{children}</>;
+    return <CartProvider>{children}</CartProvider>;
   }
 
   return (
-    <>
+    <CartProvider>
       {isClient && isAgeVerified && <Navbar />}
       {children}
-    </>
+    </CartProvider>
   );
 }

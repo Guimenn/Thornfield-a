@@ -1,4 +1,4 @@
-'use client';
+  'use client';
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -32,6 +32,16 @@ export default function LoginForm() {
       localStorage.setItem('returnUrl', window.location.href);
     }
   }, []);
+
+  // Verificar se já está logado
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const returnUrl = localStorage.getItem('returnUrl') || '/';
+      localStorage.removeItem('returnUrl');
+      router.push(returnUrl);
+    }
+  }, [router]);
 
   const redirectAfterLogin = () => {
     const returnUrl = localStorage.getItem('returnUrl');
@@ -550,4 +560,5 @@ export default function LoginForm() {
         </div>
       </motion.div>
     </div>
-  );} 
+  );
+} 
