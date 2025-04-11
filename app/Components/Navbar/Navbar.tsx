@@ -1,10 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
-import { X, LogOut, User  } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  ShoppingBag,
+  User,
+  Menu,
+  ChevronDown,
+  LogOut,
+} from "lucide-react";
 import "./navbar.css";
 import FullSearchBar from "../Search/FullSearchBar";
 import Button from "../Ui/Button";
-import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../../context/CartContext";
 import { useRouter } from "next/navigation";
 
@@ -196,7 +203,7 @@ export default function Navbar() {
                     aria-label="Fechar pesquisa"
                   >
                     <div className="absolute -inset-2 rounded-full bg-black/0 transition-all duration-300 hover:bg-black/5"></div>
-                    <X size={24} className="relative z-10" />
+                    <svg className="relative z-10" width="28" height="28" viewBox="0 0 32 32"><g fill="currentColor"><path d="m14.585 16-4.95 4.95 1.415 1.414L22.364 11.05l-1.415-1.414-4.95 4.95-4.949-4.95-1.414 1.414 4.95 4.95ZM20.95 22.364l-3.536-3.536 1.414-1.414 3.536 3.536-1.415 1.414Z"></path></g></svg>
                   </button>
                 </motion.div>
               ) : (
@@ -339,12 +346,12 @@ export default function Navbar() {
       {/* Menu Fullscreen */}
       <div
         className={`fixed inset-0 z-50 h-full w-full transition-all duration-500 ${
-          isOpen ? "visible opacity-100" : "invisible opacity-0"
+          isOpen ? "visible pointer-events-auto" : "invisible pointer-events-none"
         }`}
       >
         {/* Overlay */}
         <div
-          className={`absolute inset-0 bg-black/50 transition-opacity duration-500 ${
+          className={`absolute inset-0 bg-black/60 transition-opacity duration-500 ${
             isOpen ? "opacity-100" : "opacity-0"
           }`}
           onClick={handleCloseMenu}
@@ -353,18 +360,18 @@ export default function Navbar() {
         {/* Grid de duas colunas */}
         <div
           className={`grid h-full grid-cols-1 md:grid-cols-[65%_35%] ${
-            isOpen ? "menu-wave" : "-translate-x-full -translate-y-full"
+            isOpen ? "menu-wave" : "opacity-0"
           }`}
         >
           {/* Coluna do Menu */}
-          <div className="relative flex flex-col bg-[#1a1a1a] p-4 md:p-16">
+          <div className="relative flex flex-col bg-[#111111] p-4 md:p-16">
             {/* Botão Fechar */}
             <button
               onClick={handleCloseMenu}
-              className="absolute top-8 left-8 p-2 text-white/60 transition-colors duration-300 hover:text-white"
+              className="absolute top-8 left-8 p-2 text-white/70 transition-colors duration-300 hover:text-white"
               aria-label="Fechar Menu"
             >
-              <X size={24} />
+              <svg width="32" height="32" viewBox="0 0 32 32"><g fill="currentColor"><path d="m14.585 16-4.95 4.95 1.415 1.414L22.364 11.05l-1.415-1.414-4.95 4.95-4.949-4.95-1.414 1.414 4.95 4.95ZM20.95 22.364l-3.536-3.536 1.414-1.414 3.536 3.536-1.415 1.414Z"></path></g></svg>
             </button>
 
             <div className="h-full md:grid md:grid-cols-[1fr_250px]">
@@ -372,7 +379,7 @@ export default function Navbar() {
               <div className="md:pt-[200px] md:pl-[100px]">
                 {/* Links do Menu */}
                 <nav className="flex-1" aria-label="Menu de Navegação">
-                  <ul className="space-y-6">
+                  <ul className="space-y-8">
                     {menuItems.map((item) => (
                       <li
                         key={item.name}
@@ -381,7 +388,7 @@ export default function Navbar() {
                         <a
                           href={item.href}
                           onClick={handleCloseMenu}
-                          className="group menu-link flex items-center justify-center text-xl font-light tracking-[0.15em] text-white/90 uppercase transition-colors duration-300 hover:text-amber-600 md:justify-start md:text-2xl"
+                          className="group menu-link text-xl font-light tracking-[0.15em] text-white/90 uppercase transition-colors duration-500 md:text-2xl"
                         >
                           {item.name}
                         </a>
@@ -457,11 +464,11 @@ export default function Navbar() {
             CARRINHO
           </h2>
           <button
-            onClick={handleCartClick}
-            className="text-white/60 transition-colors duration-300 hover:text-white"
+            onClick={() => setIsCartOpen(false)}
+            className="absolute right-4 top-4 text-white/60 hover:text-white"
             aria-label="Fechar carrinho"
           >
-            <X size={20} />
+            <svg width="28" height="28" viewBox="0 0 32 32"><g fill="currentColor"><path d="m14.585 16-4.95 4.95 1.415 1.414L22.364 11.05l-1.415-1.414-4.95 4.95-4.949-4.95-1.414 1.414 4.95 4.95ZM20.95 22.364l-3.536-3.536 1.414-1.414 3.536 3.536-1.415 1.414Z"></path></g></svg>
           </button>
         </div>
 
@@ -508,10 +515,10 @@ export default function Navbar() {
                   </div>
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="text-white/60 hover:text-white"
+                    className="text-gray-400 hover:text-red-500"
                     aria-label="Remover item do carrinho"
                   >
-                    <X size={16} />
+                    <svg width="24" height="24" viewBox="0 0 32 32"><g fill="currentColor"><path d="m14.585 16-4.95 4.95 1.415 1.414L22.364 11.05l-1.415-1.414-4.95 4.95-4.949-4.95-1.414 1.414 4.95 4.95ZM20.95 22.364l-3.536-3.536 1.414-1.414 3.536 3.536-1.415 1.414Z"></path></g></svg>
                   </button>
                 </div>
               ))}
