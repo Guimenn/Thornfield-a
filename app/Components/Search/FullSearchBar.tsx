@@ -11,10 +11,8 @@ interface Whisky {
   name: string;
   description: string;
   image: string;
-  year: number;
   price: number;
-  tasting_notes: string[];
-  icon: string;
+  category: string;
 }
 
 export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
@@ -56,90 +54,72 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
           name: "ULTRA RESERVE",
           description: "Clássico e refinado, com notas profundas reveladas pelo carvalho nobre.",
           image: "/whiskys-fundo/10.png",
-          year: 18,
           price: 599.90,
-          tasting_notes: ["Canela", "Carvalho", "Especiarias"],
-          icon: "/icons-whisky/tumbler-glass-svgrepo-com.svg"
+          category: "Produtos"
         },
         {
           id: "2",
           name: "SHADOW OAK",
           description: "Misterioso e encorpado, um blend que carrega o legado da tradição.",
           image: "/whiskys-fundo/11.png",
-          year: 18,
           price: 499.90,
-          tasting_notes: ["Chocolate", "Amoras", "Cravos"],
-          icon: "/icons-whisky/chocolate-svgrepo-com.svg"
+          category: "Produtos"
         },
         {
           id: "3",
           name: "MIDNIGHT GOLD",
           description: "Defumado e intenso, com brilho dourado e presença marcante.",
           image: "/whiskys-fundo/12.png",
-          year: 15,
           price: 229.90,
-          tasting_notes: ["Caramelo", "Gengibre", "Tabaco"],
-          icon: "/icons-whisky/gold-bar-svgrepo-com.svg"
+          category: "Produtos"
         },
         {
           id: "4",
           name: "BLUE MIST",
           description: "Suave e fresco, inspirado na bruma das montanhas escocesas.",
           image: "/whiskys-fundo/13.png",
-          year: 14,
           price: 119.90,
-          tasting_notes: ["Blueberry", "Hortelã", "Eucalipto"],
-          icon: "/icons-whisky/berry-cooking-food-svgrepo-com.svg"
+          category: "Produtos"
         },
         {
           id: "5",
           name: "HONEY EMBER",
           description: "Doce e especiado, com calor sutil vindo dos barris europeus",
           image: "/whiskys-fundo/14.png",
-          year: 16,
           price: 199.90,
-          tasting_notes: ["Mel", "Pêra", "Cravos"],
-          icon: "/icons-whisky/bee-illustration-2-svgrepo-com.svg"
+          category: "Produtos"
         },
         {
           id: "6",
           name: "CRIMSON HEARTH",
           description: "Aveludado e vibrante, com notas que aquecem como um lar acolhedor.",
           image: "/whiskys-fundo/15.png",
-          year: 17,
           price: 359.90,
-          tasting_notes: ["Cereja", "Nozes", "Pimenta"],
-          icon: "/icons-whisky/cherry-svgrepo-com.svg"
+          category: "Produtos"
         },
         {
           id: "7",
           name: "EMERALD WHISPER",
           description: "Verde e herbal, com frescor elegante e alma atlântica.",
           image: "/whiskys-fundo/16.png",
-          year: 15,
           price: 139.90,
-          tasting_notes: ["Maçã verde", "Hortelã", "Ervas"],
-          icon: "/icons-whisky/apple-5-svgrepo-com.svg"
+          category: "Produtos"
         },
         {
           id: "8",
           name: "OBISIDIAN VEIL",
           description: "Cru e potente, engarrafado direto do barril, sem concessões.",
           image: "/whiskys-fundo/17.png",
-          year: 20,
           price: 669.90,
-          tasting_notes: ["Café", "Especiarias", "Carvalho"],
-          icon: "/icons-whisky/coffee-grain-coffee-svgrepo-com.svg"
+          category: "Produtos"
         },
         {
           id: "9",
           name: "PHANTOM BLOOM",
           description: "Florido e raro, um tributo delicado à história da Thornfield.",
           image: "/whiskys-fundo/18.png",
-          year: 22,
           price: 899.90,
-          tasting_notes: ["Néctar da flor de lua", "Lavanda", "Açafrão"],
-          icon: "/icons-whisky/flower-ornament-svgrepo-com.svg"
+          category: "Produtos"
         }
       ];
       
