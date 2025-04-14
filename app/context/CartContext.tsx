@@ -16,6 +16,7 @@ interface CartContextType {
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
   total: number;
+  updateStock: (id: string, quantity: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -34,6 +35,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('cart', JSON.stringify(items));
   }, [items]);
 
+  const updateStock = (id: string, quantity: number) => {
+    setItems(currentItems =>
+      currentItems.map(item =>
+        item.id === id ? { ...item, quantity: item.quantity + quantity } : item
+      )
+    );
+  };
+
   const addItem = (newItem: CartItem) => {
     setItems(currentItems => {
       const existingItem = currentItems.find(item => item.id === newItem.id);
@@ -41,17 +50,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (existingItem) {
         return currentItems.map(item =>
           item.id === newItem.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + newItem.quantity }
             : item
         );
       }
       
-      return [...currentItems, { ...newItem, quantity: 1 }];
+      return [...currentItems, newItem];
     });
   };
 
   const removeItem = (id: string) => {
-    setItems(currentItems => currentItems.filter(item => item.id !== id));
+    setItems(currentItems => {
+      return currentItems.filter(item => item.id !== id);
+    });
   };
 
   const updateQuantity = (id: string, quantity: number) => {
@@ -82,7 +93,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         removeItem,
         updateQuantity,
         clearCart,
-        total
+        total,
+        updateStock
       }}
     >
       {children}
@@ -96,4 +108,4 @@ export function useCart() {
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
-} 
+}
