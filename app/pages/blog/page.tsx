@@ -939,7 +939,7 @@ export default function BlogPage() {
             {/* Imagem de mapa com marcações */}
             <div className="relative aspect-video">
               <Image 
-                src="/image.png"
+                src="/mapa.png"
                 alt="Mapa mundial de destilarias de whisky"
                 fill
                 className="object-cover"
