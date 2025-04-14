@@ -5,110 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-
-interface Whisky {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  year: number;
-  price: number;
-  tasting_notes: string[];
-  icon: string;
-}
-
-const whiskies: Whisky[] = [
-  {
-    id: "1",
-    name: "ULTRA RESERVE",
-    description: "Clássico e refinado, com notas profundas reveladas pelo carvalho nobre.",
-    image: "/whiskys-fundo/10.png",
-    year: 18,
-    price: 599.90,
-    tasting_notes: ["Canela", "Carvalho", "Especiarias"],
-    icon: "/icons-whisky/tumbler-glass-svgrepo-com.svg"
-  },
-  {
-    id: "2",
-    name: "SHADOW OAK",
-    description: "Misterioso e encorpado, um blend que carrega o legado da tradição.",
-    image: "/whiskys-fundo/11.png",
-    year: 18,
-    price: 499.90,
-    tasting_notes: ["Chocolate", "Amoras", "Cravos"],
-    icon: "/icons-whisky/chocolate-svgrepo-com.svg"
-  },
-  {
-    id: "3",
-    name: "MIDNIGHT GOLD",
-    description: "Defumado e intenso, com brilho dourado e presença marcante.",
-    image: "/whiskys-fundo/12.png",
-    year: 15,
-    price: 229.90,
-    tasting_notes: ["Caramelo", "Gengibre", "Tabaco"],
-    icon: "/icons-whisky/gold-bar-svgrepo-com.svg"
-  },
-  {
-    id: "4",
-    name: "BLUE MIST",
-    description: "Suave e fresco, inspirado na bruma das montanhas escocesas.",
-    image: "/whiskys-fundo/13.png",
-    year: 14,
-    price: 119.90,
-    tasting_notes: ["Blueberry", "Hortelã", "Eucalipto"],
-    icon: "/icons-whisky/berry-cooking-food-svgrepo-com.svg"
-  },
-  {
-    id: "5",
-    name: "HONEY EMBER",
-    description: "Doce e especiado, com calor sutil vindo dos barris europeus",
-    image: "/whiskys-fundo/14.png",
-    year: 16,
-    price: 199.90,
-    tasting_notes: ["Mel", "Pêra", "Cravos"],
-    icon: "/icons-whisky/bee-illustration-2-svgrepo-com.svg"
-  },
-  {
-    id: "6",
-    name: "CRIMSON HEARTH",
-    description: "Aveludado e vibrante, com notas que aquecem como um lar acolhedor.",
-    image: "/whiskys-fundo/15.png",
-    year: 17,
-    price: 359.90,
-    tasting_notes: ["Cereja", "Nozes", "Pimenta"],
-    icon: "/icons-whisky/cherry-svgrepo-com.svg"
-  },
-  {
-    id: "7",
-    name: "EMERALD WHISPER",
-    description: "Verde e herbal, com frescor elegante e alma atlântica.",
-    image: "/whiskys-fundo/16.png",
-    year: 15,
-    price: 139.90,
-    tasting_notes: ["Maçã verde", "Hortelã", "Ervas"],
-    icon: "/icons-whisky/apple-5-svgrepo-com.svg"
-  },
-  {
-    id: "8",
-    name: "OBISIDIAN VEIL",
-    description: "Cru e potente, engarrafado direto do barril, sem concessões.",
-    image: "/whiskys-fundo/17.png",
-    year: 20,
-    price: 669.90,
-    tasting_notes: ["Café", "Especiarias", "Carvalho"],
-    icon: "/icons-whisky/coffee-grain-coffee-svgrepo-com.svg"
-  },
-  {
-    id: "9",
-    name: "PHANTOM BLOOM",
-    description: "Florido e raro, um tributo delicado à história da Thornfield.",
-    image: "/whiskys-fundo/18.png",
-    year: 22,
-    price: 899.90,
-    tasting_notes: ["Néctar da flor de lua", "Lavanda", "Açafrão"],
-    icon: "/icons-whisky/flower-ornament-svgrepo-com.svg"
-  }
-];
+import { defaultWhiskies as whiskies } from "../../data/whiskies";
 
 export default function Bebidas() {
   const [activeWhisky, setActiveWhisky] = useState<string | null>(null);
@@ -118,7 +15,7 @@ export default function Bebidas() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [navFixed, setNavFixed] = useState(false);
-  
+ 
   // Refs para os elementos de navegação e indicador
   const navIndicatorRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
@@ -127,18 +24,18 @@ export default function Bebidas() {
   // Função para atualizar a posição do indicador
   const updateIndicatorPosition = (whiskyId: string | null) => {
     if (!whiskyId || !navIndicatorRef.current) return;
-    
+   
     const activeButton = navItemsRef.current[whiskyId];
     if (!activeButton) return;
 
     // Obter a posição e largura do botão ativo
     const { offsetLeft, offsetWidth } = activeButton;
-    
+   
     // Atualizar a posição e largura do indicador
     // Adicionando uma pequena margem para centralizar melhor
     const indicatorWidth = offsetWidth * 0.6;
     const indicatorLeft = offsetLeft + (offsetWidth - indicatorWidth) / 2;
-    
+   
     navIndicatorRef.current.style.width = `${indicatorWidth}px`;
     navIndicatorRef.current.style.left = `${indicatorLeft}px`;
   };
@@ -157,7 +54,7 @@ export default function Bebidas() {
       // Verificando a posição da barra de navegação estática
       if (staticNavRef.current) {
         const navRect = staticNavRef.current.getBoundingClientRect();
-        
+       
         // Se o topo da nav estática atingir o topo da janela, fixamos a nav
         if (navRect.top <= 0) {
           setNavFixed(true);
@@ -312,12 +209,12 @@ export default function Bebidas() {
                   }`}>
                     {whisky.name}
                   </span>
-                  
+                 
                   {/* Indicador de botão ativo - barrinha animada */}
-                  <div 
+                  <div
                     className={`absolute bottom-0 left-0 w-full h-[3px] transition-transform duration-500 ${
-                      activeWhisky === whisky.id 
-                        ? 'scale-x-100 bg-amber-500' 
+                      activeWhisky === whisky.id
+                        ? 'scale-x-100 bg-amber-500'
                         : 'scale-x-0 group-hover:scale-x-[0.4] bg-transparent group-hover:bg-amber-600/40'
                     }`}
                   />
@@ -377,12 +274,12 @@ export default function Bebidas() {
                   }`}>
                     {whisky.name}
                   </span>
-                  
+                 
                   {/* Indicador de botão ativo - barrinha animada */}
-                  <div 
+                  <div
                     className={`absolute bottom-0 left-0 w-full h-[3px] transition-transform duration-500 ${
-                      activeWhisky === whisky.id 
-                        ? 'scale-x-100 bg-amber-500' 
+                      activeWhisky === whisky.id
+                        ? 'scale-x-100 bg-amber-500'
                         : 'scale-x-0 group-hover:scale-x-[0.4] bg-transparent group-hover:bg-amber-600/40'
                     }`}
                   />
@@ -415,11 +312,10 @@ export default function Bebidas() {
                     fill
                     className="object-cover object-center brightness-110"
                     priority={index < 3}
-                    quality={80}
                   />
                   <div className={`absolute inset-0 ${
-                    isEven 
-                      ? 'bg-gradient-to-r from-black/80 via-black/60 to-transparent' 
+                    isEven
+                      ? 'bg-gradient-to-r from-black/80 via-black/60 to-transparent'
                       : 'bg-gradient-to-l from-black/80 via-black/60 to-transparent'
                   }`}></div>
                 </div>
@@ -489,13 +385,13 @@ export default function Bebidas() {
                     </div>
                      
                     {/* Action Button */}
-                    <button className="group relative px-6 py-3 overflow-hidden">
+                    <Link href={`/pages/produtos/${whisky.id}`} className="group relative inline-block px-6 py-3 overflow-hidden">
                       <div className="absolute inset-0 border-2 border-amber-500/30 group-hover:border-amber-500/50 transition-colors duration-300 rounded-md"></div>
                       <div className="absolute inset-[2px] bg-black/60 backdrop-blur-sm rounded-md"></div>
                       <span className="relative z-10 text-amber-500 group-hover:text-amber-400 tracking-widest uppercase text-sm transition-colors duration-300">
                         Saiba Mais
                       </span>
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

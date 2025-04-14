@@ -33,7 +33,8 @@
       "provider": "google",
       "createdAt": "2025-04-14T12:30:43.377Z",
       "password": "guimen123",
-      "passwordUpdatedAt": "2025-04-14T12:36:14.778Z"
+      "passwordUpdatedAt": "2025-04-14T12:36:14.778Z",
+      "lastLogin": "2025-04-14T16:53:43.217Z"
     }
   ]
 }

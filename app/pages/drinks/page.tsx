@@ -186,10 +186,21 @@ const drinks: Drink[] = [
   }
 ];
 
+// Função para obter os whiskies do localStorage ou usar os padrões
+const getWhiskiesFromStorage = () => {
+  if (typeof window !== 'undefined') {
+    const storedWhiskies = localStorage.getItem('whiskies');
+    if (storedWhiskies) {
+      return JSON.parse(storedWhiskies);
+    }
+  }
+  return [];
+};
+
 // Extrair categorias únicas para os filtros
-const whiskies = [...new Set(drinks.map(drink => drink.baseWhisky))];
 const tipos = [...new Set(drinks.map(drink => drink.tipo))];
 const ocasioes = [...new Set(drinks.map(drink => drink.ocasiao))];
+const whiskies = [...new Set(drinks.map(drink => drink.baseWhisky))];
 
 // Componente separado para o card de drink
 const DrinkCard = ({ drink }: { drink: Drink }) => {
@@ -240,15 +251,38 @@ export default function Drinks() {
   const [selectedOcasiao, setSelectedOcasiao] = useState<string | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [storedWhiskies, setStoredWhiskies] = useState<any[]>([]);
   
   // Referência para o hero
   const heroRef = useRef<HTMLDivElement>(null);
   
-  // Filtrar drinks baseado nos filtros selecionados
+  // Carregar os whiskies do localStorage quando o componente for montado
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedWhiskiesData = localStorage.getItem('whiskies');
+      if (storedWhiskiesData) {
+        setStoredWhiskies(JSON.parse(storedWhiskiesData));
+      }
+    }
+  }, []);
+  
+  // Filtrar drinks baseado nos filtros selecionados e disponibilidade de estoque
   const filteredDrinks = drinks.filter(drink => {
     if (selectedWhisky && drink.baseWhisky !== selectedWhisky) return false;
     if (selectedTipo && drink.tipo !== selectedTipo) return false;
     if (selectedOcasiao && drink.ocasiao !== selectedOcasiao) return false;
+    
+    // Verificar se o whisky base está disponível em estoque
+    if (storedWhiskies.length > 0) {
+      const whiskyInStock = storedWhiskies.find(w => 
+        w.name === drink.baseWhisky && w.quantity > 0
+      );
+      // Se não encontrar o whisky ou a quantidade for 0, não mostrar o drink
+      if (!whiskyInStock) {
+        return false;
+      }
+    }
+    
     return true;
   });
 

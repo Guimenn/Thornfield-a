@@ -38,6 +38,17 @@ const Payment = () => {
       return;
     }
 
+    // Importa os dados dos whiskies
+    import('../../data/whiskies').then(({ defaultWhiskies }) => {
+      // Verifica se já existe dados de whiskies no localStorage
+      const existingWhiskies = localStorage.getItem('whiskies');
+      if (!existingWhiskies) {
+        // Se não existir, inicializa com os dados padrão
+        localStorage.setItem('whiskies', JSON.stringify(defaultWhiskies));
+      }
+      // Não sobrescreve os dados existentes para manter o controle de estoque
+    });
+
     // Recupera o valor do frete do localStorage
     const savedShipping = localStorage.getItem('shipping');
     if (savedShipping) {
@@ -112,6 +123,45 @@ const Payment = () => {
   const handlePaymentSuccess = () => {
     // Salva o pedido
     saveOrder();
+
+    // Atualiza o estoque dos produtos de forma permanente
+    // Primeiro, obtém os dados atuais do localStorage
+    const updatedWhiskies = JSON.parse(localStorage.getItem('whiskies') || '[]');
+    
+    console.log('Itens no carrinho:', items);
+    console.log('Whiskies antes da atualização:', updatedWhiskies);
+    
+    // Atualiza a quantidade de cada item comprado
+    items.forEach(item => {
+      // Verifica se o ID do item no carrinho é uma string
+      const itemId = typeof item.id === 'string' ? item.id : String(item.id);
+      
+      // Procura o whisky correspondente no array de whiskies
+      const whiskyIndex = updatedWhiskies.findIndex((w: any) => {
+        const whiskyId = typeof w.id === 'string' ? w.id : String(w.id);
+        return whiskyId === itemId;
+      });
+      
+      console.log(`Procurando whisky com ID ${itemId}, encontrado índice: ${whiskyIndex}`);
+      
+      if (whiskyIndex !== -1) {
+        // Subtrai a quantidade comprada do estoque
+        const oldQuantity = updatedWhiskies[whiskyIndex].quantity;
+        updatedWhiskies[whiskyIndex].quantity -= item.quantity;
+        
+        console.log(`Atualizando quantidade do whisky ${updatedWhiskies[whiskyIndex].name}: ${oldQuantity} -> ${updatedWhiskies[whiskyIndex].quantity}`);
+        
+        // Garante que a quantidade não seja negativa
+        if (updatedWhiskies[whiskyIndex].quantity < 0) {
+          updatedWhiskies[whiskyIndex].quantity = 0;
+        }
+      }
+    });
+    
+    console.log('Whiskies após atualização:', updatedWhiskies);
+    
+    // Salva as alterações de estoque no localStorage para persistir entre sessões
+    localStorage.setItem('whiskies', JSON.stringify(updatedWhiskies));
 
     // Atualiza o estado de sucesso
     setPaymentSuccess(true);
@@ -325,4 +375,4 @@ const Payment = () => {
   );
 };
 
-export default Payment; 
+export default Payment;

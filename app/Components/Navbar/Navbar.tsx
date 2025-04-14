@@ -105,7 +105,7 @@ export default function Navbar() {
 
   const handleCheckout = () => {
     setIsCartOpen(false);
-    router.push('/checkout');
+    router.push('/pages/checkout');
   };
 
   const menuItems = [
@@ -237,8 +237,8 @@ export default function Navbar() {
               )}
             </AnimatePresence>
 
-            {/* Ícone de Usuário */}
-            <div className="group relative h-[32px]">
+             {/* Ícone de Usuário */}
+             <div className="group relative h-[32px]">
               <button
                 onClick={handleUserMenuToggle}
                 className="relative text-white transition-colors duration-300 hover:text-amber-600 "
@@ -269,33 +269,59 @@ export default function Navbar() {
                 ${isUserMenuOpen ? "visible translate-y-0 opacity-100" : "invisible translate-y-2 opacity-0 md:invisible md:translate-y-2 md:opacity-0"}`}
               >
                 {isLoggedIn ? (
-                  <button
-                    onClick={handleLogout}
-                    className="group/item flex w-full items-center space-x-2 px-4 py-2.5 text-left text-sm text-white/90 transition-all duration-300 hover:bg-white/10 cursor-pointer"
-                  >
-                    <div className="relative">
-                      <div className="absolute -inset-1 rounded-full bg-white/0 transition-all duration-300 group-hover/item:bg-white/5"></div>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="relative z-10"
-                      >
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                      </svg>
-                    </div>
-                    <span className="relative z-10">Sair</span>
-                  </button>
+                  <>
+                    <a
+                      href="/pages/perfil"
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="group/item flex w-full items-center space-x-2 px-4 py-2.5 text-left text-sm text-white/90 transition-all duration-300 hover:bg-white/10 cursor-pointer"
+                    >
+                      <div className="relative">
+                        <div className="absolute -inset-1 rounded-full bg-white/0 transition-all duration-300 group-hover/item:bg-white/5"></div>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="relative z-10"
+                        >
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                          <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                      </div>
+                      <span className="relative z-10">Perfil</span>
+                    </a>
+                    <button
+                      onClick={handleLogout}
+                      className="group/item flex w-full items-center space-x-2 px-4 py-2.5 text-left text-sm text-white/90 transition-all duration-300 hover:bg-white/10 cursor-pointer"
+                    >
+                      <div className="relative">
+                        <div className="absolute -inset-1 rounded-full bg-white/0 transition-all duration-300 group-hover/item:bg-white/5"></div>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="relative z-10"
+                        >
+                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                          <polyline points="16 17 21 12 16 7"></polyline>
+                          <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                      </div>
+                      <span className="relative z-10">Sair</span>
+                    </button>
+                  </>
                 ) : (
                   <a
-                    href="/Login"
+                    href="/pages/Login"
                     onClick={() => setIsUserMenuOpen(false)}
                     className="group/item flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm text-white/90 transition-all duration-300 hover:bg-white/10"
                   >
@@ -322,7 +348,6 @@ export default function Navbar() {
                 )}
               </div>
             </div>
-
             {/* Ícone de Sacola */}
             <button
               onClick={handleCartClick}
