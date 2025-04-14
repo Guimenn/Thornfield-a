@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect} from 'react';
 import AgeGate from './Components/VerificarIdade/page';
-import Loading from './Components/Loading';
-import Button from './Components/Ui/Button';
-
+import Loading from './Components/UI/Loading/Loading';
+import Button from './Components/UI/Button/Button';
+import React from 'react';
 
 export default function Home() {
   const [isAgeVerified, setIsAgeVerified] = useState(false);

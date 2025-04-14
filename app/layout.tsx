@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import React from "react";
 import "./globals.css";
 import ClientLayout from "./Components/ClientLayout";
 import Footer from "./Components/Footer/Footer";
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientLayout>
           {children}
-          <Footer />
+          {typeof window !== 'undefined' && localStorage.getItem('ageVerified') === 'true' && <Footer />}
         </ClientLayout>
+        <Toaster position="top-right" />
       </body>
     </html>
   );
