@@ -67,13 +67,23 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     // Garante que o arquivo existe
     ensureFileExists();
     
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get('email');
+    
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const data = JSON.parse(fileContent);
+    
+    if (email) {
+      // Se um email foi fornecido, retorna apenas esse usuário
+      const user = data.users.find((u: any) => u.email === email);
+      return NextResponse.json(user || null);
+    }
+    
     return NextResponse.json(data);
   } catch (error) {
     console.error('Erro ao ler dados dos usuários:', error);

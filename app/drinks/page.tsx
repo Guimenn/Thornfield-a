@@ -190,12 +190,55 @@ const whiskies = [...new Set(drinks.map(drink => drink.baseWhisky))];
 const tipos = [...new Set(drinks.map(drink => drink.tipo))];
 const ocasioes = [...new Set(drinks.map(drink => drink.ocasiao))];
 
+// Componente separado para o card de drink
+const DrinkCard = ({ drink }: { drink: Drink }) => {
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true
+  });
+  
+  return (
+    <motion.div
+      key={drink.id}
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="group"
+    >
+      <Link href={`/drinks/${drink.id}`} className="block">
+        <div className="relative aspect-square overflow-hidden rounded-lg">
+          <Image
+            src={drink.image}
+            alt={drink.name}
+            width={500}
+            height={500}
+            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300"></div>
+          
+          <div className="absolute bottom-0 left-0 w-full p-6">
+            <div className="flex items-center gap-3 mb-1">
+              <h3 className="text-2xl font-serif text-white">{drink.name}</h3>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-2">
+              <span className="text-sm text-amber-500 bg-black/60 px-3 py-1 rounded-full">{drink.baseWhisky}</span>
+              <span className="text-sm text-white/80 bg-black/60 px-3 py-1 rounded-full">{drink.tipo}</span>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+};
+
 export default function Drinks() {
   // Estados para os filtros
   const [selectedWhisky, setSelectedWhisky] = useState<string | null>(null);
   const [selectedTipo, setSelectedTipo] = useState<string | null>(null);
   const [selectedOcasiao, setSelectedOcasiao] = useState<string | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   
   // Referência para o hero
   const heroRef = useRef<HTMLDivElement>(null);
@@ -207,6 +250,25 @@ export default function Drinks() {
     if (selectedOcasiao && drink.ocasiao !== selectedOcasiao) return false;
     return true;
   });
+
+  // Handler para mudar filtros
+  const handleFilterChange = (filterType: string, value: string) => {
+    // Se clicar no mesmo valor já selecionado, limpa esse filtro
+    if (
+      (filterType === 'whisky' && selectedWhisky === value) ||
+      (filterType === 'tipo' && selectedTipo === value) ||
+      (filterType === 'ocasiao' && selectedOcasiao === value)
+    ) {
+      if (filterType === 'whisky') setSelectedWhisky(null);
+      if (filterType === 'tipo') setSelectedTipo(null);
+      if (filterType === 'ocasiao') setSelectedOcasiao(null);
+    } else {
+      // Caso contrário, aplica o novo filtro
+      if (filterType === 'whisky') setSelectedWhisky(value);
+      if (filterType === 'tipo') setSelectedTipo(value);
+      if (filterType === 'ocasiao') setSelectedOcasiao(value);
+    }
+  };
 
   // Efeito para o parallax no hero
   useEffect(() => {
@@ -238,7 +300,7 @@ export default function Drinks() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: 'url("/whiskys-fundo/banner.png")',
+            backgroundImage: 'url("/drinks-images/banner.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
@@ -274,80 +336,179 @@ export default function Drinks() {
         </div>
       </div>
      
-      {/* Filtros com Dropdowns */}
-      <div className="bg-black/90 py-10 border-b border-amber-800/20">
+      {/* Filtros Redesenhados */}
+      <div className="bg-gradient-to-r from-black via-black/95 to-black py-10 border-b border-amber-800/20 sticky top-0 z-30">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center mb-8">
-            <div className="flex items-center gap-4 flex-wrap justify-center">
-              <span className="text-white text-lg font-light">Filtrar receitas por:</span>
-              
-              {/* Dropdown para Whisky Base */}
-              <div className="relative min-w-[220px]">
-                <select
-                  value={selectedWhisky || ''}
-                  onChange={(e) => setSelectedWhisky(e.target.value || null)}
-                  className="appearance-none w-full bg-white text-black py-3 px-4 pr-8 rounded-none focus:outline-none"
+          <div className="flex flex-col space-y-6">
+            {/* Título e descrição */}
+            <div className="text-center mb-4">
+              <h2 className="text-2xl font-serif mb-2">Filtrar Drinks</h2>
+              <div className="w-16 h-0.5 bg-amber-600/50 mx-auto"></div>
+            </div>
+            
+            {/* Filtros */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+              {/* Filtro por Whisky */}
+              <div className="w-full md:w-auto">
+                <div 
+                  className="flex items-center justify-between cursor-pointer border border-amber-700/30 hover:border-amber-600 transition-all duration-300 px-5 py-3 min-w-[220px]"
+                  onClick={() => setActiveFilter(activeFilter === 'whisky' ? null : 'whisky')}
                 >
-                  <option value="">Todos os produtos</option>
-                  {whiskies.map(whisky => (
-                    <option key={whisky} value={whisky}>{whisky}</option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <span className="text-amber-500">Base de Whisky</span>
+                  <svg className={`w-4 h-4 fill-current text-amber-500 transition-transform ${activeFilter === 'whisky' ? 'rotate-180' : ''}`} viewBox="0 0 20 20">
                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
                   </svg>
                 </div>
+                
+                <AnimatePresence>
+                  {activeFilter === 'whisky' && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden bg-black/80 border-x border-b border-amber-700/30 divide-y divide-amber-800/20"
+                    >
+                      {whiskies.map(whisky => (
+                        <div 
+                          key={whisky}
+                          className={`px-5 py-2 cursor-pointer hover:bg-amber-900/10 transition-colors duration-200 ${selectedWhisky === whisky ? 'bg-amber-800/20 text-amber-400' : 'text-white/80'}`}
+                          onClick={() => handleFilterChange('whisky', whisky)}
+                        >
+                          {whisky}
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
               
-              {/* Dropdown para Tipo */}
-              <div className="relative min-w-[220px]">
-                <select
-                  value={selectedTipo || ''}
-                  onChange={(e) => setSelectedTipo(e.target.value || null)}
-                  className="appearance-none w-full bg-white text-black py-3 px-4 pr-8 rounded-none focus:outline-none"
+              {/* Filtro por Tipo */}
+              <div className="w-full md:w-auto">
+                <div 
+                  className="flex items-center justify-between cursor-pointer border border-amber-700/30 hover:border-amber-600 transition-all duration-300 px-5 py-3 min-w-[220px]"
+                  onClick={() => setActiveFilter(activeFilter === 'tipo' ? null : 'tipo')}
                 >
-                  <option value="">Todos os tipos</option>
-                  {tipos.map(tipo => (
-                    <option key={tipo} value={tipo}>{tipo}</option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <span className="text-amber-500">Tipo de Drink</span>
+                  <svg className={`w-4 h-4 fill-current text-amber-500 transition-transform ${activeFilter === 'tipo' ? 'rotate-180' : ''}`} viewBox="0 0 20 20">
                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
                   </svg>
                 </div>
+                
+                <AnimatePresence>
+                  {activeFilter === 'tipo' && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden bg-black/80 border-x border-b border-amber-700/30 divide-y divide-amber-800/20"
+                    >
+                      {tipos.map(tipo => (
+                        <div 
+                          key={tipo}
+                          className={`px-5 py-2 cursor-pointer hover:bg-amber-900/10 transition-colors duration-200 ${selectedTipo === tipo ? 'bg-amber-800/20 text-amber-400' : 'text-white/80'}`}
+                          onClick={() => handleFilterChange('tipo', tipo)}
+                        >
+                          {tipo}
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
               
-              {/* Dropdown para Ocasião */}
-              <div className="relative min-w-[220px]">
-                <select
-                  value={selectedOcasiao || ''}
-                  onChange={(e) => setSelectedOcasiao(e.target.value || null)}
-                  className="appearance-none w-full bg-white text-black py-3 px-4 pr-8 rounded-none focus:outline-none"
+              {/* Filtro por Ocasião */}
+              <div className="w-full md:w-auto">
+                <div 
+                  className="flex items-center justify-between cursor-pointer border border-amber-700/30 hover:border-amber-600 transition-all duration-300 px-5 py-3 min-w-[220px]"
+                  onClick={() => setActiveFilter(activeFilter === 'ocasiao' ? null : 'ocasiao')}
                 >
-                  <option value="">Todas as ocasiões</option>
-                  {ocasioes.map(ocasiao => (
-                    <option key={ocasiao} value={ocasiao}>{ocasiao}</option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <span className="text-amber-500">Ocasião</span>
+                  <svg className={`w-4 h-4 fill-current text-amber-500 transition-transform ${activeFilter === 'ocasiao' ? 'rotate-180' : ''}`} viewBox="0 0 20 20">
                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
                   </svg>
                 </div>
+                
+                <AnimatePresence>
+                  {activeFilter === 'ocasiao' && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden bg-black/80 border-x border-b border-amber-700/30 divide-y divide-amber-800/20"
+                    >
+                      {ocasioes.map(ocasiao => (
+                        <div 
+                          key={ocasiao}
+                          className={`px-5 py-2 cursor-pointer hover:bg-amber-900/10 transition-colors duration-200 ${selectedOcasiao === ocasiao ? 'bg-amber-800/20 text-amber-400' : 'text-white/80'}`}
+                          onClick={() => handleFilterChange('ocasiao', ocasiao)}
+                        >
+                          {ocasiao}
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              
-              {/* Botão para limpar filtros */}
-              {(selectedWhisky || selectedTipo || selectedOcasiao) && (
+            </div>
+            
+            {/* Filtros ativos e botão limpar */}
+            {(selectedWhisky || selectedTipo || selectedOcasiao) && (
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+                <span className="text-white/70 text-sm mr-2">Filtros ativos:</span>
+                
+                {selectedWhisky && (
+                  <span className="inline-flex items-center bg-amber-900/30 border border-amber-700/40 text-amber-400 text-sm rounded-md px-3 py-1">
+                    {selectedWhisky}
+                    <button 
+                      onClick={() => setSelectedWhisky(null)}
+                      className="ml-2 text-amber-400/70 hover:text-amber-400"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </span>
+                )}
+                
+                {selectedTipo && (
+                  <span className="inline-flex items-center bg-amber-900/30 border border-amber-700/40 text-amber-400 text-sm rounded-md px-3 py-1">
+                    {selectedTipo}
+                    <button 
+                      onClick={() => setSelectedTipo(null)}
+                      className="ml-2 text-amber-400/70 hover:text-amber-400"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </span>
+                )}
+                
+                {selectedOcasiao && (
+                  <span className="inline-flex items-center bg-amber-900/30 border border-amber-700/40 text-amber-400 text-sm rounded-md px-3 py-1">
+                    {selectedOcasiao}
+                    <button 
+                      onClick={() => setSelectedOcasiao(null)}
+                      className="ml-2 text-amber-400/70 hover:text-amber-400"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </span>
+                )}
+                
                 <button
                   onClick={clearFilters}
-                  className="px-4 py-3 bg-amber-600 text-white transition-colors duration-300 hover:bg-amber-700"
+                  className="text-white/80 hover:text-white border border-amber-700/50 hover:border-amber-600 text-sm rounded-md px-3 py-1 transition-colors duration-300"
                 >
-                  Limpar
+                  Limpar todos
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -366,46 +527,9 @@ export default function Drinks() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredDrinks.map((drink) => {
-              const [ref, inView] = useInView({
-                threshold: 0.1,
-                triggerOnce: true
-              });
-              
-              return (
-                <motion.div
-                  key={drink.id}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                  className="group"
-                >
-                  <Link href={`/drinks/${drink.id}`} className="block">
-                    <div className="relative aspect-square overflow-hidden rounded-lg">
-                      <Image
-                        src={drink.image}
-                        alt={drink.name}
-                        width={500}
-                        height={500}
-                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300"></div>
-                      
-                      <div className="absolute bottom-0 left-0 w-full p-6">
-                        <div className="flex items-center gap-3 mb-1">
-                          <h3 className="text-2xl font-serif text-white">{drink.name}</h3>
-                        </div>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          <span className="text-sm text-amber-500 bg-black/60 px-3 py-1 rounded-full">{drink.baseWhisky}</span>
-                          <span className="text-sm text-white/80 bg-black/60 px-3 py-1 rounded-full">{drink.tipo}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
+            {filteredDrinks.map((drink) => (
+              <DrinkCard key={drink.id} drink={drink} />
+            ))}
           </div>
         )}
       </div>

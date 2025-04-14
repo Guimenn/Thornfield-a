@@ -242,29 +242,87 @@ export default function DrinkDetail() {
   return (
     <div className="min-h-screen bg-black text-white">
 
-      {/* Hero Section */}
-      <div className="relative h-[75vh] overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src={drink.image}
-            alt={drink.name}
-            fill
-            className="object-cover object-center"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-        </div>
+      {/* Hero Section Redesenhada */}
+      <div className="relative min-h-[85vh] bg-black">
+        {/* Círculo decorativo */}
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-amber-900/20 blur-3xl"></div>
         
-        <div className="relative h-full flex items-end">
-          <div className="container mx-auto px-4 pb-12">
-            <div className="flex items-center gap-4">
-              <div>
-                <h1 className="text-4xl md:text-5xl font-serif mb-2">{drink.name}</h1>
-                <div className="flex flex-wrap gap-2">
-                  <span className="bg-amber-700/60 text-white px-3 py-1 rounded-full text-sm">{drink.tipo}</span>
-                  <span className="bg-black/50 border border-white/20 text-white/90 px-3 py-1 rounded-full text-sm">{drink.ocasiao}</span>
+        <div className="container mx-auto px-6 py-12">
+          {/* Espaço para posicionar elementos na parte superior */}
+          <div className="h-24"></div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
+            {/* Informações do Drink - Lado Esquerdo */}
+            <div className="order-2 lg:order-1">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+              >
+                {/* Botão Voltar */}
+                <div className="mb-6">
+                  <Link href="/drinks" className="inline-flex items-center text-amber-500 hover:text-amber-400 transition-colors">
+                    <ArrowLeft size={20} className="mr-2" />
+                    <span>Voltar para Drinks</span>
+                  </Link>
                 </div>
-              </div>
+                
+                <h1 className="text-5xl md:text-6xl font-serif mb-6">{drink.name}</h1>
+                
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <span className="bg-amber-700/60 text-white px-4 py-1.5 rounded-full text-sm">{drink.tipo}</span>
+                  <span className="bg-black/50 border border-white/20 text-white/90 px-4 py-1.5 rounded-full text-sm">{drink.ocasiao}</span>
+                </div>
+                
+                <p className="text-lg text-white/80 mb-8 max-w-lg">
+                  {drink.estilo}
+                </p>
+                
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {drink.notes.map((note, index) => (
+                    <span 
+                      key={index} 
+                      className="bg-black/40 border border-amber-800/30 px-4 py-1.5 rounded-full text-white/80"
+                    >
+                      {note}
+                    </span>
+                  ))}
+                </div>
+                
+                <Link 
+                  href={`/produto/${drink.baseId}`} 
+                  className="inline-block rounded-sm border border-amber-600 bg-transparent px-8 py-3 text-sm font-medium uppercase tracking-wide text-amber-600 transition-all duration-300 hover:bg-amber-600 hover:text-white"
+                >
+                  Conheça o {drink.baseWhisky}
+                </Link>
+              </motion.div>
+            </div>
+            
+            {/* Imagem do Drink - Lado Direito */}
+            <div className="order-1 lg:order-2 flex justify-center items-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative w-full max-w-[600px]"
+              >
+                {/* Borda elegante com gradiente */}
+                <div className="absolute inset-0 -m-[1.5%] bg-gradient-to-tr from-amber-900/40 via-amber-600/20 to-amber-800/30 rounded-lg blur-sm"></div>
+                
+                {/* Imagem do drink com borda */}
+                <div className="relative z-10 p-[0.3%] bg-gradient-to-br from-amber-800/50 via-amber-700/30 to-amber-900/50 rounded-lg overflow-hidden">
+                  <div className="bg-black rounded-lg overflow-hidden p-[0.8%]">
+                    <Image
+                      src={drink.image}
+                      alt={drink.name}
+                      width={600}
+                      height={800}
+                      className="object-contain w-full h-auto rounded-lg"
+                      priority
+                    />
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -272,74 +330,33 @@ export default function DrinkDetail() {
       
       {/* Conteúdo Principal */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Coluna 1: Informações do Drink */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-10"
-            >
-              <h2 className="text-amber-500 text-sm uppercase tracking-[0.3em] mb-4">Base</h2>
-              <Link 
-                href={`/produto/${drink.baseId}`} 
-                className="text-2xl hover:text-amber-500 transition-colors"
-              >
-                {drink.baseWhisky}
-              </Link>
-              <p className="mt-2 text-white/70">{drink.estilo}</p>
-            </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mb-10"
-            >
-              <h2 className="text-amber-500 text-sm uppercase tracking-[0.3em] mb-4">Notas Realçadas</h2>
-              <div className="flex flex-wrap gap-2">
-                {drink.notes.map((note, index) => (
-                  <span 
-                    key={index} 
-                    className="bg-black border border-amber-800/30 px-4 py-2 rounded-full text-white/80"
-                  >
-                    {note}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          </div>
+        {/* Seção de Receita */}
+        <div className="max-w-3xl mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-12"
+          >
+            <h2 className="text-amber-500 text-sm uppercase tracking-[0.3em] mb-6">Receita</h2>
+            <ul className="space-y-4 max-w-xl">
+              {drink.recipe.map((ingredient, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <span className="text-amber-500 text-lg">•</span>
+                  <span className="text-white/90">{ingredient}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
           
-          {/* Coluna 2: Receita e Preparo */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-10"
-            >
-              <h2 className="text-amber-500 text-sm uppercase tracking-[0.3em] mb-4">Receita</h2>
-              <ul className="space-y-3">
-                {drink.recipe.map((ingredient, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="text-amber-500 text-lg">•</span>
-                    <span className="text-white/90">{ingredient}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mb-10"
-            >
-              <h2 className="text-amber-500 text-sm uppercase tracking-[0.3em] mb-4">Toque Especial</h2>
-              <p className="text-white/90 italic">{drink.toque}</p>
-            </motion.div>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <h2 className="text-amber-500 text-sm uppercase tracking-[0.3em] mb-4">Toque Especial</h2>
+            <p className="text-white/90 italic max-w-2xl">{drink.toque}</p>
+          </motion.div>
         </div>
         
         {/* Decoração */}

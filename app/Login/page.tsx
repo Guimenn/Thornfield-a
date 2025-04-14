@@ -18,9 +18,15 @@ export default function LoginForm() {
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
   const [error, setError] = useState('');
   const [showError, setShowError] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPopupHelp, setShowPopupHelp] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [isResetingPassword, setIsResetingPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const router = useRouter();
 
   // Verificar se há uma URL de retorno
@@ -117,6 +123,135 @@ export default function LoginForm() {
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowError(false);
+    
+    if (!email) {
+      setError('Por favor, insira seu email para redefinir a senha.');
+      setShowError(true);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError('Por favor, insira um email válido.');
+      setShowError(true);
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      
+      // Verifica se o email existe no JSON
+      const response = await fetch('/api/users');
+      
+      if (!response.ok) {
+        throw new Error('Erro ao buscar dados do usuário');
+      }
+      
+      const data = await response.json();
+      const user = data.users.find((u: any) => u.email === email);
+      
+      if (!user) {
+        setError('Nenhum usuário encontrado com este email.');
+        setShowError(true);
+        return;
+      }
+
+      // Se o email existir, muda para o formulário de redefinição de senha
+      setIsForgotPassword(false);
+      setIsResetingPassword(true);
+      setNewPassword('');
+      setConfirmNewPassword('');
+    } catch (error: any) {
+      setError('Erro ao verificar email. Tente novamente mais tarde.');
+      setShowError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowError(false);
+    setShowSuccess(false);
+    
+    if (!newPassword || !confirmNewPassword) {
+      setError('Por favor, preencha todos os campos.');
+      setShowError(true);
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setError('A senha deve ter pelo menos 6 caracteres.');
+      setShowError(true);
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      setError('As senhas não coincidem.');
+      setShowError(true);
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      
+      // Verifica se o email existe e obtém a senha atual
+      const responseGet = await fetch('/api/users');
+      if (!responseGet.ok) {
+        throw new Error('Erro ao buscar dados do usuário');
+      }
+      
+      const data = await responseGet.json();
+      const user = data.users.find((u: any) => u.email === email);
+      
+      if (!user) {
+        setError('Nenhum usuário encontrado com este email.');
+        setShowError(true);
+        return;
+      }
+      
+      // Verifica se a nova senha é diferente da antiga
+      if (user.password === newPassword) {
+        setError('A nova senha não pode ser igual à senha atual.');
+        setShowError(true);
+        return;
+      }
+
+      // Atualiza a senha no JSON
+      const response = await fetch('/api/users/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          newPassword
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao atualizar senha no sistema');
+      }
+
+      setSuccessMessage('Senha atualizada com sucesso!');
+      setShowSuccess(true);
+      
+      // Retorna para a tela de login após 2 segundos
+      setTimeout(() => {
+        setIsResetingPassword(false);
+        setSuccessMessage('');
+        setShowSuccess(false);
+      }, 2000);
+    } catch (error: any) {
+      setError('Erro ao atualizar senha. Tente novamente mais tarde.');
+      setShowError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleEmailPasswordSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setShowError(false);
@@ -167,36 +302,69 @@ export default function LoginForm() {
           console.error('Erro ao criar conta:', error);
         }
       } else {
-        // Login com email/senha
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        
-        // Salva os dados do usuário no localStorage
-        localStorage.setItem('user', JSON.stringify({
-          id: user.uid,
-          name: email.split('@')[0], // Usa a parte antes do @ como nome
-          email: user.email
-        }));
+        try {
+          // Primeiro, verificar se o usuário existe no JSON
+          const responseGet = await fetch('/api/users');
+          if (!responseGet.ok) {
+            throw new Error('Erro ao buscar dados do usuário');
+          }
+          
+          const data = await responseGet.json();
+          const localUser = data.users.find((u: any) => u.email === email);
+          
+          if (!localUser) {
+            setError('Email não encontrado em nosso sistema.');
+            setShowError(true);
+            return;
+          }
+          
+          // Verificar se a senha está correta no JSON local
+          if (localUser.password !== password) {
+            setError('Senha incorreta.');
+            setShowError(true);
+            return;
+          }
+          
+          try {
+            // Tenta fazer login com Firebase
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            
+            // Se o login Firebase for bem-sucedido, usa os dados do Firebase
+            localStorage.setItem('user', JSON.stringify({
+              id: user.uid,
+              name: email.split('@')[0],
+              email: user.email
+            }));
+          } catch (firebaseError) {
+            console.log('Erro na autenticação Firebase:', firebaseError);
+            console.log('Usando autenticação local...');
+            
+            // Se falhar no Firebase, usa os dados do JSON local
+            localStorage.setItem('user', JSON.stringify({
+              id: localUser.uid || 'local-' + Date.now(),
+              name: email.split('@')[0],
+              email: email
+            }));
+          }
 
-        // Define o localStorage como ageVerified como true
-        localStorage.setItem('ageVerified', 'true');
+          // Define o localStorage como ageVerified como true
+          localStorage.setItem('ageVerified', 'true');
 
-        // Dispara o evento personalizado
-        const ageVerifiedEvent = new CustomEvent('ageVerified', { detail: true });
-        window.dispatchEvent(ageVerifiedEvent);
+          // Dispara o evento personalizado
+          const ageVerifiedEvent = new CustomEvent('ageVerified', { detail: true });
+          window.dispatchEvent(ageVerifiedEvent);
 
-        redirectAfterLogin();
+          redirectAfterLogin();
+        } catch (loginError: any) {
+          console.error('Erro ao fazer login:', loginError);
+          setError('Erro ao fazer login. Verifique suas credenciais.');
+          setShowError(true);
+          return;
+        }
       }
     } catch (error: any) {
-      if (error.code === 'auth/operation-not-allowed') {
-        setError('Autenticação por email/senha não está habilitada. Por favor, contate o administrador.');
-      } else if (error.code === 'auth/user-not-found') {
-        setError('Usuário não encontrado.');
-      } else if (error.code === 'auth/wrong-password') {
-        setError('Senha incorreta.');
-      } else {
-        setError('Erro ao fazer login. Verifique suas credenciais.');
-      }
+      setError('Erro ao fazer login. Verifique suas credenciais.');
       setShowError(true);
       console.error('Erro ao fazer login:', error);
     } finally {
@@ -312,6 +480,28 @@ export default function LoginForm() {
           )}
         </AnimatePresence>
 
+        {/* Mensagem de sucesso */}
+        <AnimatePresence>
+          {showSuccess && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800 max-w-md mx-auto w-full"
+              role="alert"
+            >
+              <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+              </svg>
+              <span className="sr-only">Info</span>
+              <div>
+                <span className="font-medium">Sucesso!</span> {successMessage}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Mensagem de ajuda para popup fechado */}
         <AnimatePresence>
           {showPopupHelp && (
@@ -379,7 +569,19 @@ export default function LoginForm() {
         </motion.div>
 
         {/* Formulário de email/senha */}
-        <form onSubmit={handleEmailPasswordSignIn} className="space-y-4 max-w-md mx-auto w-full">
+        <form 
+          onSubmit={
+            isCreatingAccount 
+              ? handleEmailPasswordSignIn 
+              : (isForgotPassword 
+                  ? handleForgotPassword 
+                  : (isResetingPassword 
+                      ? handleResetPassword 
+                      : handleEmailPasswordSignIn))
+          } 
+          className="space-y-4 max-w-md mx-auto w-full"
+        >
+          {/* Campo de email */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -397,63 +599,144 @@ export default function LoginForm() {
                 errors.email ? 'border-red-500' : 'border-gold-500/30'
               } rounded-lg pl-12 pr-4 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
               placeholder="Email"
+              disabled={isResetingPassword}
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1 ml-1">{errors.email}</p>
             )}
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="relative group"
-          >
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
-              <FaFingerprint size={20} />
-            </div>
-            <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={`w-full bg-black/40 border ${
-                errors.password ? 'border-red-500' : 'border-gold-500/30'
-              } rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
-              placeholder="Senha"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
-            >
-              {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-            </button>
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>
-            )}
-          </motion.div>
-
-          {/* Campo de confirmação de senha (apenas para criar conta) */}
-          <AnimatePresence>
-            {isCreatingAccount && (
+          {/* Formulário de login regular (não esqueceu senha, não está redefinindo) */}
+          {!isForgotPassword && !isResetingPassword && (
+            <>
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="relative group overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="relative group"
+              >
+                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
+                  <FaFingerprint size={20} />
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`w-full bg-black/40 border ${
+                    errors.password ? 'border-red-500' : 'border-gold-500/30'
+                  } rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                  placeholder="Senha"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
+                >
+                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                </button>
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>
+                )}
+              </motion.div>
+
+              {/* Campo de confirmação de senha (apenas para criar conta) */}
+              <AnimatePresence>
+                {isCreatingAccount && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="relative group overflow-hidden"
+                  >
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
+                      <FaFingerprint size={20} />
+                    </div>
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className={`w-full bg-black/40 border ${
+                        errors.confirmPassword ? 'border-red-500' : 'border-gold-500/30'
+                      } rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                      placeholder="Confirmar Senha"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
+                    >
+                      {showConfirmPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                    </button>
+                    {errors.confirmPassword && (
+                      <p className="text-red-500 text-sm mt-1 ml-1">{errors.confirmPassword}</p>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Link para esqueceu a senha (apenas na tela de login, não de criar conta) */}
+              {!isCreatingAccount && (
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={() => setIsForgotPassword(true)}
+                    className="text-amber-400 hover:text-amber-300 text-sm transition-colors duration-300"
+                  >
+                    Esqueceu a senha?
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Formulário de redefinição de senha */}
+          {isResetingPassword && (
+            <>
+              <div className="text-center mb-4">
+                <p className="text-amber-400">Redefinindo senha para: {email}</p>
+                <p className="text-gray-400 text-sm mt-1">A senha deve ter pelo menos 6 caracteres.</p>
+              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="relative group"
+              >
+                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
+                  <FaFingerprint size={20} />
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className={`w-full bg-black/40 border border-gold-500/30 rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                  placeholder="Nova Senha"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
+                >
+                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                </button>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                className="relative group"
               >
                 <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
                   <FaFingerprint size={20} />
                 </div>
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`w-full bg-black/40 border ${
-                    errors.confirmPassword ? 'border-red-500' : 'border-gold-500/30'
-                  } rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
-                  placeholder="Confirmar Senha"
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  className={`w-full bg-black/40 border border-gold-500/30 rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                  placeholder="Confirmar Nova Senha"
                 />
                 <button
                   type="button"
@@ -462,12 +745,9 @@ export default function LoginForm() {
                 >
                   {showConfirmPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
                 </button>
-                {errors.confirmPassword && (
-                  <p className="text-red-500 text-sm mt-1 ml-1">{errors.confirmPassword}</p>
-                )}
               </motion.div>
-            )}
-          </AnimatePresence>
+            </>
+          )}
 
           <button
             type="submit"
@@ -482,8 +762,29 @@ export default function LoginForm() {
                 </svg>
                 Processando...
               </span>
-            ) : isCreatingAccount ? 'Criar Conta' : 'Entrar'}
+            ) : isForgotPassword 
+                ? 'Verificar Email' 
+                : (isResetingPassword 
+                    ? 'Atualizar Senha' 
+                    : (isCreatingAccount 
+                        ? 'Criar Conta' 
+                        : 'Entrar'))}
           </button>
+
+          {(isForgotPassword || isResetingPassword) && (
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsForgotPassword(false);
+                  setIsResetingPassword(false);
+                }}
+                className="text-amber-400 hover:text-amber-300 text-sm transition-colors duration-300"
+              >
+                Voltar para login
+              </button>
+            </div>
+          )}
         </form>
 
         {/* Separador com texto */}
