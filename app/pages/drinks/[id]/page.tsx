@@ -1,5 +1,6 @@
-import React from 'react';
 "use client";
+
+import React from 'react';
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -221,7 +222,7 @@ export default function DrinkDetail() {
         setRecommendations(getRandomRecommendations(drinkId));
       } else {
         // Redirecionar para página de drinks se não encontrar
-        router.push('/drinks');
+        router.push('/pages/drinks');
       }
       
       setLoading(false);
@@ -262,7 +263,7 @@ export default function DrinkDetail() {
               >
                 {/* Botão Voltar */}
                 <div className="mb-6">
-                  <Link href="/drinks" className="inline-flex items-center text-amber-500 hover:text-amber-400 transition-colors">
+                  <Link href="/pages/drinks" className="inline-flex items-center text-amber-500 hover:text-amber-400 transition-colors">
                     <ArrowLeft size={20} className="mr-2" />
                     <span>Voltar para Drinks</span>
                   </Link>
@@ -291,7 +292,7 @@ export default function DrinkDetail() {
                 </div>
                 
                 <Link 
-                  href={`/produto/${drink.baseId}`} 
+                  href={`/pages/produtos/${drink.baseId}`} 
                   className="inline-block rounded-sm border border-amber-600 bg-transparent px-8 py-3 text-sm font-medium uppercase tracking-wide text-amber-600 transition-all duration-300 hover:bg-amber-600 hover:text-white"
                 >
                   Conheça o {drink.baseWhisky}
@@ -379,7 +380,7 @@ export default function DrinkDetail() {
               transition={{ duration: 0.5, delay: 0.1 * index }}
               className="group"
             >
-              <Link href={`/drinks/${rec.id}`} className="block">
+              <Link href={`/pages/drinks/${rec.id}`} className="block">
                 <div className="relative aspect-square overflow-hidden rounded-lg">
                   <Image
                     src={rec.image}
@@ -406,7 +407,7 @@ export default function DrinkDetail() {
         
         <div className="text-center mt-12">
           <Link
-            href="/drinks"
+            href="/pages/drinks"
             className="inline-block rounded-sm border border-amber-600 bg-transparent px-8 py-3 text-sm font-medium uppercase tracking-wide text-amber-600 transition-all duration-300 hover:bg-amber-600 hover:text-white"
           >
             Ver Todos os Drinks

@@ -5,7 +5,8 @@ import Link from "next/link";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { defaultWhiskies as whiskies } from "../../data/whiskies";
+import whiskiesData from "../../data/whiskies.json";
+const whiskies = whiskiesData.whiskies;
 
 export default function Bebidas() {
   const [activeWhisky, setActiveWhisky] = useState<string | null>(null);

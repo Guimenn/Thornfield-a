@@ -218,7 +218,7 @@ const DrinkCard = ({ drink }: { drink: Drink }) => {
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="group"
     >
-      <Link href={`/drinks/${drink.id}`} className="block">
+      <Link href={`/pages/drinks/${drink.id}`} className="block">
         <div className="relative aspect-square overflow-hidden rounded-lg">
           <Image
             src={drink.image}

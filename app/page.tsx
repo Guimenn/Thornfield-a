@@ -2,7 +2,13 @@
 import { useState, useEffect } from "react";
 import AgeGate from "./Components/VerificarIdade/page";
 import Loading from "./Components/Ui/Loading/Loading";
+import Hero from "./Components/Sections/Hero";
 import HeroSection from "./Components/Sections/HeroSection";
+import ProductionProcess from "./Components/Sections/ProductionProcess";
+import Ingredients from "./Components/Sections/Ingredients";
+import Heritage from "./Components/Sections/Heritage";
+import Awards from "./Components/Sections/Awards";
+import TastingExperience from "./Components/Sections/TastingExperience";
 import FeaturedProduct from "./Components/Sections/FeaturedProduct";
 import Collection from "./Components/Sections/Collection";
 import VideoSection from "./Components/Sections/VideoSection";
@@ -53,20 +59,16 @@ export default function Home() {
     <div className="min-h-screen">
       {!isAgeVerified && <AgeGate />}
       {isAgeVerified && (
-        <main className="min-h-screen bg-gray-950 text-white">
-
+        <main className="min-h-screen bg-[#0A0501] text-white">
           <HeroSection />
-
-          <FeaturedProduct />
-
-          <Collection />
-
+          <ProductionProcess />
+          <Ingredients />
+          <Heritage />
           <VideoSection />
-
+          <Awards />
           <Experience />
-
-          <Newsletter />
-
+          <TastingExperience />
+        
         </main>
       )}
     </div>

@@ -36,12 +36,14 @@ export default function Experience() {
   ];
 
   return (
-    <section className="bg-[#0A0501] py-32 relative">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-10"
-        style={{ backgroundImage: 'url("/pattern.png")', backgroundSize: '200px' }}></div>
+    <section className="bg-[#0A0501] py-32 relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'url("/pattern.png")', backgroundSize: '200px' }}></div>
+      
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-amber-900/5 to-transparent"></div>
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -71,7 +73,7 @@ export default function Experience() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: i * 0.15, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  className="group relative h-[800px] rounded-2xl overflow-hidden shadow-[0_10px_30px_-10px_rgba(255,191,0,0.15)] hover:shadow-[0_15px_40px_-10px_rgba(255,191,0,0.25)] transition-shadow duration-700 ease-in-out"
+                  className="group relative h-[800px] rounded-2xl overflow-hidden shadow-[0_10px_30px_-10px_rgba(255,191,0,0.15)] hover:shadow-[0_15px_40px_-10px_rgba(255,191,0,0.25)] transition-all duration-700 ease-in-out"
                 >
                   {/* Imagem de fundo */}
                   <Image
@@ -98,16 +100,12 @@ export default function Experience() {
                     <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
                       {item.desc}
                     </p>
-                    <div className="mt-6 overflow-hidden">
-                      <span className="inline-flex items-center text-amber-500 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out">
-                        Explore
-                        <span className="ml-2 transform translate-x-0 group-hover:translate-x-2 transition-transform duration-500 ease-in-out">→</span>
-                      </span>
-                    </div>
                   </div>
+
+                  {/* Efeito de hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
                 </motion.div>
               </Link>
-
             ))}
           </div>
         </div>

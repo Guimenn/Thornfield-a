@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import React from "react";
+import whiskiesData from "../../data/whiskies.json";
 
 interface SearchProps {
   isOpen: boolean;
@@ -12,8 +13,11 @@ interface Whisky {
   name: string;
   description: string;
   image: string;
+  year: number;
   price: number;
-  category: string;
+  tasting_notes: string[];
+  icon: string;
+  quantity: number;
 }
 
 export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
@@ -45,139 +49,18 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
 
     setIsSearching(true);
     
-    // Simulação de resultados para demonstração
-    // Em produção, substitua por chamada real à API
-    setTimeout(() => {
-      // Banco de dados simulado de whiskies e páginas
-      const whiskies: Whisky[] = [
-        {
-          id: "1",
-          name: "ULTRA RESERVE",
-          description: "Clássico e refinado, com notas profundas reveladas pelo carvalho nobre.",
-          image: "/whiskys-fundo/10.png",
-          price: 599.90,
-          category: "Produtos"
-        },
-        {
-          id: "2",
-          name: "SHADOW OAK",
-          description: "Misterioso e encorpado, um blend que carrega o legado da tradição.",
-          image: "/whiskys-fundo/11.png",
-          price: 499.90,
-          category: "Produtos"
-        },
-        {
-          id: "3",
-          name: "MIDNIGHT GOLD",
-          description: "Defumado e intenso, com brilho dourado e presença marcante.",
-          image: "/whiskys-fundo/12.png",
-          price: 229.90,
-          category: "Produtos"
-        },
-        {
-          id: "4",
-          name: "BLUE MIST",
-          description: "Suave e fresco, inspirado na bruma das montanhas escocesas.",
-          image: "/whiskys-fundo/13.png",
-          price: 119.90,
-          category: "Produtos"
-        },
-        {
-          id: "5",
-          name: "HONEY EMBER",
-          description: "Doce e especiado, com calor sutil vindo dos barris europeus",
-          image: "/whiskys-fundo/14.png",
-          price: 199.90,
-          category: "Produtos"
-        },
-        {
-          id: "6",
-          name: "CRIMSON HEARTH",
-          description: "Aveludado e vibrante, com notas que aquecem como um lar acolhedor.",
-          image: "/whiskys-fundo/15.png",
-          price: 359.90,
-          category: "Produtos"
-        },
-        {
-          id: "7",
-          name: "EMERALD WHISPER",
-          description: "Verde e herbal, com frescor elegante e alma atlântica.",
-          image: "/whiskys-fundo/16.png",
-          price: 139.90,
-          category: "Produtos"
-        },
-        {
-          id: "8",
-          name: "OBISIDIAN VEIL",
-          description: "Cru e potente, engarrafado direto do barril, sem concessões.",
-          image: "/whiskys-fundo/17.png",
-          price: 669.90,
-          category: "Produtos"
-        },
-        {
-          id: "9",
-          name: "PHANTOM BLOOM",
-          description: "Florido e raro, um tributo delicado à história da Thornfield.",
-          image: "/whiskys-fundo/18.png",
-          price: 899.90,
-          category: "Produtos"
-        }
-      ];
-      
-      // Páginas e coleções
-      const pages = [
-        {
-          id: "10",
-          name: "Nossa História",
-          description: "Conheça a história da Thornfield",
-          price: 0,
-          category: "Páginas"
-        },
-        {
-          id: "11",
-          name: "Processo de Fabricação",
-          description: "Como fazemos nossos whiskies",
-          price: 0,
-          category: "Páginas"
-        },
-        {
-          id: "12",
-          name: "Coleção Premium",
-          description: "Nossa linha exclusiva de produtos",
-          price: 0,
-          category: "Coleções"
-        }
-      ];
+    const searchQuery = query.toLowerCase();
+    const filteredWhiskies = whiskiesData.whiskies.filter(whisky => 
+      whisky.name.toLowerCase().includes(searchQuery) ||
+      whisky.description.toLowerCase().includes(searchQuery)
+    );
 
-      // Formatar whiskies para o formato de resultado
-      const whiskiesResults = whiskies.map(whisky => ({
-        id: whisky.id,
-        name: whisky.name,
-        description: whisky.description,
-        price: whisky.price,
-        image: whisky.image,
-        category: "Produtos"
-      }));
-      
-      const allItems = [...whiskiesResults, ...pages];
-      
-      // Filtra apenas se houver correspondência no nome ou descrição
-      const filteredResults = allItems.filter(item => 
-        item.name.toLowerCase().includes(query.toLowerCase()) || 
-        item.description.toLowerCase().includes(query.toLowerCase())
-      );
-      
-      setResults(filteredResults);
-      setIsSearching(false);
-    }, 300);
+    setResults(filteredWhiskies);
+    setIsSearching(false);
   };
 
-  const handleItemClick = (item: any) => {
-    if (item.category === "Produtos") {
-      window.location.href = `/produto/${item.id}`;
-    } else {
-      window.location.href = `/${item.name.toLowerCase().replace(/ /g, "-")}`;
-    }
+  const handleItemClick = (whisky: Whisky) => {
+    window.location.href = `/pages/produtos/${whisky.id}`;
     setQuery("");
     setResults([]);
     onClose();
@@ -227,29 +110,27 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
       {query.trim() !== "" && results.length > 0 && !isSearching && (
         <div className="absolute top-[70px] right-0 left-0 z-50 max-h-[80vh] overflow-y-auto bg-white shadow-lg">
           <div className="mx-auto max-w-4xl divide-y divide-gray-100">
-            {results.map((item) => (
+            {results.map((whisky) => (
               <div
-                key={item.id}
-                onClick={() => handleItemClick(item)}
+                key={whisky.id}
+                onClick={() => handleItemClick(whisky as Whisky)}
                 className="flex cursor-pointer items-center p-4 transition-colors duration-200 hover:bg-gray-50"
               >
-                {item.image && (
+                {whisky.image && (
                   <div className="mr-4 h-16 w-16 flex-shrink-0 overflow-hidden">
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={whisky.image}
+                      alt={whisky.name}
                       className="h-full w-full object-cover"
                     />
                   </div>
                 )}
                 <div className="flex-1">
-                  <h3 className="font-medium text-gray-900">{item.name}</h3>
-                  <p className="text-sm text-gray-500">{item.description}</p>
-                  {item.category === "Produtos" && item.price > 0 && (
-                    <p className="mt-1 text-sm font-medium text-amber-700">
-                      R$ {item.price.toFixed(2)}
-                    </p>
-                  )}
+                  <h3 className="font-medium text-gray-900">{whisky.name}</h3>
+                  <p className="text-sm text-gray-500">{whisky.description}</p>
+                  <p className="mt-1 text-sm font-medium text-amber-700">
+                    R$ {whisky.price.toFixed(2)}
+                  </p>
                 </div>
               </div>
             ))}

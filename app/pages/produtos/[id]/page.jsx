@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { defaultWhiskies as whiskies } from "../../../data/whiskies"; // Importando defaultWhiskies como whiskies
+import whiskiesData from "../../../data/whiskies.json";
+const whiskies = whiskiesData.whiskies;
 import React from "react";
 import { ChevronLeft, Heart, Share2, ShoppingBag } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
@@ -179,14 +180,14 @@ export default function WhiskyDetalhe({ params }) {
                 <div className="flex items-center space-x-4">
                   <button 
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-10 flex items-center justify-center border border-amber-500/30 text-amber-500 hover:bg-amber-500/10 transition-all duration-300"
+                    className="w-10 h-10 flex items-center justify-center border border-amber-500/30 text-amber-500 hover:bg-amber-500/10 transition-all duration-300 cursor-pointer"
                   >
                     -
                   </button>
                   <span className="text-xl text-white/90">{quantity}</span>
                   <button 
                     onClick={() => setQuantity(Math.min(whisky.quantity || 10, quantity + 1))}
-                    className="w-10 h-10 flex items-center justify-center border border-amber-500/30 text-amber-500 hover:bg-amber-500/10 transition-all duration-300"
+                    className="w-10 h-10 flex items-center justify-center border border-amber-500/30 text-amber-500 hover:bg-amber-500/10 transition-all duration-300 cursor-pointer"
                   >
                     +
                   </button>
@@ -196,7 +197,7 @@ export default function WhiskyDetalhe({ params }) {
               <div className="pt-6">
                 <button 
                   onClick={handleAddToCart}
-                  className="w-full md:w-auto px-8 py-4 bg-amber-500 hover:bg-amber-600 text-black font-medium tracking-wider uppercase text-sm transition-colors duration-300 rounded-md"
+                  className="w-full md:w-auto px-8 py-4 bg-amber-500 hover:bg-amber-600 text-black font-medium tracking-wider uppercase text-sm transition-colors duration-300 rounded-md flex flex-row cursor-pointer"
                   disabled={!whisky.quantity || whisky.quantity < 1 || quantity > whisky.quantity}
                 >
                   <ShoppingBag className="w-5 h-5 mr-2" />

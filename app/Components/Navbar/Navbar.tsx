@@ -110,10 +110,10 @@ export default function Navbar() {
 
   const menuItems = [
     { name: "INÍCIO", href: "/" },
-    { name: "NOSSA HISTÓRIA", href: "/historia" },
-    { name: "COLEÇÃO", href: "/colecao" },
-    { name: "PROCESSO", href: "/processo" },
-    { name: "EXPERIÊNCIAS", href: "/experiencias" },
+    { name: "NOSSA HISTÓRIA", href: "/pages/about" },
+    { name: "COLEÇÃO", href: "/pages/produtos" },
+    { name: "DRINKS", href: "/pages/drinks" },
+    { name: "ASSINATURA", href: "/pages/pricing" },
   ];
 
   const imagensMenu = [
