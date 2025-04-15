@@ -1,6 +1,6 @@
-import React from 'react';
-'use client';
 
+'use client';
+import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import TimelineSection from '../timeline/TimelineSection';
 import Image from 'next/image';
@@ -267,10 +267,7 @@ export default function About() {
                       alt="Processo de Destilação Thornfield"
                       fill
                       className="object-cover"
-                      style={{
-                        opacity: imageOpacity,
-                        transition: 'opacity 0.3s ease-out, opacity 0.1s ease-in'
-                      }}
+
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>

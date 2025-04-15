@@ -64,12 +64,35 @@ export default function Navbar() {
   }, [lastScrollY]);
 
   useEffect(() => {
-    // Verificar se há um usuário logado no localStorage
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsLoggedIn(true);
-    }
+    // Função para verificar se há um usuário logado no localStorage
+    const checkUserAuth = () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+        setIsLoggedIn(true);
+      } else {
+        setUser(null);
+        setIsLoggedIn(false);
+      }
+    };
+    
+    // Verificar autenticação ao montar o componente
+    checkUserAuth();
+    
+    // Adicionar um event listener para detectar mudanças na autenticação
+    window.addEventListener('storage', checkUserAuth);
+    
+    // Criar um evento personalizado para atualizar o estado de autenticação
+    const handleAuthChange = () => {
+      checkUserAuth();
+    };
+    
+    window.addEventListener('authChange', handleAuthChange);
+    
+    return () => {
+      window.removeEventListener('storage', checkUserAuth);
+      window.removeEventListener('authChange', handleAuthChange);
+    };
   }, []);
 
   const handleOpenMenu = () => {

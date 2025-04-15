@@ -51,6 +51,10 @@ export default function LoginForm() {
   }, [router]);
 
   const redirectAfterLogin = () => {
+    // Disparar um evento personalizado para notificar outros componentes sobre a mudança de autenticação
+    const authChangeEvent = new CustomEvent('authChange');
+    window.dispatchEvent(authChangeEvent);
+    
     const returnUrl = localStorage.getItem('returnUrl');
     if (returnUrl && returnUrl.includes('/pages/checkout')) {
       // Se veio do carrinho, volta para lá

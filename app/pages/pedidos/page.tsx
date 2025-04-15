@@ -141,7 +141,7 @@ export default function PedidosPage() {
 
           <div className="max-w-4xl mx-auto">
             <Link
-              href="/perfil"
+              href="/pages/perfil"
               className="flex items-center space-x-2 text-amber-400 hover:text-amber-300 transition-colors duration-300 mb-8"
             >
               <ArrowLeft size={20} />

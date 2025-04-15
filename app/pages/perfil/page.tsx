@@ -8,6 +8,7 @@ import { auth } from '../../firebase';
 import { signOut, updateProfile } from '@firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { CheckCircle2, XCircle} from 'lucide-react';
 
 interface UserData {
     id: string;
@@ -32,43 +33,34 @@ interface Order {
     total: number;
 }
 
-// Dados de exemplo para pedidos
-const sampleOrders: Order[] = [
-    {
-        id: '12345',
-        date: '2024-03-15',
-        status: 'Entregue',
-        items: [
-            {
-                id: '1',
-                name: 'Whisky Johnnie Walker Black Label',
-                price: 199.90,
-                image: '/products/johnnie-walker-black-label.jpg'
-            },
-            {
-                id: '2',
-                name: 'Whisky Jack Daniels',
-                price: 159.90,
-                image: '/products/jack-daniels.jpg'
-            }
-        ],
-        total: 359.80
-    },
-    {
-        id: '12346',
-        date: '2024-03-20',
-        status: 'Em andamento',
-        items: [
-            {
-                id: '3',
-                name: 'Vodka Absolut',
-                price: 89.90,
-                image: '/products/absolut-vodka.jpg'
-            }
-        ],
-        total: 89.90
+
+
+// Função para buscar os pedidos recentes do usuário
+const getRecentOrders = (): Order[] => {
+    if (typeof window !== 'undefined') {
+        const user = localStorage.getItem('user');
+        if (!user) return [];
+
+        const savedOrders = localStorage.getItem('orders');
+        if (!savedOrders) return [];
+
+        try {
+            const parsedOrders = JSON.parse(savedOrders);
+            const userOrders = parsedOrders.filter((order: any) =>
+                order.userId === JSON.parse(user).id
+            );
+
+            // Ordenar por data (mais recentes primeiro)
+            return userOrders
+                .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .slice(0, 2);
+        } catch (error) {
+            console.error('Erro ao processar pedidos:', error);
+            return [];
+        }
     }
-];
+    return [];
+};
 
 // Inicializa o Firebase Storage
 const firebaseConfig = {
@@ -94,6 +86,7 @@ export default function PerfilPage() {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [imageKey, setImageKey] = useState(Date.now());
     const [activeTab, setActiveTab] = useState('profile');
+    const [recentOrders, setRecentOrders] = useState<Order[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
 
@@ -104,8 +97,12 @@ export default function PerfilPage() {
             setUser(userData);
             setEditName(userData.name || '');
             setEditLocation(userData.location || 'Brasil');
+
+            // Buscar os pedidos recentes
+            const userRecentOrders = getRecentOrders();
+            setRecentOrders(userRecentOrders);
         } else {
-            router.push('/Login');
+            router.push('/pages/Login');
         }
         setIsLoading(false);
     }, [router]);
@@ -121,6 +118,44 @@ export default function PerfilPage() {
         }
     };
 
+    const getStatusColor = (status: string) => {
+        switch (status.toLowerCase()) {
+            case 'completed':
+                return 'text-green-500';
+            case 'processing':
+                return 'text-yellow-500';
+            case 'cancelled':
+                return 'text-red-500';
+            default:
+                return 'text-gray-500';
+        }
+    };
+
+    const getStatusText = (status: string) => {
+        switch (status.toLowerCase()) {
+            case 'completed':
+                return 'Concluído';
+            case 'processing':
+                return 'Em Processamento';
+            case 'cancelled':
+                return 'Cancelado';
+            default:
+                return status;
+        }
+    };
+
+    const getStatusIcon = (status: string) => {
+        switch (status.toLowerCase()) {
+            case 'delivered':
+                return <CheckCircle2 size={20} className="text-green-400" />;
+            case 'processing':
+                return <Package size={20} className="text-amber-400" />;
+            case 'cancelled':
+                return <XCircle size={20} className="text-red-400" />;
+            default:
+                return <Package size={20} className="text-gray-400" />;
+        }
+    };
     const openEditModal = () => {
         setIsEditModalOpen(true);
     };
@@ -136,52 +171,52 @@ export default function PerfilPage() {
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file || !user) return;
-    
+
         try {
             setIsUploading(true);
             setUploadProgress(10);
-            
+
             if (file.size > 5 * 1024 * 1024) {
                 throw new Error('A imagem deve ter no máximo 5MB');
             }
-    
+
             if (!file.type.startsWith('image/')) {
                 throw new Error('O arquivo deve ser uma imagem');
             }
-    
+
             setUploadProgress(30);
-            
+
             const userId = user.id || 'user_' + Date.now();
             const formData = new FormData();
             formData.append('file', file);
             formData.append('userId', userId);
-    
+
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData
             });
-    
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'Falha no upload. Status: ' + response.status);
             }
-    
+
             const { photoURL } = await response.json();
             setUploadProgress(90);
-            
+
             if (auth.currentUser) {
                 await updateProfile(auth.currentUser, { photoURL });
             }
-    
-            const updatedUser = { 
-                ...user, 
-                photoURL 
+
+            const updatedUser = {
+                ...user,
+                photoURL
             };
             localStorage.setItem('user', JSON.stringify(updatedUser));
             setUser(updatedUser);
             setImageKey(Date.now());
             setUploadProgress(100);
-    
+
         } catch (error) {
             console.error('Erro ao atualizar foto de perfil:', error);
             alert(error instanceof Error ? error.message : 'Erro desconhecido ao atualizar foto de perfil');
@@ -258,22 +293,20 @@ export default function PerfilPage() {
                     <div className="flex space-x-4 mb-8">
                         <button
                             onClick={() => setActiveTab('profile')}
-                            className={`px-6 py-3 rounded-full transition-all duration-300 ${
-                                activeTab === 'profile'
-                                    ? 'bg-amber-600 text-white shadow-lg shadow-amber-900/20'
-                                    : 'bg-amber-900/20 text-amber-400 hover:bg-amber-900/30'
-                            }`}
+                            className={`px-6 py-3 rounded-full transition-all duration-300 ${activeTab === 'profile'
+                                ? 'bg-amber-600 text-white shadow-lg shadow-amber-900/20'
+                                : 'bg-amber-900/20 text-amber-400 hover:bg-amber-900/30'
+                                }`}
                         >
                             <User size={20} className="inline-block mr-2" />
                             Perfil
                         </button>
                         <button
                             onClick={() => setActiveTab('orders')}
-                            className={`px-6 py-3 rounded-full transition-all duration-300 ${
-                                activeTab === 'orders'
-                                    ? 'bg-amber-600 text-white shadow-lg shadow-amber-900/20'
-                                    : 'bg-amber-900/20 text-amber-400 hover:bg-amber-900/30'
-                            }`}
+                            className={`px-6 py-3 rounded-full transition-all duration-300 ${activeTab === 'orders'
+                                ? 'bg-amber-600 text-white shadow-lg shadow-amber-900/20'
+                                : 'bg-amber-900/20 text-amber-400 hover:bg-amber-900/30'
+                                }`}
                         >
                             <Package size={20} className="inline-block mr-2" />
                             Meus Pedidos
@@ -420,12 +453,12 @@ export default function PerfilPage() {
                         >
                             <div className="p-10 md:p-14">
                                 <h3 className="text-2xl font-serif text-amber-50 mb-8">Histórico de Pedidos</h3>
-                                
+
                                 <div className="space-y-6">
                                     <div className="p-6 rounded-xl bg-amber-900/20">
                                         <h4 className="text-white text-lg font-medium mb-4">Pedidos Recentes</h4>
                                         <div className="space-y-4">
-                                            {sampleOrders.slice(0, 2).map((order) => (
+                                            {recentOrders.length > 0 ? recentOrders.map((order) => (
                                                 <div
                                                     key={order.id}
                                                     className="p-4 rounded-lg bg-amber-900/10 border border-amber-600/20 hover:bg-amber-900/20 transition-all duration-300"
@@ -441,12 +474,9 @@ export default function PerfilPage() {
                                                                 })}
                                                             </p>
                                                         </div>
-                                                        <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                                                            order.status === 'Entregue' 
-                                                                ? 'bg-green-900/30 text-green-400' 
-                                                                : 'bg-amber-900/30 text-amber-400'
-                                                        }`}>
-                                                            {order.status}
+                                                        <div className={`px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1 ${getStatusColor(order.status)} bg-${getStatusColor(order.status)}`}>
+                                                            {getStatusIcon(order.status)}
+                                                            <span>{getStatusText(order.status)}</span>
                                                         </div>
                                                     </div>
                                                     <div className="space-y-2">
@@ -473,7 +503,11 @@ export default function PerfilPage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            ))}
+                                            )) : (
+                                                <div className="p-4 rounded-lg bg-amber-900/10 border border-amber-600/20 text-center">
+                                                    <p className="text-amber-200/60">Você ainda não possui pedidos</p>
+                                                </div>
+                                            )}
                                         </div>
                                         <Link
                                             href="/pages/pedidos"

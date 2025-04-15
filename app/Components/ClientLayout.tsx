@@ -30,7 +30,7 @@ export default function ClientLayout({
   // Função para verificar se estamos na página de login
   const checkLoginPage = () => {
     if (typeof window !== 'undefined') {
-      setIsLoginPage(window.location.pathname === '/Login');
+      setIsLoginPage(window.location.pathname === '/pages/Login' || window.location.pathname.includes('/pages/Login'));
     }
   };
 
