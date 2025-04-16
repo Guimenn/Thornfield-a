@@ -1,11 +1,47 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import React from "react";
-import Link from "next/link";
 
 export default function Pricing() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annually">("annually");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [currentSubscription, setCurrentSubscription] = useState<any>(null);
+
+  useEffect(() => {
+    // Check URL for success parameter
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("success") === "true") {
+        setShowSuccessMessage(true);
+        // Hide the message after 5 seconds
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+        }, 5000);
+      }
+
+      // Check for existing subscription
+      const subscription = localStorage.getItem("thornfield_subscription");
+      if (subscription) {
+        setCurrentSubscription(JSON.parse(subscription));
+      }
+    }
+  }, []);
+
+  // Function to handle navigation to payment page
+  const goToPayment = (plan, billing, price) => {
+    const baseUrl = window.location.origin;
+    const params = new URLSearchParams();
+    params.append('plan', plan);
+    params.append('billing', billing);
+    params.append('price', price);
+    params.append('type', 'subscription');
+    
+    // Try different URL patterns based on the project structure
+    const paymentUrl = `${baseUrl}/pages/payment?${params.toString()}`;
+    console.log('Navigating to:', paymentUrl);
+    window.location.href = paymentUrl;
+  };
 
   const plans = [
     {
@@ -94,7 +130,7 @@ export default function Pricing() {
   ];
 
   const planPatterns = [
-    "url(\"data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b45309' fill-opacity='0.05'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+    "url(\"data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b45309' fill-opacity='0.05'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
     "url(\"data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ca8a04' fill-opacity='0.07'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
     "url(\"data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm33.414-6l5.95-5.95L45.95.636 40 6.586 34.05.636 32.636 2.05 38.586 8l-5.95 5.95 1.414 1.414L40 9.414l5.95 5.95 1.414-1.414L41.414 8zM40 48c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zM9.414 40l5.95-5.95-1.414-1.414L8 38.586l-5.95-5.95L.636 34.05 6.586 40l-5.95 5.95 1.414 1.414L8 41.414l5.95 5.95 1.414-1.414L9.414 40z' fill='%23b45309' fill-opacity='0.06' fill-rule='evenodd'/%3E%3C/svg%3E\")"
   ];
@@ -264,7 +300,13 @@ export default function Pricing() {
 
                   {/* CTA Button - All aligned at bottom */}
                   <div className="mt-auto">
-                    <button className="w-full py-3 px-4 rounded border border-amber-700/30 bg-black/50 text-amber-400 hover:bg-amber-900/20 transition-all duration-300 shadow-lg group-hover:border-amber-600 text-sm tracking-widest uppercase">
+                    <button 
+                      onClick={() => {
+                        const price = billingPeriod === "monthly" ? plan.monthlyPrice.toFixed(2) : plan.annualPrice.toFixed(2);
+                        window.location.href = `/pages/payment?isSubscription=true&plan=${encodeURIComponent(plan.name)}&billing=${billingPeriod}&price=${encodeURIComponent(price)}`;
+                      }}
+                      className="w-full py-3 px-4 rounded border border-amber-700/30 bg-black/50 text-amber-400 hover:bg-amber-900/20 transition-all duration-300 shadow-lg group-hover:border-amber-600 text-sm tracking-widest uppercase"
+                    >
                       {plan.cta}
                     </button>
                   </div>
@@ -319,143 +361,6 @@ export default function Pricing() {
               question="A visita à destilaria inclui transporte?" 
               answer="As visitas incluem o tour guiado e degustação especial. Membros Gold recebem desconto em hospedagem parceira. Membros Master Reserve contam com traslado local e assessoria para organização completa da viagem, incluindo recomendações exclusivas."
             />
-          </div>
-        </div>
-      </section>
-
-      {/* Planos Corporativos */}
-      <section className="py-20 bg-black/40">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-4 mb-3">
-              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-amber-500"></div>
-              <span className="text-amber-500/90 text-sm tracking-[0.3em] font-light">PARA EMPRESAS</span>
-              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-amber-500"></div>
-            </div>
-            <h2 className="text-4xl font-serif text-white mb-6">Planos Corporativos</h2>
-            <p className="text-white/70 text-lg font-light max-w-2xl mx-auto">
-              Soluções exclusivas para empresas que buscam experiências premium para seus clientes, parceiros e colaboradores.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            {corporatePlans.map((plan) => (
-              <div 
-                key={plan.name}
-                className="bg-black/70 backdrop-blur-md border border-amber-900/20 rounded-lg p-8 hover:border-amber-700/50 transition-all duration-300 shadow-xl group"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-full border border-amber-700/30 bg-black/50 flex items-center justify-center shadow-lg">
-                    <Image
-                      src={plan.icon}
-                      alt={`${plan.name} icon`}
-                      width={24}
-                      height={24}
-                      className="opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-serif tracking-wider text-white group-hover:text-amber-400 transition-colors duration-300">
-                      {plan.name}
-                    </h3>
-                  </div>
-                </div>
-
-                <p className="text-white/60 text-sm mb-8">
-                  {plan.description}
-                </p>
-
-                <div className="mb-8">
-                  <span className="text-amber-500 text-xl font-light">{plan.price}</span>
-                </div>
-
-                <ul className="space-y-3 mb-8">
-                  {plan.benefits.map((benefit, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm">
-                      <span className="text-amber-600 mt-0.5 opacity-80">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                          <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-                        </svg>
-                      </span>
-                      <span className="text-white/70">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <button className="w-full py-3 px-4 rounded border border-amber-700/30 bg-black/50 text-amber-400 hover:bg-amber-900/20 transition-all duration-300 shadow-lg group-hover:border-amber-600 text-sm tracking-widest uppercase">
-                  Solicitar Proposta
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefícios Exclusivos */}
-      <section className="py-20 bg-transparent">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif text-white mb-3">Benefícios Exclusivos</h2>
-            <div className="h-px w-24 bg-amber-700/30 mx-auto mb-6"></div>
-            <p className="text-white/70 text-lg font-light max-w-2xl mx-auto">
-              Descubra o que torna a experiência Thornfield verdadeiramente singular.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="text-center">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 rounded-full border border-amber-700/30 bg-black/50 flex items-center justify-center shadow-lg">
-                  <Image
-                    src="/icons-whisky/tumbler-glass-svgrepo-com.svg"
-                    alt="Degustações"
-                    width={32}
-                    height={32}
-                    className="opacity-80"
-                  />
-                </div>
-              </div>
-              <h3 className="text-xl font-serif text-white mb-4">Degustações Exclusivas</h3>
-              <p className="text-white/60 text-sm">
-                Eventos de degustação guiados por mestres destiladores, com acesso a rótulos raros e exclusivos.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 rounded-full border border-amber-700/30 bg-black/50 flex items-center justify-center shadow-lg">
-                  <Image
-                    src="/icons-whisky/coffee-grain-coffee-svgrepo-com.svg"
-                    alt="Acesso Prioritário"
-                    width={32}
-                    height={32}
-                    className="opacity-80"
-                  />
-                </div>
-              </div>
-              <h3 className="text-xl font-serif text-white mb-4">Acesso Prioritário</h3>
-              <p className="text-white/60 text-sm">
-                Seja o primeiro a conhecer e adquirir os lançamentos e edições limitadas da Thornfield.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 rounded-full border border-amber-700/30 bg-black/50 flex items-center justify-center shadow-lg">
-                  <Image
-                    src="/icons-whisky/flower-ornament-svgrepo-com.svg"
-                    alt="Visitas Exclusivas"
-                    width={32}
-                    height={32}
-                    className="opacity-80"
-                  />
-                </div>
-              </div>
-              <h3 className="text-xl font-serif text-white mb-4">Visitas Exclusivas</h3>
-              <p className="text-white/60 text-sm">
-                Conheça os segredos da destilaria Thornfield com visitas personalizadas às nossas instalações nas Highlands.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -608,7 +513,7 @@ export default function Pricing() {
                 Assine agora e tenha acesso a um mundo de experiências exclusivas, criadas para quem 
                 valoriza momentos autênticos e o verdadeiro espírito do whisky escocês.
               </p>
-              <button className="px-8 py-3 bg-amber-900/80 text-amber-100 rounded hover:bg-amber-800 transition-all duration-300 tracking-wider uppercase text-sm border border-amber-700/30 shadow-lg">
+              <button className="px-8 py-3 bg-amber-900/80 text-amber-100 rounded hover:bg-amber-800/50 border border-amber-700/30 shadow-lg">
                 Assinar Agora
               </button>
             </div>
@@ -620,6 +525,13 @@ export default function Pricing() {
       <div className="fixed bottom-4 right-4 bg-black/80 backdrop-blur-sm text-white/60 text-xs p-2 rounded-md border border-amber-900/20 z-30">
         Beba com moderação. Proibido para menores de 18 anos.
       </div>
+
+      {/* Success Message */}
+      {showSuccessMessage && (
+        <div className="fixed top-4 right-4 bg-black/80 backdrop-blur-sm text-white/60 text-xs p-2 rounded-md border border-amber-900/20 z-30">
+          Assinatura realizada com sucesso!
+        </div>
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import whiskiesData from "../../data/whiskies.json";
+import { Footer } from "flowbite-react";
 const whiskies = whiskiesData.whiskies;
 
 export default function Bebidas() {
@@ -113,17 +114,16 @@ export default function Bebidas() {
         className="relative h-[85vh] w-full flex items-center overflow-hidden"
       >
         {/* Parallax Background */}
-        <div
+        <div 
           className="absolute inset-0"
           style={{
             backgroundImage: 'url("/whiskys-fundo/banner.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            transform: `translateY(${scrollProgress * 2}%)`
+            backgroundAttachment: 'fixed'
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
         </div>
        
         {/* Content Layout */}
@@ -402,6 +402,9 @@ export default function Bebidas() {
           );
         })}
       </div>
+      <Footer />
     </div>
+
+    
   );
 }
