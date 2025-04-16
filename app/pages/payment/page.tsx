@@ -104,11 +104,49 @@ const Payment = () => {
     localStorage.setItem('orders', JSON.stringify(orders));
   };
 
+  // Função para validar o número do cartão
+  const validateCardNumber = (cardNumber: string) => {
+    // Remove espaços e caracteres não numéricos
+    const cleanNumber = cardNumber.replace(/\D/g, '');
+    
+    // Verifica se tem uma bandeira reconhecida
+    // Visa: começa com 4
+    if (/^4/.test(cleanNumber)) {
+      return true;
+    }
+    // Mastercard: começa com 51-55 ou 2221-2720
+    else if (/^5[1-5]/.test(cleanNumber) || /^2[2-7]2[0-1]/.test(cleanNumber)) {
+      return true;
+    }
+    // Amex: começa com 34 ou 37
+    else if (/^3[47]/.test(cleanNumber)) {
+      return true;
+    }
+    // Elo: começa com 636368, 438935, 504175, 451416, 509048, etc.
+    else if (/^(636368|438935|504175|451416|509048|509067|509049|509069|509050|509074|509068|509040|509045|509051|509046|509066|509047|509042|509052|509043|509064|509040)/.test(cleanNumber)) {
+      return true;
+    }
+    // Hipercard: começa com 606282
+    else if (/^606282/.test(cleanNumber)) {
+      return true;
+    }
+    
+    // Se não for nenhuma bandeira conhecida, retorna falso
+    return false;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
+      // Verifica se o número do cartão é válido (apenas para pagamentos com cartão)
+      if (paymentMethod !== 'pix' && !validateCardNumber(formData.cardNumber)) {
+        alert('Número de cartão inválido ou bandeira não reconhecida.');
+        setIsLoading(false);
+        return;
+      }
+
       // Simula processamento do pagamento
       await new Promise(resolve => setTimeout(resolve, 2000));
       handlePaymentSuccess();

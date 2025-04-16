@@ -927,7 +927,7 @@ export default function Drinks() {
             Visite nossa destilaria em Edinburgo para experimentar todos estes drinks preparados com maestria por nossos mixologistas.
           </p>
           <Link
-            href="/produtos"
+            href="/pages/produtos"
             className="inline-block rounded-sm border border-amber-600 bg-transparent px-8 py-3 text-sm font-medium uppercase tracking-wide text-amber-600 transition-all duration-300 hover:bg-amber-600 hover:text-white"
           >
             Conheça Nossos Whiskies
