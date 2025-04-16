@@ -77,75 +77,98 @@ export default function Checkout() {
       <div className="checkout-content">
         <h1>Finalizar Compra</h1>
         
-        <div className="cart-items">
-          {items.length === 0 ? (
-            <div className="empty-cart">
-              <Package size={48} className="text-amber-500" />
-              <p className="text-center text-gray-400">Seu carrinho está vazio</p>
-            </div>
-          ) : (
-            items.map(item => (
-              <div key={item.id} className="cart-item-hover">
-                <img src={item.image} alt={item.name} className="item-image" />
-                <div className="item-details">
-                  <h3>{item.name}</h3>
-                  <p>Quantidade: {item.quantity}</p>
-                  <p className="item-price">R$ {(item.price * item.quantity).toFixed(2)}</p>
+        {items.length === 0 ? (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            padding: '3rem 1rem',
+            backgroundColor: 'rgba(26, 26, 26, 0.5)',
+            borderRadius: '1rem',
+            margin: '2rem 0',
+            minHeight: '300px',
+            border: '1px solid rgba(245, 158, 11, 0.1)'
+          }}>
+            <Package size={64} style={{ color: '#f59e0b', marginBottom: '1rem' }} />
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#f8fafc' }}>Seu carrinho está vazio</h2>
+            <p style={{ color: '#cbd5e1', marginBottom: '1.5rem' }}>Você ainda não adicionou nenhum produto ao carrinho.</p>
+            <button 
+              onClick={() => router.push('/')}
+              className="checkout-button"
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            >
+              <ArrowLeft size={20} />
+              <span>Voltar para a página inicial</span>
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="cart-items">
+              {items.map(item => (
+                <div key={item.id} className="cart-item-hover">
+                  <img src={item.image} alt={item.name} className="item-image" />
+                  <div className="item-details">
+                    <h3>{item.name}</h3>
+                    <p>Quantidade: {item.quantity}</p>
+                    <p className="item-price">R$ {(item.price * item.quantity).toFixed(2)}</p>
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
-        </div>
-
-        <div className="shipping-section">
-          <h3>Calcular Frete</h3>
-          <ShippingCalculator onShippingChange={handleShippingChange} />
-          {addressError && (
-            <div className="address-error">
-              <AlertCircle size={16} className="text-red-500" />
-              <span className="text-red-500 text-sm">{addressError}</span>
+              ))}
             </div>
-          )}
-        </div>
 
-        <div className="total-section">
-          <div className="subtotal">
-            <span>Subtotal:</span>
-            <span>R$ {total.toFixed(2)}</span>
-          </div>
-          <div className="shipping-cost">
-            <span>Frete:</span>
-            <span>R$ {shipping.toFixed(2)}</span>
-          </div>
-          <div className="total-amount">
-            <span>Total:</span>
-            <span>R$ {finalTotal.toFixed(2)}</span>
-          </div>
-        </div>
+            <div className="shipping-section">
+              <h3>Calcular Frete</h3>
+              <ShippingCalculator onShippingChange={handleShippingChange} />
+              {addressError && (
+                <div className="address-error">
+                  <AlertCircle size={16} className="text-red-500" />
+                  <span className="text-red-500 text-sm">{addressError}</span>
+                </div>
+              )}
+            </div>
 
-        <div className="button-group">
-          <button 
-            className="back-button"
-            onClick={() => router.back()}
-          >
-            <ArrowLeft size={20} />
-            <span>Voltar</span>
-          </button>
-          <button
-            className="checkout-button"
-            onClick={handleCheckout}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <span>Processando...</span>
-            ) : (
-              <>
-                <CreditCard size={20} />
-                <span>Finalizar Compra</span>
-              </>
-            )}
-          </button>
-        </div>
+            <div className="total-section">
+              <div className="subtotal">
+                <span>Subtotal:</span>
+                <span>R$ {total.toFixed(2)}</span>
+              </div>
+              <div className="shipping-cost">
+                <span>Frete:</span>
+                <span>R$ {shipping.toFixed(2)}</span>
+              </div>
+              <div className="total-amount">
+                <span>Total:</span>
+                <span>R$ {finalTotal.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <div className="button-group">
+              <button 
+                className="back-button"
+                onClick={() => router.back()}
+              >
+                <ArrowLeft size={20} />
+                <span>Voltar</span>
+              </button>
+              <button
+                className="checkout-button"
+                onClick={handleCheckout}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span>Processando...</span>
+                ) : (
+                  <>
+                    <CreditCard size={20} />
+                    <span>Finalizar Compra</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
