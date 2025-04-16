@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import React from "react";
 import whiskiesData from "../../data/whiskies.json";
+import drinksData from "../../data/drinks.json";
 
 interface SearchProps {
   isOpen: boolean;
@@ -54,13 +55,23 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
       whisky.name.toLowerCase().includes(searchQuery) ||
       whisky.description.toLowerCase().includes(searchQuery)
     );
-
-    setResults(filteredWhiskies);
+    const filteredDrinks = drinksData.drinks.filter(drink =>
+      drink.name.toLowerCase().includes(searchQuery) ||
+      drink.baseWhisky.toLowerCase().includes(searchQuery) ||
+      (drink.notes && drink.notes.some(note => note.toLowerCase().includes(searchQuery)))
+    );
+    setResults([...filteredWhiskies, ...filteredDrinks]);
     setIsSearching(false);
   };
 
-  const handleItemClick = (whisky: Whisky) => {
-    window.location.href = `/pages/produtos/${whisky.id}`;
+  const handleItemClick = (item: any) => {
+    if (item.description !== undefined) {
+      // Produto whisky
+      window.location.href = `/pages/produtos/${item.id}`;
+    } else {
+      // Drink
+      window.location.href = `/pages/drinks/${item.id}`;
+    }
     setQuery("");
     setResults([]);
     onClose();
@@ -110,27 +121,32 @@ export default function FullSearchBar({ isOpen, onClose }: SearchProps) {
       {query.trim() !== "" && results.length > 0 && !isSearching && (
         <div className="absolute top-[70px] right-0 left-0 z-50 max-h-[80vh] overflow-y-auto bg-white shadow-lg">
           <div className="mx-auto max-w-4xl divide-y divide-gray-100">
-            {results.map((whisky) => (
+            {results.map((item) => (
               <div
-                key={whisky.id}
-                onClick={() => handleItemClick(whisky as Whisky)}
+                key={item.id}
+                onClick={() => handleItemClick(item)}
                 className="flex cursor-pointer items-center p-4 transition-colors duration-200 hover:bg-gray-50"
               >
-                {whisky.image && (
+                {item.image && (
                   <div className="mr-4 h-16 w-16 flex-shrink-0 overflow-hidden">
                     <img
-                      src={whisky.image}
-                      alt={whisky.name}
+                      src={item.image}
+                      alt={item.name}
                       className="h-full w-full object-cover"
                     />
                   </div>
                 )}
                 <div className="flex-1">
-                  <h3 className="font-medium text-gray-900">{whisky.name}</h3>
-                  <p className="text-sm text-gray-500">{whisky.description}</p>
-                  <p className="mt-1 text-sm font-medium text-amber-700">
-                    R$ {whisky.price.toFixed(2)}
-                  </p>
+                  <h3 className="font-medium text-gray-900">{item.name}</h3>
+                  {item.description && <p className="text-sm text-gray-500">{item.description}</p>}
+                  {item.price !== undefined && (
+                    <p className="mt-1 text-sm font-medium text-amber-700">
+                      R$ {item.price.toFixed(2)}
+                    </p>
+                  )}
+                  {item.baseWhisky && !item.price && (
+                    <p className="mt-1 text-xs text-gray-400">Drink com base: {item.baseWhisky}</p>
+                  )}
                 </div>
               </div>
             ))}
