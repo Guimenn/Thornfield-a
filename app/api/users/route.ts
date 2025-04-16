@@ -27,6 +27,7 @@ const ensureFileExists = () => {
 interface UserData {
   name: string;
   email: string;
+  photoURL?: string;
   // other properties
 }
 
@@ -47,6 +48,7 @@ export async function POST(request: Request) {
       // Adiciona novo usuário
       data.users.push({
         ...userData,
+        photoURL: userData.photoURL || '',
         createdAt: new Date().toISOString()
       });
     } else {
@@ -54,6 +56,7 @@ export async function POST(request: Request) {
       data.users[userIndex] = {
         ...data.users[userIndex],
         ...userData,
+        photoURL: userData.photoURL || data.users[userIndex].photoURL || '',
         lastLogin: new Date().toISOString()
       };
     }

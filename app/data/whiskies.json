@@ -28,7 +28,7 @@
         "Cravos"
       ],
       "icon": "/icons-whisky/chocolate-svgrepo-com.svg",
-      "quantity": 10
+      "quantity": 8
     },
     {
       "id": "3",
@@ -88,7 +88,7 @@
         "Pimenta"
       ],
       "icon": "/icons-whisky/cherry-svgrepo-com.svg",
-      "quantity": 10
+      "quantity": 8
     },
     {
       "id": "7",

@@ -4,17 +4,35 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../../context/CartContext';
 import './checkout.css';
-import { Package, CreditCard, ArrowLeft, Truck } from 'lucide-react';
+import { Package, CreditCard, ArrowLeft, Truck, AlertCircle } from 'lucide-react';
 import ShippingCalculator from '../../Components/ShippingCalculator/ShippingCalculator';
+
+interface Address {
+  logradouro: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+  complemento: string;
+  numero: string;
+}
 
 export default function Checkout() {
   const router = useRouter();
   const { items, total } = useCart();
   const [isLoading, setIsLoading] = useState(false);
   const [shipping, setShipping] = useState(0);
+  const [address, setAddress] = useState<Address | null>(null);
+  const [addressError, setAddressError] = useState('');
 
-  const handleShippingChange = (value: number) => {
+  const handleShippingChange = (value: number, addressData: Address | null) => {
+    console.log('Address data received:', addressData);
     setShipping(value);
+    setAddress(addressData);
+  };
+
+  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setAddress((prevAddress) => ({ ...prevAddress, [name]: value }));
   };
 
   const handleCheckout = async () => {
@@ -27,10 +45,21 @@ export default function Checkout() {
       return;
     }
 
+    // Verifica se o endereço foi preenchido
+    console.log('Current address state:', address);
+    if (!address || !address.numero) {
+      setAddressError('Por favor, preencha o endereço de entrega completo');
+      return;
+    }
+
+    setAddressError('');
     setIsLoading(true);
     try {
       // Salva o valor do frete no localStorage
       localStorage.setItem('shipping', shipping.toString());
+      
+      // Salva o endereço no localStorage
+      localStorage.setItem('deliveryAddress', JSON.stringify(address));
       
       // Aqui você implementaria a integração com o gateway de pagamento
       await new Promise(resolve => setTimeout(resolve, 1500)); // Simulação de processamento
@@ -71,6 +100,12 @@ export default function Checkout() {
         <div className="shipping-section">
           <h3>Calcular Frete</h3>
           <ShippingCalculator onShippingChange={handleShippingChange} />
+          {addressError && (
+            <div className="address-error">
+              <AlertCircle size={16} className="text-red-500" />
+              <span className="text-red-500 text-sm">{addressError}</span>
+            </div>
+          )}
         </div>
 
         <div className="total-section">

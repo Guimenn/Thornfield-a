@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CreditCard as CardIcon, Mastercard, Visa } from 'lucide-react';
+import { CreditCard as CardIcon} from 'lucide-react';
 
 import './CreditCard.css';
 
@@ -11,6 +11,7 @@ interface CreditCardProps {
   expiry: string;
   cvv: string;
   isFlipped: boolean;
+  paymentType?: 'credit' | 'debit'; // Tipo de cartão: crédito ou débito
 }
 
 const CreditCard: React.FC<CreditCardProps> = ({
@@ -18,12 +19,28 @@ const CreditCard: React.FC<CreditCardProps> = ({
   cardName,
   expiry,
   cvv,
-  isFlipped
+  isFlipped,
+  paymentType = 'credit' // Padrão é crédito se não for especificado
 }) => {
   // Formata o número do cartão em grupos de 4
   const formatCardNumber = (number: string) => {
-    const formatted = number.padEnd(16, '•').match(/.{1,4}/g);
-    return formatted ? formatted.join(' ') : '';
+    // Remove espaços e caracteres não numéricos
+    const cleanNumber = number.replace(/\D/g, '');
+    
+    // Adiciona pontos apenas para os dígitos que faltam, não preenche tudo
+    let formatted = '';
+    
+    for (let i = 0; i < 16; i += 4) {
+      const chunk = cleanNumber.slice(i, i + 4);
+      if (chunk) {
+        formatted += (formatted ? ' ' : '') + chunk.padEnd(4, '•');
+      } else if (i === 0) {
+        // Pelo menos o primeiro grupo deve aparecer, mesmo que vazio
+        formatted += '••••';
+      }
+    }
+    
+    return formatted;
   };
 
   // Identifica a bandeira do cartão
@@ -89,6 +106,9 @@ const CreditCard: React.FC<CreditCardProps> = ({
               {renderCardLogo()}
               <div className="card-number">
                 {formatCardNumber(cardNumber)}
+              </div>
+              <div className="card-type" style={{ fontSize: '12px', position: 'absolute', top: '70px', right: '20px', color: 'white', fontWeight: 'bold' }}>
+                {paymentType === 'credit' ? 'CRÉDITO' : 'DÉBITO'}
               </div>
               <div className="card-info">
                 <div className="card-holder">

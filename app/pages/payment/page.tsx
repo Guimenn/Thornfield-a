@@ -280,6 +280,7 @@ const Payment = () => {
               expiry={formData.expiry}
               cvv={formData.cvv}
               isFlipped={isCardFlipped}
+              paymentType={paymentMethod as 'credit' | 'debit'}
             />
 
             <form onSubmit={handleSubmit} className="payment-form">

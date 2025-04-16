@@ -77,6 +77,7 @@ export default function ShippingCalculator({ onShippingChange }: ShippingCalcula
       
       setAddress(newAddress);
       setEditedAddress(newAddress);
+      setIsEditing(true); // Inicia em modo de edição quando encontra um endereço
       const shippingValue = calculateShipping(cep);
       onShippingChange(shippingValue, newAddress);
     } catch (err) {
@@ -108,13 +109,21 @@ export default function ShippingCalculator({ onShippingChange }: ShippingCalcula
   };
 
   const handleSave = () => {
+    console.log('Saving address:', editedAddress);
     if (editedAddress && editedAddress.numero) {
+      // Atualiza o endereço local
       setAddress(editedAddress);
+      
+      // Sai do modo de edição
       setIsEditing(false);
-      onShippingChange(
-        shippingOptions.find(opt => opt.id === selectedShipping)?.price || 0,
-        editedAddress
-      );
+      
+      // Envia o endereço para o componente pai
+      const currentPrice = shippingOptions.find(opt => opt.id === selectedShipping)?.price || 0;
+      console.log('Sending to parent:', currentPrice, editedAddress);
+      onShippingChange(currentPrice, editedAddress);
+      
+      // Limpa qualquer erro anterior
+      setError('');
     } else {
       setError('Por favor, preencha o número do endereço');
     }
@@ -122,10 +131,18 @@ export default function ShippingCalculator({ onShippingChange }: ShippingCalcula
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (editedAddress) {
-      setEditedAddress({
+      const updatedAddress = {
         ...editedAddress,
         [e.target.name]: e.target.value
-      });
+      };
+      setEditedAddress(updatedAddress);
+      console.log('Address updated:', updatedAddress);
+      
+      // Auto-save address when numero is filled
+      if (e.target.name === 'numero' && e.target.value) {
+        const currentPrice = shippingOptions.find(opt => opt.id === selectedShipping)?.price || 0;
+        onShippingChange(currentPrice, updatedAddress);
+      }
     }
   };
 
@@ -227,6 +244,9 @@ export default function ShippingCalculator({ onShippingChange }: ShippingCalcula
                   <Save size={16} />
                   Salvar Alterações
                 </button>
+                {error && (
+                  <div className="mt-2 text-red-500 text-sm">{error}</div>
+                )}
               </div>
             ) : (
               <>

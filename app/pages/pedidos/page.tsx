@@ -45,10 +45,16 @@ export default function PedidosPage() {
     const savedOrders = localStorage.getItem('orders');
     if (savedOrders) {
       const parsedOrders = JSON.parse(savedOrders);
-      const userOrders = parsedOrders.filter((order: Order) => 
+      const userOrders = parsedOrders.filter((order: Order) =>
         order.userId === JSON.parse(user).id
       );
-      setOrders(userOrders);
+
+      // Ordena os pedidos por data, do mais recente para o mais antigo
+      const sortedOrders = userOrders.sort((a: Order, b: Order) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      });
+
+      setOrders(sortedOrders);
     }
     setIsLoading(false);
   }, [router]);
@@ -216,7 +222,7 @@ export default function PedidosPage() {
                 className="bg-black/50 backdrop-blur-md rounded-3xl overflow-hidden border border-amber-600/20 shadow-[0_20px_50px_-12px_rgba(255,191,0,0.2)]"
               >
                 <div className="p-6 md:p-8">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                  <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between mb-6">
                     <div className="flex items-center space-x-4 mb-4 md:mb-0">
                       <div className="flex items-center space-x-2">
                         {getStatusIcon(order.status)}
@@ -234,7 +240,7 @@ export default function PedidosPage() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <CreditCard size={16} className="text-amber-400" />
-                      <span className="text-amber-200/60">{order.paymentMethod}</span>
+                      <span className="text-amber-200/60">{order.paymentMethod.charAt(0).toUpperCase() + order.paymentMethod.slice(1)}</span>
                     </div>
                   </div>
 
