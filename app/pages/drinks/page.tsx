@@ -183,6 +183,277 @@ const drinks: Drink[] = [
     tipo: "Floral",
     ocasiao: "Especial",
     image: "/drinks-images/drink-9.png"
+  },
+  // Novos drinks adicionados
+  {
+    id: "10",
+    name: "Old Noble",
+    baseWhisky: "ULTRA RESERVE",
+    notes: ["Canela", "Carvalho", "Amêndoas"],
+    recipe: [
+      "50ml de ULTRA RESERVE",
+      "10ml de licor de amêndoas",
+      "2 dashes de angostura",
+      "Twist de laranja"
+    ],
+    toque: "Mexer no mixing glass com gelo e servir em copo baixo com gelo grande. Finalizar com o twist.",
+    estilo: "Old Fashioned com nobreza",
+    baseId: "1",
+    tipo: "Clássico",
+    ocasiao: "Noite",
+    image: "/drinks-images/drink-10.png"
+  },
+  {
+    id: "11",
+    name: "Dark Berry Manhattan",
+    baseWhisky: "SHADOW OAK",
+    notes: ["Chocolate", "Frutas Escuras", "Vermute"],
+    recipe: [
+      "50ml de SHADOW OAK",
+      "25ml de vermute tinto",
+      "1 dash de licor de cassis ou amora",
+      "Cereja preta para decorar"
+    ],
+    toque: "Mexer e coar em taça coupe. Finalizar com a cereja.",
+    estilo: "Manhattan com toque frutado e misterioso",
+    baseId: "2",
+    tipo: "Sofisticado",
+    ocasiao: "Encontro",
+    image: "/drinks-images/drink-11.png"
+  },
+  {
+    id: "12",
+    name: "Smoky Ginger",
+    baseWhisky: "MIDNIGHT GOLD",
+    notes: ["Defumado", "Caramelo", "Gengibre"],
+    recipe: [
+      "45ml de MIDNIGHT GOLD",
+      "60ml de ginger beer",
+      "10ml de xarope de caramelo",
+      "Gelo e fatia de gengibre"
+    ],
+    toque: "Montar no copo alto com gelo e decorar com fatia de gengibre fresco.",
+    estilo: "Refrescante e intenso",
+    baseId: "3",
+    tipo: "Refrescante",
+    ocasiao: "Happy Hour",
+    image: "/drinks-images/drink-12.png"
+  },
+  {
+    id: "13",
+    name: "Highland Breeze",
+    baseWhisky: "BLUE MIST",
+    notes: ["Fresco", "Frutado", "Mentolado"],
+    recipe: [
+      "40ml de BLUE MIST",
+      "20ml de licor de blueberry",
+      "60ml de água tônica",
+      "Folhas de hortelã"
+    ],
+    toque: "Servido em copo longo com muito gelo, hortelã e mirtilos frescos.",
+    estilo: "Leve e refrescante",
+    baseId: "4",
+    tipo: "Refrescante",
+    ocasiao: "Tarde",
+    image: "/drinks-images/drink-13.png"
+  },
+  {
+    id: "14",
+    name: "Golden Hearth",
+    baseWhisky: "HONEY EMBER",
+    notes: ["Doce", "Quente", "Mel", "Especiarias"],
+    recipe: [
+      "45ml de HONEY EMBER",
+      "15ml de xarope de mel com especiarias (cravo e canela)",
+      "Suco de ½ limão",
+      "Gelo"
+    ],
+    toque: "Shaker com todos os ingredientes, coar em copo baixo.",
+    estilo: "Doce com toque cítrico",
+    baseId: "5",
+    tipo: "Doce",
+    ocasiao: "Inverno",
+    image: "/drinks-images/drink-14.png"
+  },
+  {
+    id: "15",
+    name: "Cherry Flame",
+    baseWhisky: "CRIMSON HEARTH",
+    notes: ["Frutado", "Picante", "Cereja"],
+    recipe: [
+      "45ml de CRIMSON HEARTH",
+      "15ml de licor de cereja",
+      "1 dash de bitter de pimenta",
+      "Nozes tostadas como guarnição"
+    ],
+    toque: "Mexer com gelo, servir em taça baixa, finalizar com nozes sobre espeto.",
+    estilo: "Frutado com toque picante",
+    baseId: "6",
+    tipo: "Frutado",
+    ocasiao: "Comemoração",
+    image: "/drinks-images/drink-15.png"
+  },
+  {
+    id: "16",
+    name: "Verdant Elixir",
+    baseWhisky: "EMERALD WHISPER",
+    notes: ["Herbal", "Fresco", "Maçã Verde"],
+    recipe: [
+      "40ml de EMERALD WHISPER",
+      "15ml de licor de maçã verde",
+      "30ml de chá verde gelado",
+      "Gelo e raminho de alecrim"
+    ],
+    toque: "Agitar e servir em copo longo com bastante gelo.",
+    estilo: "Refrescante e aromático",
+    baseId: "7",
+    tipo: "Refrescante",
+    ocasiao: "Tarde",
+    image: "/drinks-images/drink-16.png"
+  },
+  {
+    id: "17",
+    name: "Moon Blossom",
+    baseWhisky: "PHANTOM BLOOM",
+    notes: ["Floral", "Exótico", "Lavanda"],
+    recipe: [
+      "45ml de PHANTOM BLOOM",
+      "15ml de licor de flor de sabugueiro",
+      "Água com gás aromatizada com lavanda (ou soda cítrica)",
+      "Pétalas comestíveis para decorar"
+    ],
+    toque: "Montado em taça balão com gelo e flores.",
+    estilo: "Floral e delicado",
+    baseId: "9",
+    tipo: "Floral",
+    ocasiao: "Ocasião Especial",
+    image: "/drinks-images/drink-17.png"
+  },
+  {
+    id: "18",
+    name: "Thorned Crown",
+    baseWhisky: "ULTRA RESERVE",
+    notes: ["Amadeirado", "Sofisticado", "Picante"],
+    recipe: [
+      "50ml ULTRA RESERVE",
+      "25ml vermute seco",
+      "1 colher de licor de amêndoas",
+      "Casca de laranja flambada"
+    ],
+    toque: "Servir em taça old fashioned com casca de laranja flambada.",
+    estilo: "Amadeirado, sofisticado e levemente picante",
+    baseId: "1",
+    tipo: "Sofisticado",
+    ocasiao: "Celebração",
+    image: "/drinks-images/drink-18.png"
+  },
+  {
+    id: "19",
+    name: "Silva Notturna",
+    baseWhisky: "SHADOW OAK",
+    notes: ["Misterioso", "Frutado", "Especiado"],
+    recipe: [
+      "45ml SHADOW OAK",
+      "20ml licor de cassis",
+      "10ml xarope de baunilha",
+      "Espuma de cravo"
+    ],
+    toque: "Servir em taça coupe com espuma de cravo.",
+    estilo: "Misterioso, frutado e levemente doce com final especiado",
+    baseId: "2",
+    tipo: "Sofisticado",
+    ocasiao: "Noite",
+    image: "/drinks-images/drink-19.png"
+  },
+  {
+    id: "20",
+    name: "Golden Eclipse",
+    baseWhisky: "MIDNIGHT GOLD",
+    notes: ["Brilhante", "Defumado", "Envolvente"],
+    recipe: [
+      "50ml MIDNIGHT GOLD",
+      "15ml licor de gengibre",
+      "10ml licor de tabaco (infusão artesanal)",
+      "Spray de ouro comestível"
+    ],
+    toque: "Servir em tumbler baixo com spray de ouro comestível.",
+    estilo: "Brilhante, defumado e envolvente",
+    baseId: "3",
+    tipo: "Premium",
+    ocasiao: "Ocasião Especial",
+    image: "/drinks-images/drink-20.png"
+  },
+  {
+    id: "21",
+    name: "Breeze of Alba",
+    baseWhisky: "BLUE MIST",
+    notes: ["Refrescante", "Herbal", "Frutado"],
+    recipe: [
+      "40ml BLUE MIST",
+      "25ml licor de blueberry",
+      "10ml suco de limão siciliano",
+      "Folhas de hortelã e gelo picado"
+    ],
+    toque: "Servir em copo Collins com muito gelo picado e hortelã fresca.",
+    estilo: "Refrescante, herbal e frutado",
+    baseId: "4",
+    tipo: "Refrescante",
+    ocasiao: "Tarde",
+    image: "/drinks-images/drink-21.png"
+  },
+  {
+    id: "22",
+    name: "Solar Hive",
+    baseWhisky: "HONEY EMBER",
+    notes: ["Doce", "Aromático", "Amadeirado"],
+    recipe: [
+      "50ml HONEY EMBER",
+      "20ml licor de pera",
+      "1 colher de chá de mel trufado",
+      "Ramo de alecrim tostado"
+    ],
+    toque: "Servir em taça tulipa com alecrim tostado.",
+    estilo: "Doce, aromático e levemente amadeirado",
+    baseId: "5",
+    tipo: "Doce",
+    ocasiao: "Pôr do sol",
+    image: "/drinks-images/drink-22.png"
+  },
+  {
+    id: "23",
+    name: "Velvet Ember",
+    baseWhisky: "ULTRA RESERVE",
+    notes: ["Canela", "Noz-moscada", "Seco"],
+    recipe: [
+      "40ml ULTRA RESERVE",
+      "20ml vermute seco envelhecido",
+      "10ml licor de canela suave",
+      "Raspas de noz-moscada"
+    ],
+    toque: "Copo baixo arredondado, gelo esférico, raspas flutuando e uma colher de prata descansando na borda.",
+    estilo: "Stirred Negroni-style",
+    baseId: "1",
+    tipo: "Sofisticado",
+    ocasiao: "Noite",
+    image: "/drinks-images/drink-23.png"
+  },
+  {
+    id: "24",
+    name: "Obscura No.7",
+    baseWhisky: "SHADOW OAK",
+    notes: ["Chocolate", "Cereja", "Amadeirado"],
+    recipe: [
+      "50ml SHADOW OAK",
+      "15ml licor de cacau amargo",
+      "20ml vermute rosso envelhecido",
+      "Bitter de cereja negra"
+    ],
+    toque: "Taça martini negra, decorada com um espiral de casca de uva e borda de açúcar queimado.",
+    estilo: "Manhattan Dark Edition",
+    baseId: "2",
+    tipo: "Sofisticado",
+    ocasiao: "Noite",
+    image: "/drinks-images/drink-24.png"
   }
 ];
 
@@ -252,6 +523,8 @@ export default function Drinks() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [storedWhiskies, setStoredWhiskies] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const drinksPerPage = 9;
   
   // Referência para o hero
   const heroRef = useRef<HTMLDivElement>(null);
@@ -286,6 +559,27 @@ export default function Drinks() {
     return true;
   });
 
+  // Calcular páginas para paginação
+  const totalPages = Math.ceil(filteredDrinks.length / drinksPerPage);
+  
+  // Obter drinks da página atual
+  const indexOfLastDrink = currentPage * drinksPerPage;
+  const indexOfFirstDrink = indexOfLastDrink - drinksPerPage;
+  const currentDrinks = filteredDrinks.slice(indexOfFirstDrink, indexOfLastDrink);
+  
+  // Funções para navegar entre páginas
+  const goToNextPage = () => {
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+  };
+  
+  const goToPrevPage = () => {
+    setCurrentPage(prev => Math.max(prev - 1, 1));
+  };
+  
+  const goToPage = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   // Handler para mudar filtros
   const handleFilterChange = (filterType: string, value: string) => {
     // Se clicar no mesmo valor já selecionado, limpa esse filtro
@@ -303,6 +597,9 @@ export default function Drinks() {
       if (filterType === 'tipo') setSelectedTipo(value);
       if (filterType === 'ocasiao') setSelectedOcasiao(value);
     }
+    
+    // Resetar para a primeira página quando um filtro é alterado
+    setCurrentPage(1);
   };
 
   // Efeito para o parallax no hero
@@ -322,6 +619,7 @@ export default function Drinks() {
     setSelectedWhisky(null);
     setSelectedTipo(null);
     setSelectedOcasiao(null);
+    setCurrentPage(1);
   };
 
   return (
@@ -561,11 +859,51 @@ export default function Drinks() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredDrinks.map((drink) => (
-              <DrinkCard key={drink.id} drink={drink} />
-            ))}
-          </div>
+          <>
+            {/* Título da página atual */}
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-serif mb-2">Nossas Receitas</h2>
+              <p className="text-amber-500/80">Página {currentPage} de {totalPages}</p>
+            </div>
+
+            {/* Grid de drinks */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {currentDrinks.map((drink) => (
+                <DrinkCard key={drink.id} drink={drink} />
+              ))}
+            </div>
+            
+            {/* Paginação */}
+            {totalPages > 1 && (
+              <div className="mt-12 flex justify-center items-center space-x-2">
+                <button
+                  onClick={goToPrevPage}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 rounded-sm ${currentPage === 1 ? 'bg-gray-800 text-gray-500 cursor-not-allowed' : 'bg-amber-900/30 text-amber-500 hover:bg-amber-800/50'} transition-colors`}
+                >
+                  Anterior
+                </button>
+                
+                {Array.from({ length: totalPages }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goToPage(i + 1)}
+                    className={`w-10 h-10 rounded-sm ${currentPage === i + 1 ? 'bg-amber-600 text-white' : 'bg-black border border-amber-800/30 text-amber-500 hover:bg-amber-900/50'} transition-colors`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                
+                <button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className={`px-4 py-2 rounded-sm ${currentPage === totalPages ? 'bg-gray-800 text-gray-500 cursor-not-allowed' : 'bg-amber-900/30 text-amber-500 hover:bg-amber-800/50'} transition-colors`}
+                >
+                  Próxima
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
       
