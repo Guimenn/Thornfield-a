@@ -430,6 +430,131 @@
             "tipo": "Sofisticado",
             "ocasiao": "Noite",
             "image": "/drinks-images/drink-24.png"
+        },
+        {
+            "id": "25",
+            "name": "Amber Smoke",
+            "baseWhisky": "MIDNIGHT GOLD",
+            "notes": ["Aromático", "Defumado"],
+            "recipe": [
+              "45 ml Midnight Gold",
+              "50 ml soda artesanal de gengibre e pimenta rosa",
+              "Espuma de caramelo salgado"
+            ],
+            "toque": "Copo highball fosco, com gelo translúcido e a espuma cor âmbar no topo. Servido com colher longa de cobre.",
+            "estilo": "Highball aromático defumado",
+            "baseId": "3",
+            "tipo": "Premium",
+            "ocasiao": "Ocasião Especial",
+            "image": "/drinks-images/drink-25.png"
+        },
+        {
+            "id": "26",
+            "name": "Mistcaller",
+            "baseWhisky": "BLUE MIST",
+            "notes": ["Botanical", "Spritz"],
+            "recipe": [
+              "35 ml Blue Mist",
+              "20 ml cordial de lavanda azul",
+              "40 ml água tônica premium",
+              "Gotas de limão tahiti"
+            ],
+            "toque": "Taça tulipa com névoa de gelo seco discreto e lavanda flutuante.",
+            "estilo": "Botanical Spritz",
+            "baseId": "4",
+            "tipo": "Refrescante",
+            "ocasiao": "Tarde",
+            "image": "/drinks-images/drink-26.png"
+        },
+        {
+            "id": "27",
+            "name": "Thorn & Nectar",
+            "baseWhisky": "HONEY EMBER",
+            "notes": ["Quente", "Frio", "Smash"],
+            "recipe": [
+              "45 ml Honey Ember",
+              "10 ml mel infusionado com pimenta-da-jamaica",
+              "Suco fresco de tangerina",
+              "Raspas de gengibre"
+            ],
+            "toque": "Copo baixo rústico, com gelo quebrado e laranja desidratada. Servido com colher de madeira miniatura.",
+            "estilo": "Smash quente-frio",
+            "baseId": "5",
+            "tipo": "Doce",
+            "ocasiao": "Inverno",
+            "image": "/drinks-images/drink-27.png"
+        },
+        {
+            "id": "28",
+            "name": "Scarlet Ember",
+            "baseWhisky": "CRIMSON HEARTH",
+            "notes": ["Spiced", "Sour"],
+            "recipe": [
+              "50 ml Crimson Hearth",
+              "20 ml purê de cereja defumada",
+              "15 ml limão siciliano",
+              "Espuma de clara com bitter picante"
+            ],
+            "toque": "Taça sour, espuma espessa e desenho em bitter no topo. Guarnição com flor seca vermelha.",
+            "estilo": "Spiced Sour",
+            "baseId": "6",
+            "tipo": "Frutado",
+            "ocasiao": "Comemoração",
+            "image": "/drinks-images/drink-28.png"
+        },
+        {
+            "id": "29",
+            "name": "Herbal Code",
+            "baseWhisky": "EMERALD WHISPER",
+            "notes": ["Chá", "Aromático", "Twist"],
+            "recipe": [
+              "40 ml Emerald Whisper",
+              "30 ml cold brew de chá verde e verbena",
+              "15 ml suco de maçã verde prensado",
+              "Alecrim flambado na taça"
+            ],
+            "toque": "Taça vinho verde com gelo translúcido. Raminho de alecrim em mini cloche, levantado na hora de servir.",
+            "estilo": "Chá aromático twist",
+            "baseId": "7",
+            "tipo": "Refrescante",
+            "ocasiao": "Tarde",
+            "image": "/drinks-images/drink-29.png"
+        },
+        {
+            "id": "30",
+            "name": "Eclipse Tonic",
+            "baseWhisky": "OBSIDIAN VEIL",
+            "notes": ["Espresso", "Oak", "High"],
+            "recipe": [
+              "50 ml Obsidian Veil",
+              "15 ml cordial de casca de cacau",
+              "10 ml espresso gelado",
+              "Água tônica escura ou preta"
+            ],
+            "toque": "Copo longo de cristal fumê, com espuma de espresso e grãos crocantes de café caramelizado.",
+            "estilo": "Espresso & Oak High",
+            "baseId": "8",
+            "tipo": "Intenso",
+            "ocasiao": "Noite",
+            "image": "/drinks-images/drink-30.png"
+        },
+        {
+            "id": "31",
+            "name": "Bloomshade",
+            "baseWhisky": "PHANTOM BLOOM",
+            "notes": ["Floral", "Mist", "Spritz"],
+            "recipe": [
+              "45 ml Phantom Bloom",
+              "20 ml shrub de lavanda e hibisco",
+              "Água gaseificada de flores",
+              "Spray de água de flor de laranjeira"
+            ],
+            "toque": "Taça globo texturizada, pétalas flutuando e borrifada na hora com flor de laranjeira.",
+            "estilo": "Floral & Mist Spritz",
+            "baseId": "9",
+            "tipo": "Floral",
+            "ocasiao": "Ocasião Especial",
+            "image": "/drinks-images/drink-31.png"
         }
     ]
 }
