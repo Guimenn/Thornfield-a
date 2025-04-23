@@ -243,7 +243,7 @@ const Payment = () => {
 
   return (
     <div className="payment-container">
-      <div className="payment-content">
+      <div className="payment-content mt-[100px]">
         <div className="payment-header">
           <CreditCard size={24} className="payment-icon" />
           <h1>Pagamento</h1>

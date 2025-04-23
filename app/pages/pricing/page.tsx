@@ -303,7 +303,7 @@ export default function Pricing() {
                     <button 
                       onClick={() => {
                         const price = billingPeriod === "monthly" ? plan.monthlyPrice.toFixed(2) : plan.annualPrice.toFixed(2);
-                        window.location.href = `/pages/payment?isSubscription=true&plan=${encodeURIComponent(plan.name)}&billing=${billingPeriod}&price=${encodeURIComponent(price)}`;
+                        window.location.href = `/pages/payment-pricing?plan=${encodeURIComponent(plan.name)}&billing=${billingPeriod}&price=${encodeURIComponent(price)}`;
                       }}
                       className="w-full py-3 px-4 rounded border border-amber-700/30 bg-black/50 text-amber-400 hover:bg-amber-900/20 transition-all duration-300 shadow-lg group-hover:border-amber-600 text-sm tracking-widest uppercase"
                     >
@@ -513,7 +513,12 @@ export default function Pricing() {
                 Assine agora e tenha acesso a um mundo de experiências exclusivas, criadas para quem 
                 valoriza momentos autênticos e o verdadeiro espírito do whisky escocês.
               </p>
-              <button className="px-8 py-3 bg-amber-900/80 text-amber-100 rounded hover:bg-amber-800/50 border border-amber-700/30 shadow-lg">
+              <button className="px-8 py-3 bg-amber-900/80 text-amber-100 rounded hover:bg-amber-800/50 border border-amber-700/30 shadow-lg"
+                onClick={() => {
+                  const price = billingPeriod === "monthly" ? plans[0].monthlyPrice.toFixed(2) : plans[0].annualPrice.toFixed(2);
+                  window.location.href = `/pages/payment-pricing?plan=${encodeURIComponent(plans[0].name)}&billing=${billingPeriod}&price=${encodeURIComponent(price)}`;
+                }}
+              >
                 Assinar Agora
               </button>
             </div>

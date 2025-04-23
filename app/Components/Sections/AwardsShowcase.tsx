@@ -59,15 +59,6 @@ export default function AwardsShowcase() {
     },
     {
       id: 5,
-      title: "Whisky do Ano",
-      year: "2023",
-      product: "Legacy Cask Strength",
-      organization: "World Whiskies Awards",
-      image: "/awards/best-2023.png",
-      category: ["destaque", "internacional", "ouro"]
-    },
-    {
-      id: 6,
       title: "Inovação Sustentável",
       year: "2022",
       product: "Processo de Reciclagem de Água",
@@ -76,7 +67,7 @@ export default function AwardsShowcase() {
       category: ["destaque", "sustentabilidade"]
     },
     {
-      id: 7,
+      id: 6,
       title: "Embalagem Eco-friendly",
       year: "2021",
       product: "Linha Reserve Series",
@@ -85,7 +76,7 @@ export default function AwardsShowcase() {
       category: ["sustentabilidade"]
     },
     {
-      id: 8,
+      id: 7,
       title: "Compromisso Carbono Neutro",
       year: "2022",
       product: "Thornfield Distillery",
@@ -94,7 +85,7 @@ export default function AwardsShowcase() {
       category: ["sustentabilidade"]
     },
     {
-      id: 9,
+      id: 8,
       title: "Destilaria Verde",
       year: "2023",
       product: "Iniciativa Energia Renovável",
@@ -103,11 +94,11 @@ export default function AwardsShowcase() {
       category: ["sustentabilidade"]
     },
     {
-      id: 10,
-      title: "Whisky do Ano",
+      id: 9,
+      title: "World Whisky of the Year",
       year: "2024",
-      product: "Legacy Cask Strength",
-      organization: "World Whiskies Awards",
+      product: "Obsidian Veil 20 anos",
+      organization: "International Whisky Competition",
       image: "/images/awards/award-gold.png",
       category: ["destaque", "internacional", "ouro"]
     }
@@ -163,7 +154,7 @@ export default function AwardsShowcase() {
           <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#171411]/70 to-[#0c0a08]/70 backdrop-blur-sm border border-amber-900/20 p-6 text-center group">
             <div className="absolute inset-0 bg-gradient-to-br from-amber-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             <div className="relative z-10">
-              <span className="block text-4xl md:text-5xl font-serif text-amber-500 mb-2 group-hover:scale-110 transition-transform duration-500">10</span>
+              <span className="block text-4xl md:text-5xl font-serif text-amber-500 mb-2 group-hover:scale-110 transition-transform duration-500">9</span>
               <span className="text-gray-400 text-sm">Prêmios Totais</span>
             </div>
           </div>

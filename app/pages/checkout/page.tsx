@@ -74,7 +74,7 @@ export default function Checkout() {
 
   return (
     <div className="checkout-container">
-      <div className="checkout-content">
+      <div className="checkout-content mt-[100px]">
         <h1>Finalizar Compra</h1>
         
         {items.length === 0 ? (

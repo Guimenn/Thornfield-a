@@ -1,20 +1,67 @@
- 'use client';
+'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import { AlertCircle } from 'lucide-react';
 import './PixPayment.css';
+
+interface FormData {
+  fullName: string;
+  phone: string;
+  cpf: string;
+  [key: string]: string;
+}
 
 interface PixPaymentProps {
   value: number;
-  onSuccess: () => void;
+  onSuccess: (e?: React.FormEvent) => void;
+  formData?: FormData;
+  formErrors?: Record<string, string>;
+  validateForm?: () => boolean;
 }
 
-const PixPayment: React.FC<PixPaymentProps> = ({ value, onSuccess }) => {
+const PixPayment: React.FC<PixPaymentProps> = ({ value, onSuccess, formData, formErrors, validateForm }) => {
   const [qrCodeGenerated, setQrCodeGenerated] = useState(false);
   const [pixCopiaECola, setPixCopiaECola] = useState('');
   const [loading, setLoading] = useState(false);
+  const [processingPayment, setProcessingPayment] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const [validationError, setValidationError] = useState('');
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (processingPayment && countdown > 0) {
+      timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+    } else if (processingPayment && countdown === 0) {
+      onSuccess();
+    }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [processingPayment, countdown, onSuccess]);
 
   const generatePixQRCode = () => {
+    // Verificar se os dados do formulário estão preenchidos
+    if (validateForm) {
+      // Se a função de validação existir, use-a
+      if (!validateForm()) {
+        setValidationError('Por favor, preencha todos os campos obrigatórios antes de gerar o QR Code.');
+        return;
+      }
+    } else if (formData) {
+      // Verificação manual se validateForm não for fornecido
+      if (!formData.fullName || !formData.phone || !formData.cpf) {
+        setValidationError('Por favor, preencha seu nome, telefone e CPF antes de gerar o QR Code.');
+        return;
+      }
+    }
+
+    // Limpar mensagem de erro se a validação passar
+    setValidationError('');
     setLoading(true);
 
     // Simulando dados do PIX (em um caso real, isso viria do backend)
@@ -43,11 +90,7 @@ const PixPayment: React.FC<PixPaymentProps> = ({ value, onSuccess }) => {
     setPixCopiaECola(pixString);
     setQrCodeGenerated(true);
     setLoading(false);
-
-    // Simula verificação de pagamento
-    setTimeout(() => {
-      onSuccess();
-    }, 5000);
+    setProcessingPayment(true);
   };
 
   const copyPixCode = () => {
@@ -62,6 +105,12 @@ const PixPayment: React.FC<PixPaymentProps> = ({ value, onSuccess }) => {
             <h3>Valor a pagar:</h3>
             <p className="amount">R$ {value.toFixed(2)}</p>
           </div>
+          {validationError && (
+            <div className="validation-error">
+              <AlertCircle size={16} />
+              <span>{validationError}</span>
+            </div>
+          )}
           <button
             className="generate-pix-button"
             onClick={generatePixQRCode}
@@ -101,7 +150,9 @@ const PixPayment: React.FC<PixPaymentProps> = ({ value, onSuccess }) => {
           </div>
 
           <div className="pix-status">
-            <p>Aguardando pagamento...</p>
+            <p>{processingPayment 
+              ? `Finalizando pagamento em ${countdown}s...` 
+              : 'Aguardando pagamento...'}</p>
             <div className="loading-indicator"></div>
           </div>
         </div>
@@ -110,4 +161,4 @@ const PixPayment: React.FC<PixPaymentProps> = ({ value, onSuccess }) => {
   );
 };
 
-export default PixPayment; 
+export default PixPayment;

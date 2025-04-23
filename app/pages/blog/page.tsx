@@ -377,369 +377,374 @@ export default function BlogPage() {
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden">
 
-      {/* Hero Section Diagonal Split */}
-      <section ref={heroRef} className="relative h-screen overflow-hidden">
-        {/* Background - Diagonal Split with Parallax */}
-        <div className="absolute inset-0">
-          {/* Lado esquerdo escuro com textura */}
-          <div className="absolute top-0 left-0 w-1/2 h-full bg-black">
-            <div className="absolute inset-0 opacity-10 bg-[url('/blog/texture-dark.png')]"></div>
-          </div>
-          
-          {/* Lado direito com imagem */}
-          <motion.div 
-            style={{ transform: `translateY(${heroY}px)` }} 
-            className="absolute top-0 right-0 w-1/2 h-full"
-          >
-            <div className="absolute inset-0 opacity-75">
-              <Image 
-                src="/blog/banner.png" 
-                alt="Whisky"
-                fill
-                className="object-cover"
-                priority
-              />
+      <section>
+        {/* Hero Section Diagonal Split */}
+        <section ref={heroRef} className="relative h-screen overflow-hidden">
+          {/* Background - Diagonal Split with Parallax */}
+          <div className="absolute inset-0">
+            {/* Lado esquerdo escuro com textura */}
+            <div className="absolute top-0 left-0 w-1/2 h-full bg-black">
+              <div className="absolute inset-0 opacity-10 bg-[url('/blog/texture-dark.png')]"></div>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-black/40 to-black"></div>
-          </motion.div>
-          
-          {/* Linha diagonal divisória */}
-          <div className="absolute top-0 left-1/2 h-full w-10 bg-gradient-to-r from-amber-800 to-transparent transform -translate-x-1/2 -skew-x-12"></div>
-        </div>
         
-        {/* Conteúdo do Hero */}
-        <div className="relative z-10 h-full container mx-auto px-4 py-20 flex flex-col justify-center">
-          <div className="max-w-xl">
+            {/* Lado direito com imagem */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="mb-6"
+              style={{ transform: `translateY(${heroY}px)` }}
+              className="absolute top-0 right-0 w-1/2 h-full"
             >
-              <h1 className="text-6xl md:text-8xl font-serif font-bold mb-6 leading-tight">
-                O <span className="text-amber-500">Universo</span> <br />
-                do Whisky
-              </h1>
-              
-              <div className="flex items-center mb-8">
-                <div className="h-px w-16 bg-amber-700"></div>
-                <p className="text-amber-500 ml-3 text-xl font-medium">Thornfield Blog</p>
+              <div className="absolute inset-0 opacity-75">
+                <Image
+                  src="/blog/banner.png"
+                  alt="Whisky"
+                  fill
+                  className="object-cover"
+                  priority
+                />
               </div>
-              
-              <p className="text-lg text-gray-300 max-w-lg">
-                Narrativas, descobertas e experiências exclusivas no fascinante mundo das bebidas premium.
-              </p>
+              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-black/40 to-black"></div>
             </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-8"
-            >
-              <button 
-                onClick={() => destaquesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                className="px-8 py-3 bg-amber-600 rounded-full text-base font-medium hover:bg-amber-500 transition-colors inline-flex items-center justify-center group"
-              >
-                Explorar artigos
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
-              </button>
-              
-              <button 
-                onClick={() => timelineRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                className="px-8 py-3 bg-transparent border border-amber-700 rounded-full text-base font-medium hover:bg-amber-900/30 transition-colors inline-flex items-center justify-center"
-              >
-                História do whisky
-              </button>
-            </motion.div>
-          </div>
-          
-          {/* Decoração */}
-          <motion.div 
-            style={{ rotate: `${rotateVal}deg` }} 
-            className="absolute bottom-10 right-10 w-32 h-32 opacity-20"
-          >
-            <Image 
-              src="/texto-logo2.png"
-              alt=""
-              width={150}
-              height={150}
-            />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Destaques - Layout Melhorado */}
-      <section 
-        ref={destaquesRef} 
-        className="py-20 relative overflow-hidden bg-gradient-to-br from-gray-950 via-black to-gray-950"
-      >
-        {/* Decorações de fundo */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -left-20 w-80 h-80 bg-amber-900/10 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 -right-32 w-96 h-96 bg-amber-800/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-1/4 w-full h-px bg-gradient-to-r from-transparent via-amber-800/30 to-transparent"></div>
-        </div>
         
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
-          {/* Cabeçalho Moderno e Limpo */}
-          <div className="mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-4"
-            >
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white border-l-4 border-amber-500 pl-4">Em Destaque</h2>
-            </motion.div>
-            
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-6">
-              <p className="text-gray-400 max-w-lg">
-                Nossas seleções especiais de artigos para os entusiastas e colecionadores mais exigentes.
-              </p>
-              
-              {activeFilter !== 'Todos' && (
-                <button 
-                  onClick={() => setActiveFilter('Todos')}
-                  className="text-amber-500 hover:text-amber-400 transition-colors flex items-center self-start"
+            {/* Linha diagonal divisória */}
+            <div className="absolute top-0 left-1/2 h-[200vh] w-10 bg-gradient-to-r from-amber-800 to-transparent transform -translate-x-1/2 -skew-x-12 z-0"></div>
+          </div>
+        
+          {/* Conteúdo do Hero */}
+          <div className="relative z-10 h-full container mx-auto px-4 py-20 flex flex-col justify-center">
+            <div className="max-w-xl">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="mb-6"
+              >
+                <h1 className="text-6xl md:text-8xl font-serif font-bold mb-6 leading-tight">
+                  O <span className="text-amber-500">Universo</span> <br />
+                  do Whisky
+                </h1>
+        
+                <div className="flex items-center mb-8">
+                  <div className="h-px w-16 bg-amber-700"></div>
+                  <p className="text-amber-500 ml-3 text-xl font-medium">Thornfield Blog</p>
+                </div>
+        
+                <p className="text-lg text-gray-300 max-w-lg">
+                  Narrativas, descobertas e experiências exclusivas no fascinante mundo das bebidas premium.
+                </p>
+              </motion.div>
+        
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-8"
+              >
+                <button
+                  onClick={() => destaquesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="px-8 py-3 bg-amber-600 rounded-full text-base font-medium hover:bg-amber-500 transition-colors inline-flex items-center justify-center group"
                 >
-                  <span>Limpar filtro</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 ml-1">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  Explorar artigos
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                   </svg>
                 </button>
-              )}
-            </div>
-          </div>
-          
-          {/* Categorias Pills com design refinado */}
-          <div className="relative mb-12 ">
-            <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-black to-transparent z-10"></div>
-            <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-black to-transparent z-10"></div>
-            <div className="flex overflow-x-auto ml-2 scrollbar-hide py-2 space-x-3">
-              {categories.map((category) => (
+        
                 <button
-                  key={category}
-                  onClick={() => setActiveFilter(category)}
-                  className={`px-5 py-2 text-sm whitespace-nowrap rounded-lg transition-all duration-300 ${
-                    activeFilter === category 
-                    ? 'bg-gradient-to-r from-amber-700 to-amber-500 text-white font-medium shadow-lg shadow-amber-900/50' 
-                    : 'bg-gray-900/80 text-gray-400 border border-gray-800 hover:border-amber-800/50'
-                  }`}
+                  onClick={() => timelineRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="px-8 py-3 bg-transparent border border-amber-700 rounded-full text-base font-medium hover:bg-amber-900/30 transition-colors inline-flex items-center justify-center"
                 >
-                  {category}
+                  História do whisky
                 </button>
-              ))}
+              </motion.div>
             </div>
+        
+            {/* Decoração */}
+            <motion.div
+              style={{ rotate: `${rotateVal}deg` }}
+              className="absolute bottom-10 right-10 w-32 h-32 opacity-20"
+            >
+              <Image
+                src="/texto-logo2.png"
+                alt=""
+                width={150}
+                height={150}
+              />
+            </motion.div>
           </div>
-          
-          {/* Busca redesenhada - alinhada corretamente */}
-          <div className="relative max-w-xl mx-auto mb-12">
-            <input
-              type="text"
-              placeholder="Busque por artigos ou tópicos..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
-              className={`w-full bg-gray-900/80 backdrop-blur-sm border ${isSearchFocused ? 'border-amber-500' : 'border-gray-700'} rounded-lg py-3 px-6 pr-12 outline-none focus:shadow-lg transition-all duration-300`}
-            />
-            <div className="absolute right-4 top-3">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 ${isSearchFocused ? 'text-amber-500' : 'text-gray-600'}`}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-              </svg>
+  </section>
+
+
+
+
+        {/* Destaques - Layout Melhorado */}
+        <section
+          ref={destaquesRef}
+          className="py-20 relative overflow-hidden bg-gradient-to-br from-gray-950 via-black to-gray-950"
+        >
+          {/* Decorações de fundo */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-0 left-0 w-[320px] h-[320px] bg-amber-900/10 rounded-full blur-3xl"></div>
+            <div className="absolute top-[50%] right-[-128px] w-[384px] h-[384px] bg-amber-800/5 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-[25%] w-full h-[1px] bg-gradient-to-r from-transparent via-amber-800/30 to-transparent"></div>
+          </div>
+        
+          <div className="container mx-auto px-4 lg:px-8 relative z-10">
+            {/* Cabeçalho Moderno e Limpo */}
+            <div className="mb-16">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-4"
+              >
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white border-l-4 border-amber-500 pl-4">Em Destaque</h2>
+              </motion.div>
+        
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-6">
+                <p className="text-gray-400 max-w-lg">
+                  Nossas seleções especiais de artigos para os entusiastas e colecionadores mais exigentes.
+                </p>
+        
+                {activeFilter !== 'Todos' && (
+                  <button
+                    onClick={() => setActiveFilter('Todos')}
+                    className="text-amber-500 hover:text-amber-400 transition-colors flex items-center self-start"
+                  >
+                    <span>Limpar filtro</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 ml-1">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-          
-          {/* Layout de Destaques Melhorado - Evita sobreposição */}
-          {visiblePosts.length > 0 ? (
-            <div className="space-y-12">
-              {/* Post Principal - Maior */}
-              {visiblePosts.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7 }}
-                >
-                  <Link href={`/blog/${visiblePosts[0].id}`} className="group block">
-                    <div className="flex flex-col md:flex-row bg-gray-900/60 rounded-xl overflow-hidden border border-gray-800 hover:border-amber-700/50 transition-all duration-300 shadow-xl">
-                      <div className="relative h-60 md:h-auto md:w-1/2">
-                        <Image 
-                          src={visiblePosts[0].image} 
-                          alt={visiblePosts[0].title}
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent md:bg-gradient-to-r md:from-black/70 md:to-transparent"></div>
-                        
-                        <div className="absolute top-4 left-4">
-                          <span className="px-3 py-1 text-xs font-medium rounded-full bg-amber-600/90 text-white">
-                            {visiblePosts[0].category}
-                          </span>
+        
+            {/* Categorias Pills com design refinado */}
+            <div className="relative mb-12 ">
+              <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-black to-transparent z-10"></div>
+              <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-black to-transparent z-10"></div>
+              <div className="flex overflow-x-auto ml-2 scrollbar-hide py-2 space-x-3">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setActiveFilter(category)}
+                    className={`px-5 py-2 text-sm whitespace-nowrap rounded-lg transition-all duration-300 ${
+                      activeFilter === category
+                      ? 'bg-gradient-to-r from-amber-700 to-amber-500 text-white font-medium shadow-lg shadow-amber-900/50'
+                      : 'bg-gray-900/80 text-gray-400 border border-gray-800 hover:border-amber-800/50'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+        
+            {/* Busca redesenhada - alinhada corretamente */}
+            <div className="relative max-w-xl mx-auto mb-12">
+              <input
+                type="text"
+                placeholder="Busque por artigos ou tópicos..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
+                className={`w-full bg-gray-900/80 backdrop-blur-sm border ${isSearchFocused ? 'border-amber-500' : 'border-gray-700'} rounded-lg py-3 px-6 pr-12 outline-none focus:shadow-lg transition-all duration-300`}
+              />
+              <div className="absolute right-4 top-3">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 ${isSearchFocused ? 'text-amber-500' : 'text-gray-600'}`}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              </div>
+            </div>
+        
+            {/* Layout de Destaques Melhorado - Evita sobreposição */}
+            {visiblePosts.length > 0 ? (
+              <div className="space-y-12">
+                {/* Post Principal - Maior */}
+                {visiblePosts.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7 }}
+                  >
+                    <Link href={`/blog/${visiblePosts[0].id}`} className="group block">
+                      <div className="flex flex-col md:flex-row bg-gray-900/60 rounded-xl overflow-hidden border border-gray-800 hover:border-amber-700/50 transition-all duration-300 shadow-xl">
+                        <div className="relative h-60 md:h-auto md:w-1/2">
+                          <Image
+                            src={visiblePosts[0].image}
+                            alt={visiblePosts[0].title}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent md:bg-gradient-to-r md:from-black/70 md:to-transparent"></div>
+        
+                          <div className="absolute top-4 left-4">
+                            <span className="px-3 py-1 text-xs font-medium rounded-full bg-amber-600/90 text-white">
+                              {visiblePosts[0].category}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      
-                      <div className="p-6 md:w-1/2 flex flex-col justify-center">
-                        <div className="text-sm text-amber-500 mb-2 flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">
-                            <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
-                          </svg>
-                          <span>{visiblePosts[0].date}</span>
-                          <span className="mx-2">•</span>
-                          <span>{visiblePosts[0].readTime}</span>
-                        </div>
-                        
-                        <h3 className="text-2xl font-bold mb-3 group-hover:text-amber-400 transition-colors">
-                          {visiblePosts[0].title}
-                        </h3>
-                        
-                        <p className="text-gray-400 mb-4">
-                          {visiblePosts[0].excerpt}
-                        </p>
-                        
-                        <div className="mt-auto flex justify-between items-center">
-                          <span className="text-sm text-gray-500">Por {visiblePosts[0].author}</span>
-                          <span className="text-amber-500 group-hover:text-amber-400 transition-colors flex items-center text-sm font-medium">
-                            Ler artigo
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        
+                        <div className="p-6 md:w-1/2 flex flex-col justify-center">
+                          <div className="text-sm text-amber-500 mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">
+                              <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
                             </svg>
-                          </span>
+                            <span>{visiblePosts[0].date}</span>
+                            <span className="mx-2">•</span>
+                            <span>{visiblePosts[0].readTime}</span>
+                          </div>
+        
+                          <h3 className="text-2xl font-bold mb-3 group-hover:text-amber-400 transition-colors">
+                            {visiblePosts[0].title}
+                          </h3>
+        
+                          <p className="text-gray-400 mb-4">
+                            {visiblePosts[0].excerpt}
+                          </p>
+        
+                          <div className="mt-auto flex justify-between items-center">
+                            <span className="text-sm text-gray-500">Por {visiblePosts[0].author}</span>
+                            <span className="text-amber-500 group-hover:text-amber-400 transition-colors flex items-center text-sm font-medium">
+                              Ler artigo
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                              </svg>
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              )}
-              
-              {/* Posts Secundários - Grid de 2 colunas */}
-              {visiblePosts.length > 1 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {visiblePosts.slice(1, 3).map((post, index) => (
-                    <motion.div
-                      key={post.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.7, delay: index * 0.1 }}
-                    >
-                      <Link href={`/pages/blog/${post.id}`} className="group block h-full">
-                        <div className="bg-gray-900/60 rounded-xl overflow-hidden border border-gray-800 hover:border-amber-700/50 transition-all duration-300 h-full shadow-lg">
-                          <div className="relative h-48">
-                            <Image 
-                              src={post.image} 
-                              alt={post.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-700"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                            
-                            <div className="absolute top-3 right-3">
-                              <span className="px-2 py-1 text-xs font-medium rounded-full bg-amber-600/90 text-white">
+                    </Link>
+                  </motion.div>
+                )}
+        
+                {/* Posts Secundários - Grid de 2 colunas */}
+                {visiblePosts.length > 1 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {visiblePosts.slice(1, 3).map((post, index) => (
+                      <motion.div
+                        key={post.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: index * 0.1 }}
+                      >
+                        <Link href={`/pages/blog/${post.id}`} className="group block h-full">
+                          <div className="bg-gray-900/60 rounded-xl overflow-hidden border border-gray-800 hover:border-amber-700/50 transition-all duration-300 h-full shadow-lg">
+                            <div className="relative h-48">
+                              <Image
+                                src={post.image}
+                                alt={post.title}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+        
+                              <div className="absolute top-3 right-3">
+                                <span className="px-2 py-1 text-xs font-medium rounded-full bg-amber-600/90 text-white">
+                                  {post.category}
+                                </span>
+                              </div>
+                            </div>
+        
+                            <div className="p-5">
+                              <h3 className="text-lg font-bold mb-3 group-hover:text-amber-400 transition-colors">
+                                {post.title}
+                              </h3>
+        
+                              <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                                {post.excerpt}
+                              </p>
+        
+                              <div className="text-xs text-gray-500 flex items-center justify-between mt-auto">
+                                <span>{post.date}</span>
+                                <span>{post.readTime}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+        
+                {/* Posts terciários em grid flexível e responsivo */}
+                {visiblePosts.length > 3 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                    {visiblePosts.slice(3).map((post, index) => (
+                      <motion.div
+                        key={post.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.05 }}
+                        className="group bg-gray-900/30 rounded-lg overflow-hidden hover:bg-gray-900/50 transition-all duration-300 border border-gray-800 hover:border-amber-800/50 shadow-md"
+                      >
+                        <Link href={`/pages/blog/${post.id}`} className="block h-full">
+                          <div className="p-4 flex flex-col h-full">
+                            <div className="flex justify-between items-start mb-3">
+                              <span className="px-2 py-1 text-xs font-medium rounded-full bg-amber-700/70 text-white/90">
                                 {post.category}
                               </span>
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-500 group-hover:text-amber-500 transition-colors">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                              </svg>
                             </div>
-                          </div>
-                          
-                          <div className="p-5">
-                            <h3 className="text-lg font-bold mb-3 group-hover:text-amber-400 transition-colors">
+        
+                            <h3 className="text-base font-bold mb-2 group-hover:text-amber-400 transition-colors">
                               {post.title}
                             </h3>
-                            
-                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+        
+                            <p className="text-gray-500 text-sm mb-3 line-clamp-2">
                               {post.excerpt}
                             </p>
-                            
-                            <div className="text-xs text-gray-500 flex items-center justify-between mt-auto">
-                              <span>{post.date}</span>
-                              <span>{post.readTime}</span>
+        
+                            <div className="mt-auto text-xs text-gray-600">
+                              {post.date}
                             </div>
                           </div>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-              
-              {/* Posts terciários em grid flexível e responsivo */}
-              {visiblePosts.length > 3 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                  {visiblePosts.slice(3).map((post, index) => (
-                    <motion.div
-                      key={post.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.05 }}
-                      className="group bg-gray-900/30 rounded-lg overflow-hidden hover:bg-gray-900/50 transition-all duration-300 border border-gray-800 hover:border-amber-800/50 shadow-md"
-                    >
-                      <Link href={`/pages/blog/${post.id}`} className="block h-full">
-                        <div className="p-4 flex flex-col h-full">
-                          <div className="flex justify-between items-start mb-3">
-                            <span className="px-2 py-1 text-xs font-medium rounded-full bg-amber-700/70 text-white/90">
-                              {post.category}
-                            </span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-500 group-hover:text-amber-500 transition-colors">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                            </svg>
-                          </div>
-                          
-                          <h3 className="text-base font-bold mb-2 group-hover:text-amber-400 transition-colors">
-                            {post.title}
-                          </h3>
-                          
-                          <p className="text-gray-500 text-sm mb-3 line-clamp-2">
-                            {post.excerpt}
-                          </p>
-                          
-                          <div className="mt-auto text-xs text-gray-600">
-                            {post.date}
-                          </div>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 text-gray-700 mb-4">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-              </svg>
-              <h3 className="text-xl font-medium text-gray-400 mb-2">Nenhum artigo encontrado</h3>
-              <p className="text-gray-500 max-w-md">Nenhum artigo corresponde aos critérios de busca atuais. Tente uma busca diferente ou selecione outra categoria.</p>
-            </div>
-          )}
-          {hasMorePosts || visiblePostsCount > 7 ? (
-            <div className="flex justify-center mt-12 space-x-4">
-              {hasMorePosts && (
-                <button 
-                  onClick={loadMorePosts}
-                  className="px-8 py-3 bg-amber-700 hover:bg-amber-600 rounded-full text-white font-medium transition-colors flex items-center shadow-lg shadow-amber-900/20"
-                >
-                  <span>Ver mais artigos</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 ml-2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
-                  </svg>
-                </button>
-              )}
-              
-              {visiblePostsCount > 7 && (
-                <button 
-                  onClick={resetPostsCount}
-                  className="px-8 py-3 bg-gray-800 hover:bg-gray-700 rounded-full text-white font-medium transition-colors flex items-center shadow-lg shadow-gray-900/20"
-                >
-                  <span>Ver menos</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 ml-2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l7.5-7.5 7.5 7.5m-15 6l7.5-7.5 7.5 7.5" />
-                  </svg>
-                </button>
-              )}
-            </div>
-          ) : null}
-        </div>
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 text-gray-700 mb-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+                <h3 className="text-xl font-medium text-gray-400 mb-2">Nenhum artigo encontrado</h3>
+                <p className="text-gray-500 max-w-md">Nenhum artigo corresponde aos critérios de busca atuais. Tente uma busca diferente ou selecione outra categoria.</p>
+              </div>
+            )}
+            {hasMorePosts || visiblePostsCount > 7 ? (
+              <div className="flex justify-center mt-12 space-x-4">
+                {hasMorePosts && (
+                  <button
+                    onClick={loadMorePosts}
+                    className="px-8 py-3 bg-amber-700 hover:bg-amber-600 rounded-full text-white font-medium transition-colors flex items-center shadow-lg shadow-amber-900/20"
+                  >
+                    <span>Ver mais artigos</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 ml-2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </button>
+                )}
+        
+                {visiblePostsCount > 7 && (
+                  <button
+                    onClick={resetPostsCount}
+                    className="px-8 py-3 bg-gray-800 hover:bg-gray-700 rounded-full text-white font-medium transition-colors flex items-center shadow-lg shadow-gray-900/20"
+                  >
+                    <span>Ver menos</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 ml-2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l7.5-7.5 7.5 7.5m-15 6l7.5-7.5 7.5 7.5" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ) : null}
+          </div>
+        </section>
       </section>
 
       {/* Timeline Histórica do Whisky */}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <h2>Inscreva-se para receber nossa newsletter 🥃</h2>
+    <form onsubmit="enviarEmail(event)">
+      <input type="email" id="email" placeholder="Seu email" required />
+      <button type="submit">Enviar Newsletter</button>
+    </form>
+    <p id="mensagem"></p>
+
+    <script>
+      function enviarEmail(event) {
+        event.preventDefault();
+        const email = document.getElementById("email").value;
+        google.script.run
+          .withSuccessHandler(function(msg) {
+            document.getElementById("mensagem").innerText = msg;
+          })
+          .enviarNewsletter(email);
+      }
+    </script>
+  </body>
+</html>

@@ -8,6 +8,19 @@
     border-radius: 1rem;
     border: 1px solid rgba(245, 158, 11, 0.1);
   }
+
+.validation-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ef4444;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-radius: 0.25rem;
+  width: 100%;
+  font-size: 0.875rem;
+}
   
   .pix-initial {
     display: flex;
@@ -162,4 +175,4 @@
       opacity: 1;
       transform: translateY(0);
     }
-  } 
+  }

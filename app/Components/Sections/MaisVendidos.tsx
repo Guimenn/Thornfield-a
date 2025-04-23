@@ -115,8 +115,8 @@ export default function MaisVendidos() {
         </motion.div>
 
         {/* Carousel */}
-        <div className="relative max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="relative max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
             {/* Primeiro whisky visível */}
             <AnimatePresence mode="wait">
               <motion.div 
@@ -193,8 +193,8 @@ export default function MaisVendidos() {
 function WhiskyCard({ whisky, index, isReference }: { whisky: Whisky, index: number, isReference: boolean }) {
   return (
     <div className="group">
-      <div className="relative overflow-hidden bg-gradient-to-b from-amber-950/50 w-[40vw] to-black/70 rounded-lg border border-amber-900/20 shadow-xl transition-all duration-500 h-[400px]">
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+      <div className="relative overflow-hidden bg-gradient-to-b from-amber-950/50 to-black/70 rounded-lg border border-amber-900/20 shadow-xl transition-all duration-500 h-[400px]">
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/10 to-transparent opacity-0  transition-all duration-700"></div>
         
         <div className="grid grid-cols-1 md:grid-cols-5 h-full">
           {/* Imagem do Whisky */}
@@ -204,9 +204,8 @@ function WhiskyCard({ whisky, index, isReference }: { whisky: Whisky, index: num
                 src={whisky.image_url} 
                 alt={whisky.name} 
                 fill
-                className="object-cover w-[10vw] h-60"
+                className="object-cover w-full h-full rounded-lg shadow-lg"
               />
-              <div className="absolute -inset-1 bg-amber-500/10 blur-lg rounded-full opacity-0 group-hover:opacity-70 transition-opacity duration-700"></div>
             </div>
           </div>
           
