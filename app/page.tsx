@@ -2,19 +2,19 @@
 import { useState, useEffect } from "react";
 import AgeGate from "./Components/VerificarIdade/page";
 import Loading from "./Components/Ui/Loading/Loading";
-import Hero from "./Components/Sections/Hero";
 import HeroSection from "./Components/Sections/HeroSection";
-import ProductionProcess from "./Components/Sections/ProductionProcess";
-import Ingredients from "./Components/Sections/Ingredients";
-import Heritage from "./Components/Sections/Heritage";
-import Awards from "./Components/Sections/Awards";
-import TastingExperience from "./Components/Sections/TastingExperience";
-import FeaturedProduct from "./Components/Sections/FeaturedProduct";
-import Collection from "./Components/Sections/Collection";
 import VideoSection from "./Components/Sections/VideoSection";
-import Experience from "./Components/Sections/Experience";
+import Heritage from "./Components/Sections/Heritage";
+import Footer from "./Components/Footer/Footer";
+import BarrelAging from "./Components/Sections/BarrelAging";
 import Newsletter from "./Components/Sections/Newsletter";
 
+// Novas seções sofisticadas
+import MasterCraftsmanship from "./Components/Sections/MasterCraftsmanship";
+import ExclusiveEditions from "./Components/Sections/ExclusiveEditions";
+import AwardsShowcase from "./Components/Sections/AwardsShowcase";
+import TastingJourney from "./Components/Sections/TastingJourney";
+import MaisVendidos from "./Components/Sections/MaisVendidos";
 export default function Home() {
   const [isAgeVerified, setIsAgeVerified] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -59,16 +59,33 @@ export default function Home() {
     <div className="min-h-screen">
       {!isAgeVerified && <AgeGate />}
       {isAgeVerified && (
-        <main className="min-h-screen bg-[#0A0501] text-white">
+        <main className="min-h-screen bg-[#0A0501] text-white overflow-hidden">
+          {/* Hero Section - Apresentação impactante da marca */}
           <HeroSection />
-          <ProductionProcess />
-          <Ingredients />
+          
+          {/* Heritage - História e legado da marca */}
           <Heritage />
+
+          {/* Master Craftsmanship - O processo artesanal de produção */}
+          <MasterCraftsmanship />
+
+          {/* Barrel Aging - O processo de envelhecimento em barris */}
+          <BarrelAging />
+          
+          {/* Mais Vendidos - Produtos mais vendidos */}
+          <MaisVendidos />
+
+          {/* Video Section - Vídeo cinematográfico da destilaria */}
           <VideoSection />
-          <Awards />
-          <Experience />
-          <TastingExperience />
-        
+          
+          {/* Awards Showcase - Prêmios e reconhecimentos */}
+          <AwardsShowcase />
+          
+          {/* Newsletter - Inscrição para newsletter */}
+          <Newsletter />
+          
+          {/* Footer - Rodapé com informações e links */}
+          <Footer />
         </main>
       )}
     </div>

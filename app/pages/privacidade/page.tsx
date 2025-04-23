@@ -2,6 +2,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Lock, Database, Cookie, Eye } from 'lucide-react';
+import Footer from '../../Components/Footer/Footer';
+
 
 export default function PrivacidadePage() {
   return (
@@ -178,6 +180,7 @@ export default function PrivacidadePage() {
           </section>
         </motion.div>
       </div>
+      <Footer/>
     </div>
   );
 } 

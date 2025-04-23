@@ -9,6 +9,7 @@ declare module 'framer-motion' {
     whileHover?: any;
     className?: string;
     children?: ReactNode;
+    custom?: any;
   }
   
   export const motion: {
@@ -18,7 +19,12 @@ declare module 'framer-motion' {
     button: ForwardRefExoticComponent<MotionProps & ButtonHTMLAttributes<HTMLButtonElement> & RefAttributes<HTMLButtonElement>>;
   };
   
-  export const AnimatePresence: React.FC<{
+  export interface AnimatePresenceProps {
     children?: ReactNode;
-  }>;
+    initial?: boolean;
+    mode?: "sync" | "wait" | "popLayout";
+    custom?: any;
+  }
+  
+  export const AnimatePresence: React.FC<AnimatePresenceProps>;
 } 

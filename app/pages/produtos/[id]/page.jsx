@@ -9,6 +9,7 @@ import React from "react";
 import { ChevronLeft, Heart, Share2, ShoppingBag } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { toast } from 'react-hot-toast';
+import Footer from "../../../Components/Footer/Footer";
 
 export default function WhiskyDetalhe({ params }) {
   // Use React.use() to unwrap params if needed
@@ -242,6 +243,7 @@ export default function WhiskyDetalhe({ params }) {
           </div>
         </div>
       </section>
+      <Footer/>
     </div>
   );
 }

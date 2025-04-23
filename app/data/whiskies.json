@@ -5,6 +5,7 @@
       "name": "ULTRA RESERVE",
       "description": "Clássico e refinado, com notas profundas reveladas pelo carvalho nobre.",
       "image": "/whiskys-fundo/10.png",
+      "image_url": "/foto-menu/1.png",
       "year": 18,
       "price": 999.99,
       "tasting_notes": [
@@ -20,6 +21,7 @@
       "name": "SHADOW OAK",
       "description": "Misterioso e encorpado, um blend que carrega o legado da tradição.",
       "image": "/whiskys-fundo/11.png",
+      "image_url": "/foto-menu/2.png",
       "year": 18,
       "price": 899.99,
       "tasting_notes": [
@@ -35,6 +37,7 @@
       "name": "MIDNIGHT GOLD",
       "description": "Defumado e intenso, com brilho dourado e presença marcante.",
       "image": "/whiskys-fundo/12.png",
+      "image_url": "/foto-menu/3.png",
       "year": 15,
       "price": 629.99,
       "tasting_notes": [
@@ -50,6 +53,7 @@
       "name": "BLUE MIST",
       "description": "Suave e fresco, inspirado na bruma das montanhas escocesas.",
       "image": "/whiskys-fundo/13.png",
+      "image_url": "/foto-menu/4.png",
       "year": 14,
       "price": 539.99,
       "tasting_notes": [
@@ -65,6 +69,7 @@
       "name": "HONEY EMBER",
       "description": "Doce e especiado, com calor sutil vindo dos barris europeus",
       "image": "/whiskys-fundo/14.png",
+      "image_url": "/foto-menu/5.png",
       "year": 16,
       "price": 789.99,
       "tasting_notes": [
@@ -80,6 +85,7 @@
       "name": "CRIMSON HEARTH",
       "description": "Aveludado e vibrante, com notas que aquecem como um lar acolhedor.",
       "image": "/whiskys-fundo/15.png",
+      "image_url": "/foto-menu/6.png",
       "year": 17,
       "price": 859.99,
       "tasting_notes": [
@@ -95,6 +101,7 @@
       "name": "EMERALD WHISPER",
       "description": "Verde e herbal, com frescor elegante e alma atlântica.",
       "image": "/whiskys-fundo/16.png",
+      "image_url": "/foto-menu/7.png",
       "year": 15,
       "price": 549.99,
       "tasting_notes": [
@@ -110,6 +117,7 @@
       "name": "OBISIDIAN VEIL",
       "description": "Cru e potente, engarrafado direto do barril, sem concessões.",
       "image": "/whiskys-fundo/17.png",
+      "image_url": "/foto-menu/8.png",
       "year": 20,
       "price": 1469.99,
       "tasting_notes": [
@@ -125,6 +133,7 @@
       "name": "PHANTOM BLOOM",
       "description": "Florido e raro, um tributo delicado à história da Thornfield.",
       "image": "/whiskys-fundo/18.png",
+      "image_url": "/foto-menu/9.png",
       "year": 22,
       "price": 1899.99,
       "tasting_notes": [

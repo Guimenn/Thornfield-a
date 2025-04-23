@@ -2,6 +2,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Lock, Package, CreditCard, Truck } from 'lucide-react';
+import Footer from '../../Components/Footer/Footer';
+
 
 export default function TermosPage() {
   return (
@@ -173,6 +175,7 @@ export default function TermosPage() {
           </section>
         </motion.div>
       </div>
+      <Footer/>
     </div>
   );
 }

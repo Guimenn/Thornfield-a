@@ -31,13 +31,13 @@ export default function VideoSection() {
           className="text-center"
         >
           <h2 className="mb-6 font-serif text-5xl font-light text-amber-100 md:text-7xl">
-            Explore Our Estate
+            Nossa Tradição Ancestral
           </h2>
           <div className="mx-auto mb-8 h-px w-32 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
           <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-300">
-            Nestled in the heart of Scotland's whisky country.
+            Conheça os segredos e processos artesanais que tornam nosso whisky verdadeiramente excepcional.
           </p>
-          <Button variant="primary">Take the Tour</Button>
+          <Button variant="primary">Conheça Nossa História</Button>
         </motion.div>
       </div>
     </section>

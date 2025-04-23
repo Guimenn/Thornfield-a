@@ -44,6 +44,15 @@
       "provider": "google",
       "createdAt": "2025-04-15T17:05:16.412Z",
       "lastLogin": "2025-04-16T18:39:37.720Z"
+    },
+    {
+      "uid": "cFrX1FOzCqOjNYaYkdGBSC4AOHy1",
+      "email": "renanqsrodrigues@gmail.com",
+      "displayName": "Renan Rodrigues",
+      "photoURL": "/profile_photos/cFrX1FOzCqOjNYaYkdGBSC4AOHy1_1745187817870.jpeg",
+      "provider": "google",
+      "createdAt": "2025-04-20T22:22:11.501Z",
+      "lastLogin": "2025-04-21T04:04:35.684Z"
     }
   ]
 }

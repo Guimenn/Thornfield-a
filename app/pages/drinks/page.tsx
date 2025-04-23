@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 import { useInView } from "react-intersection-observer";
+import Footer from "../../Components/Footer/Footer";  
 
 
 // Interface para a tipagem dos drinks
@@ -503,6 +504,7 @@ export default function Drinks() {
           </Link>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

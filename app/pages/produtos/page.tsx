@@ -6,7 +6,7 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import whiskiesData from "../../data/whiskies.json";
-import { Footer } from "flowbite-react";
+import Footer from "../../Components/Footer/Footer";
 const whiskies = whiskiesData.whiskies;
 
 export default function Bebidas() {

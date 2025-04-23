@@ -4,7 +4,7 @@ import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import TimelineSection from '../timeline/TimelineSection';
 import Image from 'next/image';
-
+import Footer from '../../Components/Footer/Footer';
 export default function About() {
   const [isTimelineActive, setIsTimelineActive] = useState(false);
   const [isTimelineComplete, setIsTimelineComplete] = useState(false);
@@ -341,6 +341,8 @@ export default function About() {
           </div>
         </div>
       </section>
+      <Footer/>
+      
     </main>
   );
 } 

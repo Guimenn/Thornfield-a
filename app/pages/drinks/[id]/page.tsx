@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import drinksData from '../../../data/drinks.json';
+import Footer from '../../../Components/Footer/Footer';
+
 
 // Interface para a tipagem dos drinks
 interface Drink {
@@ -253,6 +255,7 @@ export default function DrinkDetail() {
           </Link>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

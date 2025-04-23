@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import Button from '../Ui/Button'
 
 const whiskys = [
@@ -56,8 +56,9 @@ const whiskys = [
   },
 ]
 
-export default function PopularWhisky() {
-  const [currentIndex, setCurrentIndex] = useState(0)
+export default function Collection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: false, amount: 0.2 })
 
   const handleNext = () => {
     if (currentIndex < whiskys.length - 2) {
@@ -72,130 +73,165 @@ export default function PopularWhisky() {
   }
 
   return (
-    <section className="min-h-[80vh] bg-[#0A0501] px-6 md:px-45 py-16 relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'url("/pattern.png")', backgroundSize: '200px' }}></div>
+    <section 
+      ref={sectionRef}
+      className="relative py-32 bg-gradient-to-b from-[#070401] to-[#0A0601] overflow-hidden"
+    >
+      {/* Elementos decorativos de fundo */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-amber-800/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-amber-700/5 rounded-full blur-3xl"></div>
+      </div>
       
-      {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-amber-900/5 to-transparent"></div>
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black to-transparent opacity-80"></div>
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black to-transparent opacity-80"></div>
 
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-64 h-64 bg-amber-600/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-amber-600/5 rounded-full blur-3xl"></div>
-
-      <div className="container mx-auto relative">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <div className="text-sm text-amber-500 font-medium tracking-widest mb-4">WHISKY</div>
-          <h2 className="text-6xl font-serif text-amber-100">Popular Whisky</h2>
-          <div className="h-px w-32 bg-gradient-to-r from-amber-600 to-amber-800 mt-6"></div>
-        </motion.div>
-
-        <div className="relative h-[65vh] overflow-hidden">
-          <div 
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * 50}%)` }}
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Cabeçalho da seção */}
+        <div className="max-w-3xl mx-auto text-center mb-24">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="text-amber-500 font-medium tracking-wider mb-2"
           >
-            {whiskys.map((whisky) => (
-              <motion.div 
-                key={whisky.id} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="flex h-full w-full md:w-1/2 flex-shrink-0 px-12 gap-8"
-              >
-                <div className="w-1/2 flex items-center justify-center group">
-                  <div className="relative">
+            INSPIRAÇÃO EM CADA GARRAFA
+          </motion.p>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-4xl md:text-5xl font-serif font-bold text-white mb-6"
+          >
+            Nossa Coleção de Whiskys
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-gray-400 max-w-2xl mx-auto"
+          >
+            Descubra nossa excepcional linha de whiskys premium, produzidos com os mais altos padrões de qualidade, combinando tradição e inovação.
+          </motion.p>
+        </div>
+
+        {/* Grade de produtos */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {whiskys.map((whisky, index) => (
+            <motion.div
+              key={whisky.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.3 + index * 0.1 }}
+              className="group"
+            >
+              <div className="relative mb-6 aspect-[2/3] overflow-hidden bg-gradient-to-b from-amber-900/10 to-black/40 rounded-xl backdrop-blur-sm border border-amber-900/10">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative h-full w-2/3">
                     <Image
                       src={whisky.image}
                       alt={whisky.name}
-                      width={1920}
-                      height={1080}
-                      className="h-[550px] w-auto object-cover drop-shadow-[0_10px_25px_rgba(255,186,66,0.1)] transition-transform duration-700 group-hover:scale-105"
+                      fill
+                      className="object-contain transform group-hover:scale-105 transition-transform duration-700"
+                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  </div>
+                </div>
+                
+                <div className="absolute top-4 right-4">
+                  <div className="bg-amber-900/80 backdrop-blur-sm px-3 py-1 rounded-full border border-amber-600/20 text-xs text-amber-100 font-medium">
+                    ${whisky.price}
+                  </div>
+                </div>
+                
+                {whisky.awards && (
+                  <div className="absolute bottom-0 left-0 w-full p-4">
+                    <div className="bg-black/60 backdrop-blur-sm border-t border-amber-900/30 p-3 rounded-t-lg">
+                      <div className="flex items-center gap-2">
+                        <div className="text-amber-500 text-lg">🏆</div>
+                        <p className="text-amber-100 text-xs">{whisky.awards[0]}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <h3 className="text-xl font-serif text-white mb-2">{whisky.name}</h3>
+              <p className="text-gray-400 text-sm">{whisky.description}</p>
+              
+              <div className="mt-4">
+                <button className="text-amber-500 text-sm font-medium hover:text-amber-400 transition-colors flex items-center gap-1">
+                  Ver detalhes
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        
+        {/* Seção de destaque especial */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="mt-32 relative"
+        >
+          <div className="relative overflow-hidden rounded-2xl">
+            <div className="aspect-video bg-gradient-to-r from-amber-900/30 to-black/70 overflow-hidden relative">
+              <Image
+                src="/flagship-bg.jpg"
+                alt="Master Collection Background"
+                fill
+                className="object-cover mix-blend-overlay opacity-40"
+                sizes="(max-width: 1200px) 100vw, 1200px"
+              />
+              
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
+              
+              <div className="relative z-10 h-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+                  <div className="p-6 md:p-12 flex flex-col justify-center">
+                    <div className="inline-block px-3 py-1 border border-amber-600/30 rounded-full text-amber-400 text-xs font-medium mb-6">
+                      EDIÇÃO LIMITADA
+                    </div>
                     
-                    {/* Floating label */}
-                    <div className="absolute -top-4 -right-4 bg-amber-900/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-amber-600/30">
-                      <span className="text-amber-100 font-medium">{whisky.type}</span>
+                    <h3 className="text-3xl md:text-4xl font-serif text-white mb-4">
+                      Thornfield Master Collection
+                    </h3>
+                    
+                    <p className="text-gray-300 mb-8">
+                      Nossa série mais refinada, desenvolvida pelo nosso Mestre Destilador. Criada a partir de barris cuidadosamente selecionados e envelhecidos por mais de três décadas, cada garrafa é numerada e assinada à mão.
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <button className="px-6 py-3 bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-600 hover:to-amber-500 text-amber-50 font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-amber-900/20">
+                        Reservar Agora
+                      </button>
+                      <button className="px-6 py-3 bg-transparent border border-amber-700/30 text-amber-500 font-medium rounded-lg hover:bg-amber-900/10 transition-all duration-300">
+                        Saiba Mais
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="hidden md:flex items-center justify-center p-12">
+                    <div className="relative h-full max-h-96 w-full max-w-xs">
+                      <Image
+                        src="/products/master-collection.png"
+                        alt="Thornfield Master Collection"
+                        fill
+                        className="object-contain drop-shadow-2xl"
+                      />
                     </div>
                   </div>
                 </div>
-                <div className="w-1/2 flex flex-col justify-center">
-                  <div>
-                    <h3 className="text-3xl font-serif text-amber-100 mb-4">{whisky.name}</h3>
-                    <p className="text-gray-400 my-6 text-base max-w-md">{whisky.description}</p>
-                    
-                    {/* Tasting Notes */}
-                    <div className="mb-6">
-                      <h4 className="text-amber-500 text-sm font-medium mb-3">Tasting Notes</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {whisky.tastingNotes.map((note, index) => (
-                          <span key={index} className="px-3 py-1 rounded-full bg-amber-900/30 border border-amber-600/20 text-amber-100 text-sm">
-                            {note}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Awards */}
-                    <div className="mb-6">
-                      <h4 className="text-amber-500 text-sm font-medium mb-3">Awards</h4>
-                      <div className="space-y-2">
-                        {whisky.awards.map((award, index) => (
-                          <div key={index} className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                            <span className="text-gray-400 text-sm">{award}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 mb-6">
-                      <span className="text-2xl font-serif text-amber-100">${whisky.price}</span>
-                      {whisky.oldPrice && (
-                        <span className="text-lg text-gray-500 line-through">${whisky.oldPrice}</span>
-                      )}
-                    </div>
-                    <Button variant="primary" className="w-fit group">
-                      <span className="relative z-10">Add to Cart</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-amber-600 to-amber-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="flex justify-center gap-4 mt-8">
-          <button
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-            className="p-2 rounded-full border border-amber-600/30 hover:border-amber-400/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <svg className="w-6 h-6 text-amber-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={currentIndex === whiskys.length - 2}
-            className="p-2 rounded-full border border-amber-600/30 hover:border-amber-400/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <svg className="w-6 h-6 text-amber-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

@@ -1,125 +1,104 @@
 "use client";
-import { motion } from "framer-motion";
-import Image from "next/image";
-
-const heritageTimeline = [
-  {
-    year: "1823",
-    title: "The Beginning",
-    description: "Our distillery was founded in the Scottish Highlands, where the pure water and fertile land provided the perfect conditions for whisky production.",
-    image: "/heritage/founding.jpg",
-    icon: "🏰"
-  },
-  {
-    year: "1890",
-    title: "Expansion",
-    description: "The distillery expanded its operations, introducing new copper pot stills and increasing production capacity while maintaining traditional methods.",
-    image: "/heritage/expansion.jpg",
-    icon: "⚗️"
-  },
-  {
-    year: "1950",
-    title: "Modernization",
-    description: "While embracing modern technology, we preserved our traditional craftsmanship, ensuring the quality and character of our whisky remained unchanged.",
-    image: "/heritage/modernization.jpg",
-    icon: "🏭"
-  },
-  {
-    year: "2000",
-    title: "Global Recognition",
-    description: "Our whiskies gained international acclaim, winning numerous awards and establishing our reputation as a premium single malt producer.",
-    image: "/heritage/recognition.jpg",
-    icon: "🏆"
-  }
-];
+import { useRef } from 'react';
+import Image from 'next/image';
+import { motion, useInView } from 'framer-motion';
 
 export default function Heritage() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+
   return (
-    <section className="bg-[#0A0501] py-32 relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'url("/pattern.png")', backgroundSize: '200px' }}></div>
+    <section ref={ref} className="relative py-24 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[#0b0906] z-0"></div>
       
-      {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-amber-900/5 to-transparent"></div>
-
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-64 h-64 bg-amber-600/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-amber-600/5 rounded-full blur-3xl"></div>
-
-      <div className="container mx-auto px-4 relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
-          <h3 className="mb-4 text-lg uppercase tracking-widest bg-gradient-to-br from-amber-600 to-amber-800 bg-clip-text text-transparent">
-            Our Legacy
-          </h3>
-          <h2 className="font-serif text-5xl font-light text-amber-100 md:text-6xl mb-4">
-            A Rich Heritage
-          </h2>
-          <div className="w-24 h-[1px] bg-amber-700/50 mx-auto"></div>
-        </motion.div>
-
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-[1px] bg-amber-600/20"></div>
-
-          <div className="space-y-32">
-            {heritageTimeline.map((event, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className={`flex flex-col md:flex-row items-center gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
-              >
-                <div className="w-full md:w-1/2">
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden group">
-                    {/* Imagem de teste temporária */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-900 to-amber-700 flex items-center justify-center">
-                      <span className="text-amber-100 text-2xl font-serif">{event.title}</span>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    {/* Year badge */}
-                    <div className="absolute top-4 left-4 bg-amber-900/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-amber-600/30">
-                      <span className="text-amber-100 font-medium">{event.year}</span>
-                    </div>
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black to-transparent z-0"></div>
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black to-transparent z-0"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7 }}
+              className="relative"
+            >
+              <div className="border-l-2 border-amber-700 pl-6">
+                <span className="inline-block text-amber-500 font-medium tracking-wider text-sm mb-4">NOSSA HERANÇA</span>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">Uma Legacy de <br/> Excelência e <br/> Tradição Escocesa</h2>
+                <p className="text-gray-400 max-w-lg">
+                  Nas Highlands escocesas, entre vales nevoentos e rios cristalinos, nasceu em 1832 a destilaria Thornfield. 
+                  Fundada por William Thornfield, ex-marinheiro e entusiasta das artes da destilação, nossa marca preserva 
+                  até hoje os segredos e o conhecimento passados através de cinco gerações.
+                </p>
+              </div>
+              
+              <div className="mt-12 space-y-8">
+                <div className="flex items-center gap-4">
+                  <div className="h-px w-12 bg-amber-700/60"></div>
+                  <span className="text-white font-serif text-lg">Fundada em 2018</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="h-px w-12 bg-amber-700/60"></div>
+                  <span className="text-white font-serif text-lg">Nova geração de destiladores</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="h-px w-12 bg-amber-700/60"></div>
+                  <span className="text-white font-serif text-lg">Mais de 20 prêmios internacionais</span>
+                </div>
+              </div>
+              
+              <div className="mt-12">
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="px-8 py-3 bg-amber-700 hover:bg-amber-600 text-white rounded-md transition-colors font-medium flex items-center gap-2"
+                >
+                  Nossa História
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </motion.button>
+              </div>
+            </motion.div>
+          </div>
+          
+          <div className="relative">
+            <div className="absolute -top-10 -left-10 w-40 h-40 border-t-2 border-l-2 border-amber-900/30"></div>
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 border-b-2 border-r-2 border-amber-900/30"></div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.7 }}
+              className="relative z-10"
+            >
+              <div className="relative h-[700px] w-full rounded-lg overflow-hidden">
+                <Image
+                  src="/fotos-menu/1.png"
+                  alt="Thornfield Distillery"
+                  fill
+                  className="object-cover rounded-lg"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30"></div>
+                
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <div className="bg-black/60 backdrop-blur-md rounded-lg p-6 border border-amber-900/20">
+                    <h3 className="text-white font-serif text-xl mb-3">Destilaria Thornfield</h3>
+                    <p className="text-gray-300 text-sm">
+                      Situada nas montanhas das Highlands, nossa destilaria combina a arquitetura tradicional escocesa 
+                      com tecnologia moderna, sempre respeitando os processos artesanais que definem nossos produtos.
+                    </p>
                   </div>
                 </div>
-
-                <div className="w-full md:w-1/2">
-                  <div className="relative">
-                    {/* Timeline dot */}
-                    <div className="absolute left-1/2 md:left-0 top-1/2 transform -translate-x-1/2 md:-translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-amber-600 border-2 border-amber-900"></div>
-                    
-                    <div className="text-center md:text-left pl-8 md:pl-12">
-                      <div className="text-4xl mb-4">{event.icon}</div>
-                      <h4 className="text-2xl font-serif text-amber-100 mb-2">{event.title}</h4>
-                      <p className="text-gray-300">{event.description}</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+              </div>
+            </motion.div>
           </div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center"
-        >
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            For over two centuries, we have been crafting exceptional single malt whisky, preserving traditional methods while embracing innovation. Our heritage is the foundation of our commitment to quality and excellence.
-          </p>
-        </motion.div>
+        
       </div>
     </section>
   );
