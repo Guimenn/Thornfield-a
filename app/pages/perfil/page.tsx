@@ -389,6 +389,25 @@ export default function PerfilPage() {
             localStorage.setItem('user', JSON.stringify(updatedUser));
             setUser(updatedUser);
             setImageKey(Date.now());
+            
+            // ADICIONADO: Atualizar o arquivo JSON de usuários
+            try {
+                await fetch('/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        uid: userId,
+                        photoURL: fullPhotoURL
+                    }),
+                });
+                console.log('Dados do usuário atualizados no servidor');
+            } catch (serverError) {
+                console.error('Erro ao atualizar dados no servidor:', serverError);
+                // Continua mesmo se falhar a atualização no servidor
+            }
+            
             setUploadProgress(100);
             
             // Verificar se a atualização foi bem-sucedida
