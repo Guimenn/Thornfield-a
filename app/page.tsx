@@ -7,7 +7,6 @@ import VideoSection from "./Components/Sections/VideoSection";
 import Heritage from "./Components/Sections/Heritage";
 import Footer from "./Components/Footer/Footer";
 import BarrelAging from "./Components/Sections/BarrelAging";
-import Newsletter from "./Components/Sections/Newsletter";
 
 // Novas seções sofisticadas
 import MasterCraftsmanship from "./Components/Sections/MasterCraftsmanship";
@@ -80,9 +79,6 @@ export default function Home() {
           
           {/* Awards Showcase - Prêmios e reconhecimentos */}
           <AwardsShowcase />
-          
-          {/* Newsletter - Inscrição para newsletter */}
-          <Newsletter />
           
           {/* Footer - Rodapé com informações e links */}
           <Footer />
