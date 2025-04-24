@@ -95,6 +95,21 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('menu-open');
+      document.documentElement.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+      document.documentElement.classList.remove('menu-open');
+    }
+    
+    return () => {
+      document.body.classList.remove('menu-open');
+      document.documentElement.classList.remove('menu-open');
+    };
+  }, [isOpen]);
+
   const handleOpenMenu = () => {
     setIsOpen(true);
     // Atualiza o índice da imagem para a próxima do array
@@ -137,6 +152,7 @@ export default function Navbar() {
     { name: "COLEÇÃO", href: "/pages/produtos" },
     { name: "DRINKS", href: "/pages/drinks" },
     { name: "ASSINATURA", href: "/pages/pricing" },
+    { name: "Blog", href: "/pages/blog"}
   ];
 
   const imagensMenu = [
@@ -194,12 +210,17 @@ export default function Navbar() {
                 : "translate-y-0 opacity-100"
             }`}
           >
-            <a
+            <div
               className="translate-y-[20px] transform transition-transform duration-300 hover:scale-105"
-              href="/"
             >
-              <img src="/cabra.png" alt="Logo Thornfield" className="w-40" />
-            </a>
+              <a href="/">
+                <img 
+                  src="/cabra.png" 
+                  alt="Logo Thornfield" 
+                  className="w-40" 
+                />
+              </a>
+            </div>
           </div>
 
           {/* Direita - Ícones */}
@@ -287,7 +308,7 @@ export default function Navbar() {
 
               {/* Menu do Usuário - Desktop (hover) / Mobile (click) */}
               <div
-                className={`absolute top-full right-[-50px] z-50 mt-2 w-[130px] rounded-lg border border-white/10 bg-gradient-to-b from-black/95 to-black/90 shadow-lg shadow-black/50 backdrop-blur-sm transition-all duration-300 
+                className={`absolute top-full right-[-50px] z-50 mt-2 w-[130px] rounded-lg border border-white/10 bg-gradient-to-b from-black/95 to-black/90 shadow-lg shadow-black/50 backdrop-blur-sm transition-all duration-300 user-menu-dropdown
                 md:invisible md:translate-y-2 md:transform md:opacity-0 md:group-hover:visible md:group-hover:translate-y-0 md:group-hover:opacity-100
                 ${isUserMenuOpen ? "visible translate-y-0 opacity-100" : "invisible translate-y-2 opacity-0 md:invisible md:translate-y-2 md:opacity-0"}`}
               >
@@ -407,27 +428,27 @@ export default function Navbar() {
 
         {/* Grid de duas colunas */}
         <div
-          className={`grid h-full grid-cols-1 md:grid-cols-[65%_35%] ${
+          className={`grid h-full grid-cols-1 md:grid-cols-[65%_35%] menu-fullscreen ${
             isOpen ? "menu-wave" : "opacity-0"
           }`}
         >
           {/* Coluna do Menu */}
-          <div className="relative flex flex-col bg-[#111111] p-4 md:p-16">
+          <div className="relative flex flex-col bg-[#111111] p-4 md:p-8 lg:p-16 overflow-hidden">
             {/* Botão Fechar */}
             <button
               onClick={handleCloseMenu}
-              className="absolute top-8 left-8 p-2 text-white/70 transition-colors duration-300 hover:text-white"
+              className="absolute top-6 left-6 p-2 text-white/70 transition-colors duration-300 hover:text-white menu-close-button z-10"
               aria-label="Fechar Menu"
             >
               <svg width="32" height="32" viewBox="0 0 32 32"><g fill="currentColor"><path d="m14.585 16-4.95 4.95 1.415 1.414L22.364 11.05l-1.415-1.414-4.95 4.95-4.949-4.95-1.414 1.414 4.95 4.95ZM20.95 22.364l-3.536-3.536 1.414-1.414 3.536 3.536-1.415 1.414Z"></path></g></svg>
             </button>
 
-            <div className="h-full md:grid md:grid-cols-[1fr_250px]">
+            <div className="h-full md:grid md:grid-cols-[1fr_auto] md:gap-4">
               {/* Coluna do Menu */}
-              <div className="md:pt-[200px] md:pl-[100px]">
+              <div className="pt-14 md:pt-[90px] lg:pt-[120px] md:pl-8 lg:pl-[80px] menu-content-inner">
                 {/* Links do Menu */}
                 <nav className="flex-1" aria-label="Menu de Navegação">
-                  <ul className="space-y-8">
+                  <ul className="space-y-3 md:space-y-4 lg:space-y-6">
                     {menuItems.map((item) => (
                       <li
                         key={item.name}
@@ -436,7 +457,7 @@ export default function Navbar() {
                         <a
                           href={item.href}
                           onClick={handleCloseMenu}
-                          className="group menu-link text-xl font-light tracking-[0.15em] text-white/90 uppercase transition-colors duration-500 md:text-2xl"
+                          className="group menu-link text-lg md:text-xl lg:text-2xl font-light tracking-[0.15em] text-white/90 uppercase transition-colors duration-500"
                         >
                           {item.name}
                         </a>
@@ -446,11 +467,11 @@ export default function Navbar() {
                 </nav>
 
                 {/* Footer do Menu */}
-                <div className="menu-content mt-auto border-t border-white/10 pt-8 text-center md:text-left">
-                  <div className="mb-8 flex justify-center space-x-6 md:justify-start">
+                <div className="menu-content mt-auto border-t border-white/10 pt-3 md:pt-6 text-center md:text-left menu-footer">
+                  <div className="mb-3 md:mb-6 flex justify-center space-x-4 md:space-x-6 md:justify-start">
                     <a href="#" className="social-icon" aria-label="Facebook">
                       <svg
-                        className="h-5 w-5 text-white/60 transition-colors duration-300 hover:text-amber-600"
+                        className="h-4 w-4 md:h-5 md:w-5 text-white/60 transition-colors duration-300 hover:text-amber-600"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -459,7 +480,7 @@ export default function Navbar() {
                     </a>
                     <a href="#" className="social-icon" aria-label="Instagram">
                       <svg
-                        className="h-5 w-5 text-white/60 transition-colors duration-300 hover:text-amber-600"
+                        className="h-4 w-4 md:h-5 md:w-5 text-white/60 transition-colors duration-300 hover:text-amber-600"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -467,21 +488,21 @@ export default function Navbar() {
                       </svg>
                     </a>
                   </div>
-                  <p className="text-sm tracking-wider text-gray-500 uppercase">
+                  <p className="text-xs md:text-sm tracking-wider text-gray-500 uppercase">
                     © {new Date().getFullYear()} Thornfield Whisky
                   </p>
                 </div>
               </div>
 
               {/* Coluna da Logo */}
-              <div className="mb-16 md:mb-0">
+              <div className="hidden md:block mb-16 md:mb-0 menu-logo-column">
                 <div className="flex justify-center md:justify-end">
                   <img
                     src="/cabra.png"
                     alt="Thornfield"
                     width={192}
                     height={192}
-                    className="w-32 md:w-48"
+                    className="w-24 md:w-32 lg:w-48"
                   />
                 </div>
               </div>
@@ -502,7 +523,7 @@ export default function Navbar() {
 
       {/* Off-canvas do Carrinho */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-[400px] transform bg-[#1a1a1a] transition-transform duration-500 ${
+        className={`fixed top-0 right-0 z-50 h-full w-[400px] transform bg-[#1a1a1a] transition-transform duration-500 cart-side-panel ${
           isCartOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

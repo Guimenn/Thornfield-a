@@ -8,17 +8,76 @@ import PixPayment from '../../Components/Payment/PixPayment/PixPayment';
 import '../payment/payment.css';
 import './payment-pricing.css';
 
+// Importando os planos da página de pricing
+const plans = [
+  {
+    name: "STANDARD",
+    description: "Uma introdução ao mundo refinado da Thornfield, para apreciadores iniciantes.",
+    monthlyPrice: 29.90,
+    annualPrice: 299.90,
+    benefits: [
+      "Acesso ao catálogo completo",
+      "Newsletter mensal exclusiva",
+      "Participação em 2 eventos anuais",
+      "Desconto de 5% em compras na loja",
+      "1 degustação guiada por ano"
+    ],
+    cta: "Assinar Agora",
+    color: "amber",
+    gradient: "from-amber-950/20 to-black/40",
+    icon: "/icons-produtos/barril.svg"
+  },
+  {
+    name: "GOLD",
+    description: "Nossa experiência curada para os verdadeiros aficionados de whisky single malt.",
+    monthlyPrice: 59.90,
+    annualPrice: 599.90,
+    benefits: [
+      "Todos os benefícios do Standard",
+      "Acesso a lançamentos exclusivos",
+      "Participação em 6 eventos anuais",
+      "Desconto de 10% em compras na loja",
+      "4 degustações guiadas por ano",
+      "Visita anual à destilaria com acompanhante"
+    ],
+    cta: "Assinar Agora",
+    color: "amber",
+    gradient: "from-amber-900/20 via-amber-800/10 to-black/40",
+    icon: "/icons-whisky/gold-bar-svgrepo-com.svg"
+  },
+  {
+    name: "MASTER RESERVE",
+    description: "A experiência definitiva Thornfield, para colecionadores e connoisseurs.",
+    monthlyPrice: 129.90,
+    annualPrice: 1299.90,
+    benefits: [
+      "Todos os benefícios do Gold",
+      "Acesso a edições limitadas raríssimas",
+      "Participação ilimitada em eventos",
+      "Desconto de 15% em compras na loja",
+      "Degustações privativas mensais",
+      "Concierge dedicado para aquisições",
+      "2 garrafas exclusivas anualmente"
+    ],
+    cta: "Assinar Agora",
+    color: "amber",
+    gradient: "from-amber-950/30 via-amber-900/10 to-black/60",
+    icon: "/icons-whisky/coffee-grain-coffee-svgrepo-com.svg"
+  }
+];
+
 const PaymentPricing = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState('credit');
+  const [paymentMethod, setPaymentMethod] = useState<'credit' | 'debit' | 'pix'>('credit');
   const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [planDetails, setPlanDetails] = useState({
     plan: '',
     billing: '',
     price: ''
   });
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
@@ -42,9 +101,14 @@ const PaymentPricing = () => {
     // Verifica se o usuário está logado
     const user = localStorage.getItem('user');
     if (!user) {
-      localStorage.setItem('returnUrl', window.location.pathname + window.location.search);
+      // Salva a URL atual completa para redirecionamento após login
+      const currentUrl = window.location.pathname + window.location.search;
+      console.log('Usuário não logado na página de pagamento, salvando URL:', currentUrl);
+      localStorage.setItem('returnUrl', currentUrl);
       router.push('/pages/Login');
       return;
+    } else {
+      console.log('Usuário logado na página de pagamento');
     }
 
     // Recupera os parâmetros da URL
@@ -55,6 +119,7 @@ const PaymentPricing = () => {
       const price = params.get('price');
 
       if (!plan) {
+        console.log('Nenhum plano selecionado, redirecionando para a página de preços');
         // Se não houver plano selecionado, redireciona para a página de preços
         router.push('/pages/pricing');
         return;
@@ -65,6 +130,14 @@ const PaymentPricing = () => {
         billing: billing || '',
         price: price || ''
       });
+      
+      // Encontrar o plano correspondente no array de planos
+      const foundPlan = plans.find(p => p.name === plan);
+      if (foundPlan) {
+        setSelectedPlan(foundPlan);
+      }
+      
+      console.log('Detalhes do plano carregados:', { plan, billing, price });
     }
   }, [router]);
 
@@ -220,7 +293,7 @@ const PaymentPricing = () => {
     return false;
   };
 
-  const handlePaymentMethodChange = (method) => {
+  const handlePaymentMethodChange = (method: 'credit' | 'debit' | 'pix') => {
     setPaymentMethod(method);
   };
 
@@ -345,35 +418,10 @@ const PaymentPricing = () => {
     }
   };
 
+  // Usar os benefícios do plano selecionado do array de planos
   const getPlanBenefits = (planName) => {
-    const plans = {
-      'STANDARD': [
-        "Acesso ao catálogo completo",
-        "Newsletter mensal exclusiva",
-        "Participação em 2 eventos  anuais",
-        "Desconto de 5% em compras na loja",
-        "1 degustação guiada por ano"
-      ],
-      'GOLD': [
-        "Todos os benefícios do Standard",
-        "Acesso a lançamentos exclusivos",
-        "Participação em 6 eventos anuais",
-        "Desconto de 10% em compras na loja",
-        "4 degustações guiadas por ano",
-        "Visita anual à destilaria com acompanhante"
-      ],
-      'MASTER RESERVE': [
-        "Todos os benefícios do Gold",
-        "Acesso a edições limitadas raríssimas",
-        "Participação ilimitada em eventos",
-        "Desconto de 15% em compras na loja",
-        "Degustações privativas mensais",
-        "Concierge dedicado para aquisições",
-        "2 garrafas exclusivas anualmente"
-      ]
-    };
-
-    return plans[planName] || [];
+    const foundPlan = plans.find(p => p.name === planName);
+    return foundPlan ? foundPlan.benefits : [];
   };
 
   if (paymentSuccess) {
@@ -405,7 +453,7 @@ const PaymentPricing = () => {
 
           <div className="order-items">
             <div className="order-item">
-              <img src="/icons-produtos/barril.svg" alt={planDetails.plan} className="item-image" />
+              <img src={selectedPlan?.icon || "/icons-produtos/barril.svg"} alt={planDetails.plan} className="item-image" />
               <div className="item-details">
                 <h3>Plano {planDetails.plan}</h3>
                 <p>Período: {planDetails.billing === 'monthly' ? 'Mensal' : 'Anual'}</p>
@@ -526,7 +574,7 @@ const PaymentPricing = () => {
                 expiry={formData.expiry}
                 cvv={formData.cvv}
                 isFlipped={isCardFlipped}
-                paymentType={paymentMethod}
+                paymentType={paymentMethod === 'credit' ? 'credit' : paymentMethod === 'debit' ? 'debit' : undefined}
               />
 
               <div className="form-group">

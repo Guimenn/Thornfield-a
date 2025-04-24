@@ -29,7 +29,7 @@ export default function Pricing() {
   }, []);
 
   // Function to handle navigation to payment page
-  const goToPayment = (plan, billing, price) => {
+  const handlePaymentNavigation = (plan, billing, price) => {
     const baseUrl = window.location.origin;
     const params = new URLSearchParams();
     params.append('plan', plan);
@@ -37,10 +37,23 @@ export default function Pricing() {
     params.append('price', price);
     params.append('type', 'subscription');
     
-    // Try different URL patterns based on the project structure
-    const paymentUrl = `${baseUrl}/pages/payment?${params.toString()}`;
-    console.log('Navigating to:', paymentUrl);
-    window.location.href = paymentUrl;
+    // Construindo a URL de pagamento
+    const paymentUrl = `${baseUrl}/pages/payment-pricing?${params.toString()}`;
+    console.log('URL de pagamento construída:', paymentUrl);
+    
+    // Verificar se o usuário está logado
+    const user = localStorage.getItem('user');
+    if (!user) {
+      // Se não estiver logado, salvar a URL para redirecionamento após login
+      console.log('Usuário não logado, salvando URL de retorno:', paymentUrl);
+      localStorage.setItem('returnUrl', paymentUrl);
+      // Redirecionar para a página de login
+      window.location.href = '/pages/Login';
+    } else {
+      // Se estiver logado, redirecionar diretamente para a página de pagamento
+      console.log('Usuário logado, redirecionando para:', paymentUrl);
+      window.location.href = paymentUrl;
+    }
   };
 
   const plans = [
@@ -303,7 +316,7 @@ export default function Pricing() {
                     <button 
                       onClick={() => {
                         const price = billingPeriod === "monthly" ? plan.monthlyPrice.toFixed(2) : plan.annualPrice.toFixed(2);
-                        window.location.href = `/pages/payment-pricing?plan=${encodeURIComponent(plan.name)}&billing=${billingPeriod}&price=${encodeURIComponent(price)}`;
+                        handlePaymentNavigation(plan.name, billingPeriod, price);
                       }}
                       className="w-full py-3 px-4 rounded border border-amber-700/30 bg-black/50 text-amber-400 hover:bg-amber-900/20 transition-all duration-300 shadow-lg group-hover:border-amber-600 text-sm tracking-widest uppercase"
                     >
@@ -516,7 +529,7 @@ export default function Pricing() {
               <button className="px-8 py-3 bg-amber-900/80 text-amber-100 rounded hover:bg-amber-800/50 border border-amber-700/30 shadow-lg"
                 onClick={() => {
                   const price = billingPeriod === "monthly" ? plans[0].monthlyPrice.toFixed(2) : plans[0].annualPrice.toFixed(2);
-                  window.location.href = `/pages/payment-pricing?plan=${encodeURIComponent(plans[0].name)}&billing=${billingPeriod}&price=${encodeURIComponent(price)}`;
+                  handlePaymentNavigation(plans[0].name, billingPeriod, price);
                 }}
               >
                 Assinar Agora

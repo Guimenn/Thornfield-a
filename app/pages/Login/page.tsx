@@ -32,11 +32,14 @@ export default function LoginForm() {
 
   // Verificar se há uma URL de retorno
   useEffect(() => {
-    // Verifica se o usuário veio do carrinho
+    // Verifica se o usuário veio do carrinho ou de outra página
     const returnUrl = localStorage.getItem('returnUrl');
+    // Se não houver URL de retorno, salva a página atual como referência
     if (!returnUrl) {
-      // Se não houver URL de retorno, salva a página atual
       localStorage.setItem('returnUrl', window.location.href);
+      console.log('URL de retorno salva:', window.location.href);
+    } else {
+      console.log('URL de retorno existente:', returnUrl);
     }
   }, []);
 
@@ -45,6 +48,7 @@ export default function LoginForm() {
     const user = localStorage.getItem('user');
     if (user) {
       const returnUrl = localStorage.getItem('returnUrl') || '/';
+      console.log('Usuário já logado, redirecionando para:', returnUrl);
       localStorage.removeItem('returnUrl');
       router.push(returnUrl);
     }
@@ -55,13 +59,14 @@ export default function LoginForm() {
     const authChangeEvent = new CustomEvent('authChange');
     window.dispatchEvent(authChangeEvent);
     
+    // Verificar URL de retorno e redirecionar de volta para a página de origem
     const returnUrl = localStorage.getItem('returnUrl');
-    if (returnUrl && returnUrl.includes('/pages/checkout')) {
-      // Se veio do carrinho, volta para lá
+    if (returnUrl) {
+      console.log('Redirecionando para:', returnUrl);
       localStorage.removeItem('returnUrl'); // Limpa a URL de retorno
-      router.push('/pages/produtos');
+      router.push(returnUrl);
     } else {
-      // Caso contrário, vai para a página inicial
+      // Se não houver URL de retorno, vai para a página inicial
       router.push('/');
     }
   };
