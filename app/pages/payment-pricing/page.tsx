@@ -437,6 +437,8 @@ const PaymentPricing = () => {
     );
   }
 
+
+
   return (
     <div className="payment-container">
       <div className="payment-content mt-[100px]">
@@ -557,7 +559,7 @@ const PaymentPricing = () => {
               {formErrors.cpf && <span className="error-message">{formErrors.cpf}</span>}
             </div>
           </div>
-          
+
           {paymentMethod === 'pix' ? (
             <PixPayment 
               value={parseFloat(planDetails.price || '0')} 
