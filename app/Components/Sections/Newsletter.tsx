@@ -23,8 +23,6 @@ const INTERESTS: Interest[] = [
   "Harmonização"
 ];
 
-
-
 // Componente principal
 export default function Newsletter() {
   // Estados
@@ -113,143 +111,91 @@ export default function Newsletter() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validar formulário
     if (!validateForm()) return;
 
     setIsSubmitting(true);
 
     try {
-      // Verificar se o email já está cadastrado
-      const newsletterRef = collection(db, "newsletter_subscriptions");
-      const q = query(newsletterRef, where("email", "==", email));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        showFeedback("error", `Este email ${email} já está inscrito em nossa newsletter.`);
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Adicionar inscrição ao Firestore
-      await addDoc(collection(db, "newsletter_subscriptions"), {
-        name,
-        email,
-        interests,
-        createdAt: new Date(),
-        lastEmailSent: null,
-        status: "active"
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, interests }),
       });
-
-      // Enviar email para a API do Google Script
-      try {
-        console.log("Enviando dados para API:", {
-          email,
-          name,
-          interests: interests.map(i => i === "Single Malt" ? "Whisky" : i) // Mapeia "Single Malt" para "Whisky" se necessário
-        });
-
-        const response = await fetch(`${window.location.origin}/api/newsletter`, {
-          method: 'POST',
-          // Resto do código...
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email,
-            name,
-            interests: interests.map(i => i === "Single Malt" ? "Whisky" : i) // Mapeia "Single Malt" para "Whisky" se necessário
-          }),
-        });
-
-        const responseData = await response.json();
-      console.log("Resposta da API:", responseData);
-
+      const result = await response.json();
       if (!response.ok) {
-        console.error('Erro ao enviar email para Google Script:', responseData);
-        showFeedback("error", "Não foi possível enviar a confirmação para seu email. Mas sua inscrição foi registrada com sucesso!");
-        setIsSubmitting(false);
-        return;
+        showFeedback('error', result.message || 'Erro ao enviar dados');
+      } else {
+        showFeedback('success', result.message);
+        setName('');
+        setEmail('');
+        setInterests([]);
+        setTermsAccepted(false);
       }
-
-      // Feedback de sucesso
-      showFeedback("success", "Inscrição realizada com sucesso! Enviamos um email de confirmação para " + email + ". Por favor, verifique também sua pasta de spam.");
-
-      // Limpar formulário após sucesso
-      setName("");
-      setEmail("");
-      setInterests([]);
-      setTermsAccepted(false);
-
     } catch (error) {
-      console.error('Erro na API:', error);
-      showFeedback("error", "Não foi possível enviar a confirmação para seu email. Mas sua inscrição foi registrada com sucesso!");
+      console.error('Erro ao enviar requisição:', error);
+      showFeedback('error', 'Erro ao enviar solicitação. Por favor, tente novamente.');
+    } finally {
       setIsSubmitting(false);
     }
+  };
 
-  } catch (error) {
-    console.error("Erro ao cadastrar:", error);
-    showFeedback("error", "Ocorreu um erro ao processar sua inscrição. Por favor, tente novamente.");
-    setIsSubmitting(false);
-  }
-};
+  return (
+    <div className="bg-[#0A0501] py-28 relative overflow-hidden">
+      <section className="py-16 relative overflow-hidden">
+        {/* Elementos decorativos de fundo */}
+        <BackgroundElements />
 
-return (
-  <div className="bg-[#0A0501] py-28 relative overflow-hidden">
-    <section className="py-16 relative overflow-hidden">
-      {/* Elementos decorativos de fundo */}
-      <BackgroundElements />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+              {/* Coluna de texto */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="md:col-span-1"
+              >
+                <NewsletterInfo />
+              </motion.div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-            {/* Coluna de texto */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="md:col-span-1"
-            >
-              <NewsletterInfo />
-            </motion.div>
-
-            {/* Coluna do formulário */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="md:col-span-2"
-            >
-              {isSubscribed ? (
-                <SubscriptionConfirmed email={email} />
-              ) : (
-                <SubscriptionForm
-                  name={name}
-                  setName={setName}
-                  email={email}
-                  setEmail={setEmail}
-                  interests={interests}
-                  handleInterestChange={handleInterestChange}
-                  termsAccepted={termsAccepted}
-                  setTermsAccepted={setTermsAccepted}
-                  handleSubmit={handleSubmit}
-                  isSubmitting={isSubmitting}
-                />
-              )}
-            </motion.div>
+              {/* Coluna do formulário */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="md:col-span-2"
+              >
+                {isSubscribed ? (
+                  <SubscriptionConfirmed email={email} />
+                ) : (
+                  <SubscriptionForm
+                    name={name}
+                    setName={setName}
+                    email={email}
+                    setEmail={setEmail}
+                    interests={interests}
+                    handleInterestChange={handleInterestChange}
+                    termsAccepted={termsAccepted}
+                    setTermsAccepted={setTermsAccepted}
+                    handleSubmit={handleSubmit}
+                    isSubmitting={isSubmitting}
+                  />
+                )}
+              </motion.div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Modal de feedback */}
-    {showModal && (
-      <FeedbackModal
-        feedback={feedback}
-        closeModal={closeModal}
-      />
-    )}
-  </div>
-);
+      {/* Modal de feedback */}
+      {showModal && (
+        <FeedbackModal
+          feedback={feedback}
+          closeModal={closeModal}
+        />
+      )}
+    </div>
+  );
 }
 
 // Componentes auxiliares
