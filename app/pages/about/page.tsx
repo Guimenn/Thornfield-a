@@ -99,7 +99,7 @@ export default function About() {
         >
           <source src="/about/tour_3.mp4" type="video/mp4" />
         </video>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 relative z-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 pt-32 sm:pt-40 lg:pt-48 relative z-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
             {/* Texto à Esquerda */}
             <div className="col-span-1 lg:col-span-6 animate-fade-in-left">
