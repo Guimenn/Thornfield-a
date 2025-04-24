@@ -557,11 +557,34 @@ const PaymentPricing = () => {
               {formErrors.cpf && <span className="error-message">{formErrors.cpf}</span>}
             </div>
           </div>
-
+          
           {paymentMethod === 'pix' ? (
             <PixPayment 
               value={parseFloat(planDetails.price || '0')} 
-              onSuccess={handleSubmit} 
+              onSuccess={() => {
+                // Simula o processamento do pagamento PIX após 3 segundos
+                setTimeout(() => {
+                  // Salva a assinatura no localStorage
+                  const user = JSON.parse(localStorage.getItem('user') || '{}');
+                  const subscription = {
+                    id: Date.now().toString(),
+                    userId: user.id,
+                    plan: planDetails.plan,
+                    billing: planDetails.billing,
+                    price: planDetails.price,
+                    startDate: new Date().toISOString(),
+                    status: 'active'
+                  };
+
+                  localStorage.setItem('thornfield_subscription', JSON.stringify(subscription));
+                  setPaymentSuccess(true);
+
+                  // Redireciona após 3 segundos adicionais
+                  setTimeout(() => {
+                    router.push('/pages/pricing?success=true');
+                  }, 3000);
+                }, 3000); // Tempo de espera após gerar o QR code
+              }}
               formData={formData}
               formErrors={formErrors}
               validateForm={validateForm}
