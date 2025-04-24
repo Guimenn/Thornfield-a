@@ -7,64 +7,8 @@ import CreditCardComponent from '../../Components/Payment/CreditCard/CreditCard'
 import PixPayment from '../../Components/Payment/PixPayment/PixPayment';
 import '../payment/payment.css';
 import './payment-pricing.css';
+import { plans } from '../../data/planos.json'
 
-// Importando os planos da página de pricing
-const plans = [
-  {
-    name: "STANDARD",
-    description: "Uma introdução ao mundo refinado da Thornfield, para apreciadores iniciantes.",
-    monthlyPrice: 29.90,
-    annualPrice: 299.90,
-    benefits: [
-      "Acesso ao catálogo completo",
-      "Newsletter mensal exclusiva",
-      "Participação em 2 eventos anuais",
-      "Desconto de 5% em compras na loja",
-      "1 degustação guiada por ano"
-    ],
-    cta: "Assinar Agora",
-    color: "amber",
-    gradient: "from-amber-950/20 to-black/40",
-    icon: "/icons-produtos/barril.svg"
-  },
-  {
-    name: "GOLD",
-    description: "Nossa experiência curada para os verdadeiros aficionados de whisky single malt.",
-    monthlyPrice: 59.90,
-    annualPrice: 599.90,
-    benefits: [
-      "Todos os benefícios do Standard",
-      "Acesso a lançamentos exclusivos",
-      "Participação em 6 eventos anuais",
-      "Desconto de 10% em compras na loja",
-      "4 degustações guiadas por ano",
-      "Visita anual à destilaria com acompanhante"
-    ],
-    cta: "Assinar Agora",
-    color: "amber",
-    gradient: "from-amber-900/20 via-amber-800/10 to-black/40",
-    icon: "/icons-whisky/gold-bar-svgrepo-com.svg"
-  },
-  {
-    name: "MASTER RESERVE",
-    description: "A experiência definitiva Thornfield, para colecionadores e connoisseurs.",
-    monthlyPrice: 129.90,
-    annualPrice: 1299.90,
-    benefits: [
-      "Todos os benefícios do Gold",
-      "Acesso a edições limitadas raríssimas",
-      "Participação ilimitada em eventos",
-      "Desconto de 15% em compras na loja",
-      "Degustações privativas mensais",
-      "Concierge dedicado para aquisições",
-      "2 garrafas exclusivas anualmente"
-    ],
-    cta: "Assinar Agora",
-    color: "amber",
-    gradient: "from-amber-950/30 via-amber-900/10 to-black/60",
-    icon: "/icons-whisky/coffee-grain-coffee-svgrepo-com.svg"
-  }
-];
 
 const PaymentPricing = () => {
   const router = useRouter();
@@ -109,6 +53,19 @@ const PaymentPricing = () => {
       return;
     } else {
       console.log('Usuário logado na página de pagamento');
+    }
+
+    // Verifica se o usuário já possui uma assinatura ativa
+    const existingSubscription = localStorage.getItem('thornfield_subscription');
+    if (existingSubscription) {
+      const subscription = JSON.parse(existingSubscription);
+      if (subscription.status === 'active') {
+        // Substituir o alert por um modal ou mensagem mais amigável
+        const mensagem = 'Você já possui uma assinatura ativa do plano ' + subscription.plan + '. Para assinar outro plano, cancele sua assinatura atual na página de perfil.';
+        alert(mensagem);
+        router.push('/pages/perfil');
+        return;
+      }
     }
 
     // Recupera os parâmetros da URL
@@ -455,7 +412,7 @@ const PaymentPricing = () => {
 
           <div className="order-items">
             <div className="order-item">
-              <img src={selectedPlan?.icon || "/icons-produtos/barril.svg"} alt={planDetails.plan} className="item-image" />
+              <img src={selectedPlan?.icon} alt={planDetails.plan} className="item-image" />
               <div className="item-details">
                 <h3>Plano {planDetails.plan}</h3>
                 <p>Período: {planDetails.billing === 'monthly' ? 'Mensal' : 'Anual'}</p>

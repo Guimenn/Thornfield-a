@@ -1,14 +1,14 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { User, LogOut, Mail, Calendar, MapPin, Edit, Camera, X, Loader2, Package, ShoppingBag, ChevronRight, Eye, EyeOff, AlertCircle, KeyRound } from 'lucide-react';
+import { User, LogOut, Mail, Calendar, MapPin, Edit, Camera, X, Loader2, Package, ShoppingBag, ChevronRight, Eye, EyeOff, AlertCircle, KeyRound, CreditCard, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { auth } from '../../firebase';
 import { signOut, updateProfile, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from '@firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { CheckCircle2, XCircle} from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 interface UserData {
     id: string;
@@ -83,6 +83,7 @@ export default function PerfilPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
+    const [isCancelSubscriptionModalOpen, setIsCancelSubscriptionModalOpen] = useState(false);
     const [editName, setEditName] = useState('');
     const [editLocation, setEditLocation] = useState('');
     const [isUploading, setIsUploading] = useState(false);
@@ -90,6 +91,8 @@ export default function PerfilPage() {
     const [imageKey, setImageKey] = useState(Date.now());
     const [activeTab, setActiveTab] = useState('profile');
     const [recentOrders, setRecentOrders] = useState<Order[]>([]);
+    const [subscription, setSubscription] = useState<any>(null);
+    const [showSubscriptionCancelledMessage, setShowSubscriptionCancelledMessage] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
     
@@ -136,6 +139,24 @@ export default function PerfilPage() {
             
             // Forçar atualização da imagem
             setImageKey(Date.now());
+            
+            // Verificar se o usuário tem uma assinatura
+            const storedSubscription = localStorage.getItem('thornfield_subscription');
+            if (storedSubscription) {
+                setSubscription(JSON.parse(storedSubscription));
+            }
+            
+            // Verificar se há mensagem de cancelamento na URL
+            if (typeof window !== 'undefined') {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('subscription') === 'cancelled') {
+                    setShowSubscriptionCancelledMessage(true);
+                    // Esconder a mensagem após 5 segundos
+                    setTimeout(() => {
+                        setShowSubscriptionCancelledMessage(false);
+                    }, 5000);
+                }
+            }
         } else {
             router.push('/pages/Login');
         }
@@ -578,8 +599,16 @@ export default function PerfilPage() {
                                             </button>
                                         </div>
                                         <p className="text-amber-400/90 text-lg font-medium">
-                                            Membro Thornfield
+                                            {subscription ? `Thornfield ${subscription.plan}` : ''}
                                         </p>
+                                        {subscription && subscription.status === 'active' && (
+                                            <button
+                                                onClick={() => setIsCancelSubscriptionModalOpen(true)}
+                                                className="mt-2 px-4 py-2 rounded-full bg-red-900/20 text-red-400 hover:bg-red-900/30 hover:scale-105 transition-all duration-300 text-sm"
+                                            >
+                                                Cancelar assinatura
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
 
@@ -909,6 +938,64 @@ export default function PerfilPage() {
                             </div>
                         </div>
                     </motion.div>
+                </div>
+            )}
+            
+            {/* Modal de Cancelamento de Assinatura */}
+            {isCancelSubscriptionModalOpen && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-gradient-to-b from-[#1a0f02] to-[#0A0501] rounded-2xl p-8 max-w-md w-full border border-amber-600/20 shadow-[0_20px_50px_-12px_rgba(255,191,0,0.2)]"
+                    >
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-2xl font-serif text-amber-50">Cancelar Assinatura</h3>
+                            <button
+                                onClick={() => setIsCancelSubscriptionModalOpen(false)}
+                                className="p-2 rounded-full bg-amber-900/30 hover:bg-amber-900/50 transition-colors duration-300"
+                            >
+                                <X size={20} className="text-amber-400" />
+                            </button>
+                        </div>
+
+                        <div className="space-y-6">
+                            <p className="text-white">Tem certeza que deseja cancelar sua assinatura do plano {subscription?.plan}?</p>
+                            <p className="text-amber-200/60 text-sm">Ao cancelar, você perderá acesso aos benefícios do plano imediatamente.</p>
+                        </div>
+
+                        <div className="mt-8 flex justify-end space-x-4">
+                            <button
+                                onClick={() => setIsCancelSubscriptionModalOpen(false)}
+                                className="px-6 py-3 rounded-lg bg-amber-900/30 text-amber-400 hover:bg-amber-900/50 transition-all duration-300"
+                            >
+                                Voltar
+                            </button>
+                            <button
+                                onClick={() => {
+                                    // Remover a assinatura do localStorage
+                                    localStorage.removeItem('thornfield_subscription');
+                                    setSubscription(null);
+                                    setIsCancelSubscriptionModalOpen(false);
+                                    // Redirecionar para a página de perfil com parâmetro de cancelamento
+                                    router.push('/pages/perfil?subscription=cancelled');
+                                }}
+                                className="px-6 py-3 rounded-lg bg-red-600 text-white hover:bg-red-500 transition-all duration-300 shadow-lg shadow-red-900/20"
+                            >
+                                Confirmar Cancelamento
+                            </button>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
+            
+            {/* Mensagem de assinatura cancelada */}
+            {showSubscriptionCancelledMessage && (
+                <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-green-900/80 text-green-100 px-6 py-3 rounded-lg shadow-lg z-50 flex items-center space-x-2 animate-fade-in-down">
+                    <CheckCircle2 size={20} />
+                    <span>Assinatura cancelada com sucesso!</span>
                 </div>
             )}
         </div>

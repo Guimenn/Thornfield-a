@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import React from "react";
+import { plans } from "../../data/planos.json";
 
 export default function Pricing() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annually">("annually");
@@ -56,91 +57,7 @@ export default function Pricing() {
     }
   };
 
-  const plans = [
-    {
-      name: "STANDARD",
-      description: "Uma introdução ao mundo refinado da Thornfield, para apreciadores iniciantes.",
-      monthlyPrice: 29.90,
-      annualPrice: 299.90,
-      benefits: [
-        "Acesso ao catálogo completo",
-        "Newsletter mensal exclusiva",
-        "Participação em 2 eventos anuais",
-        "Desconto de 5% em compras na loja",
-        "1 degustação guiada por ano"
-      ],
-      cta: "Assinar Agora",
-      color: "amber",
-      gradient: "from-amber-950/20 to-black/40",
-      icon: "/icons-whisky/tumbler-glass-svgrepo-com.svg"
-    },
-    {
-      name: "GOLD",
-      description: "Nossa experiência curada para os verdadeiros aficionados de whisky single malt.",
-      monthlyPrice: 59.90,
-      annualPrice: 599.90,
-      benefits: [
-        "Todos os benefícios do Standard",
-        "Acesso a lançamentos exclusivos",
-        "Participação em 6 eventos anuais",
-        "Desconto de 10% em compras na loja",
-        "4 degustações guiadas por ano",
-        "Visita anual à destilaria com acompanhante"
-      ],
-      cta: "Assinar Agora",
-      color: "amber",
-      gradient: "from-amber-900/20 via-amber-800/10 to-black/40",
-      icon: "/icons-whisky/gold-bar-svgrepo-com.svg"
-    },
-    {
-      name: "MASTER RESERVE",
-      description: "A experiência definitiva Thornfield, para colecionadores e connoisseurs.",
-      monthlyPrice: 129.90,
-      annualPrice: 1299.90,
-      benefits: [
-        "Todos os benefícios do Gold",
-        "Acesso a edições limitadas raríssimas",
-        "Participação ilimitada em eventos",
-        "Desconto de 15% em compras na loja",
-        "Degustações privativas mensais",
-        "Concierge dedicado para aquisições",
-        "2 garrafas exclusivas anualmente"
-      ],
-      cta: "Assinar Agora",
-      color: "amber",
-      gradient: "from-amber-950/30 via-amber-900/10 to-black/60",
-      icon: "/icons-whisky/coffee-grain-coffee-svgrepo-com.svg"
-    }
-  ];
 
-  const corporatePlans = [
-    {
-      name: "BUSINESS",
-      description: "Para empresas que buscam experiências premium para clientes e parceiros.",
-      price: "Sob consulta",
-      benefits: [
-        "Kit de boas-vindas para diretoria",
-        "Eventos corporativos customizados",
-        "Presentes corporativos exclusivos",
-        "Degustações in-company",
-        "Pacotes para incentivos de equipe"
-      ],
-      icon: "/icons-whisky/tumbler-glass-svgrepo-com.svg"
-    },
-    {
-      name: "SOMMELIER",
-      description: "Formação profissional para estabelecimentos e profissionais da área.",
-      price: "Sob consulta",
-      benefits: [
-        "Treinamento profissional para staff",
-        "Consultoria para carta de bebidas",
-        "Suporte na compra de estoque",
-        "Certificação oficial Thornfield",
-        "Eventos temáticos no estabelecimento"
-      ],
-      icon: "/icons-whisky/cherry-svgrepo-com.svg"
-    }
-  ];
 
   const planPatterns = [
     "url(\"data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b45309' fill-opacity='0.05'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
