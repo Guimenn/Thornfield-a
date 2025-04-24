@@ -1,6 +1,18 @@
+"use client";
+
 import { motion } from "framer-motion";
-import Button from "../Ui/Button";
 import Image from "next/image";
+
+// Componente de botão "Voltar ao Topo"
+const BackToTopButton = () => {
+  // Lógica para voltar ao topo
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+};
 
 const HeroSection = () => (
   <section className="relative flex h-screen items-center justify-center overflow-hidden">
@@ -17,7 +29,7 @@ const HeroSection = () => (
       <p className="mb-8 text-xl font-light tracking-widestuppercase md:text-2xl">
         O WHISKY SINGLE MALT MAIS PREMIADO DO MUNDO
       </p>
-      <Button >Discover the Estate</Button>
+      
     </motion.div>
     <div className="absolute inset-0 z-0">
       <video

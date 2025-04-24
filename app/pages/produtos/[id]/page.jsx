@@ -75,17 +75,17 @@ export default function WhiskyDetalhe({ params }) {
 
       {/* Hero Section */}
       <section className="pt-20">
-        <div className="relative h-[70vh] overflow-hidden">
+        <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] overflow-hidden">
           {/* Botão de voltar */}
-          <div className="absolute top-10 left-6 z-20">
+          <div className="absolute top-4 sm:top-6 md:top-10 left-4 sm:left-6 z-20">
             <Link
               href="/pages/produtos"
-              className="flex items-center gap-2 px-4 py-2 bg-black/50 backdrop-blur-sm rounded-md border border-amber-500/30 text-amber-500 hover:bg-black/70 hover:text-amber-400 transition-all duration-300"
+              className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-black/50 backdrop-blur-sm rounded-md border border-amber-500/30 text-amber-500 hover:bg-black/70 hover:text-amber-400 transition-all duration-300"
             >
-              <svg xmlns="http://www.w3.org/2000/svg&quot" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg&quot" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              <span>Voltar</span>
+              <span className="text-sm sm:text-base">Voltar</span>
             </Link>
           </div>
          
@@ -95,31 +95,33 @@ export default function WhiskyDetalhe({ params }) {
               src={whisky.image}
               alt={whisky.name}
               fill
-              className="object-cover object-center"
+              sizes="100vw"
+              className="object-cover object-center sm:object-center brightness-[0.85] sm:brightness-100"
               priority
+              quality={90}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black sm:from-black/60 sm:via-transparent sm:to-black"></div>
           </div>
 
           {/* Content */}
-          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
+          <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 lg:p-16">
             <div className="max-w-7xl mx-auto">
-              <div className="flex items-center gap-5 mb-6">
-                <div className="w-16 h-16 rounded-full border-2 border-amber-500/30 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+              <div className="flex items-center gap-3 sm:gap-5 mb-3 sm:mb-6">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-amber-500/30 bg-black/40 backdrop-blur-sm flex items-center justify-center">
                   <Image
                     src={whisky.icon}
                     alt={`${whisky.name} icon`}
-                    width={28}
-                    height={28}
-                    className="opacity-90"
+                    width={20}
+                    height={20}
+                    className="opacity-90 sm:w-[28px] sm:h-[28px]"
                   />
                 </div>
                 <div>
-                  <div className="flex items-center gap-4 mb-2">
-                    <span className="text-amber-500/90 text-sm tracking-[0.3em] font-light">N° {String(whisky.id).padStart(2, '0')}</span>
-                    <div className="h-px w-16 bg-amber-500/40"></div>
+                  <div className="flex items-center gap-2 sm:gap-4 mb-1 sm:mb-2">
+                    <span className="text-amber-500/90 text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] font-light">N° {String(whisky.id).padStart(2, '0')}</span>
+                    <div className="h-px w-10 sm:w-16 bg-amber-500/40"></div>
                   </div>
-                  <h1 className="text-5xl md:text-6xl font-serif tracking-wide text-white">{whisky.name}</h1>
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif tracking-wide text-white">{whisky.name}</h1>
                 </div>
               </div>
             </div>
