@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from 'next/link';
 import Button from "../Ui/Button";
 
 export default function VideoSection() {
@@ -37,7 +38,7 @@ export default function VideoSection() {
           <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-300">
             Conheça os segredos e processos artesanais que tornam nosso whisky verdadeiramente excepcional.
           </p>
-          <Button variant="primary" href="/pages/about">Conheça Nossa História</Button>
+          <Link  href="/pages/about"><Button variant="primary">Conheça Nossa História</Button></Link>
         </motion.div>
       </div>
     </section>
