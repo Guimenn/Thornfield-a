@@ -12,6 +12,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Thornfield",
   description: "Thornfield Whisky",
+  icons: {
+    icon: '/Goat.png', // Caminho para o seu favicon na pasta public
+  },
 };
 
 export default function RootLayout({

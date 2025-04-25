@@ -87,7 +87,7 @@ export default function About() {
   return (
     <main className="relative bg-black">
       {/* Seção Maghellan */}
-      <section className="min-h-screen bg-black text-white relative overflow-hidden">
+      <section id="tradicao" className="min-h-screen bg-black text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80 z-10"></div>
         <div className="absolute inset-0 bg-[url('/about/pattern.png')] opacity-5 z-0"></div>
         <video
@@ -129,7 +129,7 @@ export default function About() {
       </section>
 
       {/* Seção Interativa - O Processo da Destilação */}
-      <section className="min-h-screen bg-black text-white relative overflow-hidden">
+      <section id="processo" className="min-h-screen bg-black text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-black/90 z-10"></div>
         <div className="absolute inset-0 bg-[url('/about/pattern.png')] opacity-5 z-0"></div>
         
@@ -170,7 +170,7 @@ export default function About() {
                 <div className="h-px w-8 sm:w-12 lg:w-16 bg-amber-500"></div>
                 <span className="text-amber-500 font-light tracking-widest text-sm sm:text-base">A ARTE DA DESTILAÇÃO</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-6 sm:mb-8 lg:mb-12 text-white tracking-tight font-serif">
+              <h1 id="terroir" className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-6 sm:mb-8 lg:mb-12 text-white tracking-tight font-serif">
               <span>PROCESSO</span>
               </h1>
               <div className="h-1 w-12 sm:w-16 lg:w-24 bg-amber-500 mb-4 sm:mb-6 lg:mb-8"></div>
@@ -345,4 +345,4 @@ export default function About() {
       
     </main>
   );
-} 
+}

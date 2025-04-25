@@ -420,7 +420,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="h-screen flex bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
+    <div className="h-screen flex bg-gradient-to-br from-gray-900 via-gray-800 to-black relative">
       {/* Botão de voltar melhorado */}
       <Link
         href="/"
