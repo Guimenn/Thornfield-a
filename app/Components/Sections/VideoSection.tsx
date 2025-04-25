@@ -37,7 +37,7 @@ export default function VideoSection() {
           <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-300">
             Conheça os segredos e processos artesanais que tornam nosso whisky verdadeiramente excepcional.
           </p>
-          <Button variant="primary">Conheça Nossa História</Button>
+          <Button variant="primary" href="/pages/about">Conheça Nossa História</Button>
         </motion.div>
       </div>
     </section>

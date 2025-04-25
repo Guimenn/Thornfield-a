@@ -577,13 +577,13 @@ export default function BlogPostPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="text-center">
-          <div className="relative w-20 h-20 mx-auto mb-6">
-            <div className="absolute inset-0 border-4 border-amber-500/30 border-t-amber-500 rounded-full animate-spin"></div>
-            <div className="absolute inset-2 border-4 border-amber-500/20 border-b-amber-500 rounded-full animate-spin animation-delay-150"></div>
+      <div className="min-h-screen flex items-center justify-center bg-black pt-2 sm:pt-3">
+        <div className="text-center p-2">
+          <div className="relative w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3">
+            <div className="absolute inset-0 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin"></div>
+            <div className="absolute inset-1 border-2 border-amber-500/20 border-b-amber-500 rounded-full animate-spin animation-delay-150"></div>
           </div>
-          <p className="text-amber-500 font-serif italic text-xl">Preparando sua degustação...</p>
+          <p className="text-amber-500 font-serif italic text-sm sm:text-base">Preparando sua degustação...</p>
         </div>
       </div>
     );
@@ -591,18 +591,18 @@ export default function BlogPostPage() {
 
   if (!post) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-black px-4 text-center">
-        <div className="w-24 h-24 mb-8 opacity-30">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-black px-4 text-center pt-6 sm:pt-8">
+        <div className="w-16 h-16 sm:w-24 sm:h-24 mb-6 sm:mb-8 opacity-30">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 8V12L15 15" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round"/>
             <path d="M7.50001 4.23001C8.52901 3.62001 9.75001 3.25001 11 3.25001C15.004 3.25001 18.25 6.49601 18.25 10.5C18.25 14.504 15.004 17.75 11 17.75C6.99601 17.75 3.75001 14.504 3.75001 10.5C3.75001 9.25001 4.12001 8.02901 4.73001 7.00001" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round"/>
             <path d="M3 3L21 21" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round"/>
           </svg>
         </div>
-        <h1 className="text-3xl font-serif font-bold text-amber-500 mb-4">Artigo não encontrado</h1>
-        <p className="text-amber-500/80 mb-8 max-w-md">Infelizmente, não conseguimos encontrar o artigo que você está procurando. Ele pode ter sido removido ou o link está incorreto.</p>
-        <Link href="/blog" className="px-8 py-3 bg-amber-500 text-black rounded-md hover:bg-amber-600 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center">
-          <ArrowLeft size={18} className="mr-2" />
+        <h1 className="text-2xl sm:text-3xl font-serif font-bold text-amber-500 mb-3 sm:mb-4">Artigo não encontrado</h1>
+        <p className="text-sm sm:text-base text-amber-500/80 mb-6 sm:mb-8 max-w-md">Infelizmente, não conseguimos encontrar o artigo que você está procurando. Ele pode ter sido removido ou o link está incorreto.</p>
+        <Link href="/blog" className="px-6 sm:px-8 py-2.5 sm:py-3 bg-amber-500 text-black rounded-md hover:bg-amber-600 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center text-sm sm:text-base">
+          <ArrowLeft size={16} className="mr-2" />
           <span>Voltar para o Blog</span>
         </Link>
       </div>
@@ -610,71 +610,72 @@ export default function BlogPostPage() {
   }
 
   return (
-    <div className="bg-black min-h-screen text-white relative">
+    <div className="bg-black text-white min-h-screen relative overflow-hidden pt-4 sm:pt-6 md:pt-8">
       {/* Hero Section com imagem de fundo */}
-      <div className="relative h-[60vh] md:h-[70vh] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black z-10"></div>
+      <div className="relative w-full h-[70vh] sm:h-[60vh] md:h-[70vh] bg-black overflow-hidden">
         <motion.div 
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 10, ease: "easeOut" }}
-          className="absolute inset-0"
+          className="absolute inset-0 opacity-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.5 }}
+          transition={{ duration: 1 }}
         >
           <Image 
-            src={post.image} 
-            alt={post.title} 
+            src={post?.image || '/blog-placeholder.jpg'} 
+            alt={post?.title || 'Blog Post'} 
             fill 
-            className="object-cover"
+            className="object-cover blur-sm"
+            quality={60}
             priority 
           />
         </motion.div>
-        <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-16 text-white container mx-auto">
+        <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 sm:p-5 md:p-6 text-white container mx-auto mt-4 sm:mt-6 md:mt-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="mb-2 sm:mb-4 md:mb-6"
           >
-            <Link href="/pages/blog" className="inline-flex items-center text-amber-500 hover:text-amber-400 mb-4 transition-colors group">
-              <ArrowLeft size={18} className="mr-2 group-hover:-translate-x-1 transition-transform" />
+            <Link href="/pages/blog" className="inline-flex items-center text-amber-500 hover:text-amber-400 mb-4 transition-colors group text-xs sm:text-sm md:text-base">
+              <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
               <span className="font-light tracking-wide">VOLTAR PARA O BLOG</span>
             </Link>
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="inline-block px-4 py-1 bg-amber-500 text-black text-sm rounded-full font-medium tracking-wide">
+            <div className="flex flex-wrap gap-2 mb-3 sm:mb-4">
+              <span className="inline-block px-3 sm:px-4 py-1 bg-amber-500 text-black text-xs sm:text-sm rounded-full font-medium tracking-wide">
                 {post.category}
               </span>
             </div>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 font-serif max-w-4xl">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight mb-2 sm:mb-3 md:mb-4 font-serif max-w-4xl">
               {post.title}
             </h1>
-            <p className="text-lg md:text-xl text-[#E5E5E5]/90 max-w-3xl mb-8 font-light leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-[#E5E5E5]/90 max-w-3xl mb-3 sm:mb-4 md:mb-5 font-light leading-relaxed">
               {post.excerpt}
             </p>
-            <div className="flex flex-wrap items-center gap-6 text-sm text-white/80 border-t border-amber-500/30 pt-6">
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center mr-3">
-                  <User size={16} className="text-amber-500" />
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 text-xs sm:text-sm text-white/80 border-t border-amber-500/30 pt-3 sm:pt-4 md:pt-6 mt-3 sm:mt-4">
+              <div className="flex items-center mb-2 sm:mb-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-amber-500/20 flex items-center justify-center mr-2 sm:mr-3">
+                  <User size={14} className="text-amber-500" />
                 </div>
                 <div>
-                  <span className="block text-white">{post.author}</span>
-                  <span className="text-xs text-amber-500/80">Especialista em Whisky</span>
+                  <span className="block text-white text-xs sm:text-sm">{post.author}</span>
+                  <span className="text-[10px] sm:text-xs text-amber-500/80">Especialista em Whisky</span>
                 </div>
               </div>
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center mr-3">
-                  <Calendar size={16} className="text-amber-500" />
+              <div className="flex items-center mb-2 sm:mb-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-amber-500/20 flex items-center justify-center mr-2 sm:mr-3">
+                  <Calendar size={14} className="text-amber-500" />
                 </div>
                 <div>
-                  <span className="block text-white">{post.date}</span>
-                  <span className="text-xs text-amber-500/80">Data de publicação</span>
+                  <span className="block text-white text-xs sm:text-sm">{post.date}</span>
+                  <span className="text-[10px] sm:text-xs text-amber-500/80">Data de publicação</span>
                 </div>
               </div>
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center mr-3">
-                  <Clock size={16} className="text-amber-500" />
+              <div className="flex items-center mb-2 sm:mb-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-amber-500/20 flex items-center justify-center mr-2 sm:mr-3">
+                  <Clock size={14} className="text-amber-500" />
                 </div>
                 <div>
-                  <span className="block text-white">{post.readTime}</span>
-                  <span className="text-xs text-amber-500/80">Tempo estimado</span>
+                  <span className="block text-white text-xs sm:text-sm">{post.readTime}</span>
+                  <span className="text-[10px] sm:text-xs text-amber-500/80">Tempo estimado</span>
                 </div>
               </div>
             </div>
@@ -683,16 +684,16 @@ export default function BlogPostPage() {
       </div>
 
       {/* Conteúdo do artigo */}
-      <div className="max-w-4xl mx-auto px-4 py-12 relative -mt-16 z-30">
+      <div className="max-w-4xl mx-auto px-4 sm:px-5 md:px-6 py-0 relative -mt-5 sm:-mt-8 md:-mt-10 z-30">
         <motion.div 
-          className="bg-[#262626] rounded-xl shadow-2xl p-8 md:p-12 mb-10 border border-[#333333]"
+          className="bg-[#262626] rounded-lg sm:rounded-xl shadow-xl sm:shadow-2xl p-4 sm:p-5 md:p-6 lg:p-8 mb-5 sm:mb-6 md:mb-8 border border-[#333333]"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
          {/* Barra de interação */}
-         <div className="flex justify-between items-center mb-10 pb-6 border-b border-[#333333]">
-              <div className="flex items-center gap-4">
+         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-3 sm:mb-4 md:mb-6 pb-2 sm:pb-3 md:pb-4 border-b border-[#333333]">
+              <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto mb-3 sm:mb-0">
                 <button 
                   onClick={handleLike}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all ${
@@ -709,7 +710,7 @@ export default function BlogPostPage() {
                   <span className="font-medium">Comentar</span>
                 </button>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
                 <button className="p-2.5 rounded-full hover:bg-[#333333] transition-all border border-transparent">
                   <Share2 size={18} />
                 </button>
@@ -728,13 +729,13 @@ export default function BlogPostPage() {
 
           {/* Conteúdo do artigo */}
           <div 
-              className="prose prose-invert max-w-none prose-headings:font-serif prose-headings:text-[#D4A24E] prose-p:text-[#E5E5E5]/90 prose-p:leading-relaxed prose-li:text-[#E5E5E5]/90 prose-blockquote:border-l-[#D4A24E] prose-blockquote:bg-[#333333] prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r-md prose-blockquote:italic prose-blockquote:text-[#E5E5E5]/80 prose-strong:text-[#D4A24E]"
+              className="prose prose-invert max-w-none prose-xs sm:prose-sm md:prose-base lg:prose-lg prose-headings:font-serif prose-headings:text-[#D4A24E] prose-p:text-[#E5E5E5]/90 prose-p:leading-relaxed prose-li:text-[#E5E5E5]/90 prose-blockquote:border-l-[#D4A24E] prose-blockquote:bg-[#333333] prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r-md prose-blockquote:italic prose-blockquote:text-[#E5E5E5]/80 prose-strong:text-[#D4A24E]"
               dangerouslySetInnerHTML={{ __html: post.content || '' }}
             />
           
           {/* Assinatura do autor */}
-          <div className="mt-12 pt-8 border-t border-[#333333] flex items-center">
-              <div className="w-16 h-16 rounded-full bg-[#D4A24E]/20 flex items-center justify-center mr-4 text-[#D4A24E] font-serif text-xl">
+          <div className="mt-6 sm:mt-8 md:mt-10 pt-4 sm:pt-6 md:pt-8 border-t border-[#333333] flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-[#D4A24E]/20 flex items-center justify-center mr-3 sm:mr-4 text-[#D4A24E] font-serif text-lg sm:text-xl">
                 {post.author.charAt(0)}
               </div>
               <div>
@@ -750,13 +751,13 @@ export default function BlogPostPage() {
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="mt-16"
+            className="mt-6 sm:mt-8"
           >
-            <h2 className="text-2xl font-serif font-bold text-[#D4A24E] mb-8 pb-2 border-b border-[#333333] flex items-center">
+            <h2 className="text-lg sm:text-xl font-serif font-bold text-[#D4A24E] mb-3 sm:mb-4 pb-2 border-b border-[#333333] flex items-center">
               <span className="w-10 h-1 bg-[#D4A24E] mr-3"></span>
               Artigos Relacionados
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {relatedPosts.map((relatedPost) => (
                 <motion.div 
                   key={relatedPost.id}
@@ -764,7 +765,7 @@ export default function BlogPostPage() {
                   className="group"
                 >
                   <Link href={`/blog/${relatedPost.id}`} className="block">
-                    <div className="relative h-56 mb-4 overflow-hidden rounded-lg shadow-md group-hover:shadow-xl transition-all duration-300">
+                    <div className="relative h-48 sm:h-52 md:h-56 mb-3 sm:mb-4 overflow-hidden rounded-lg shadow-md group-hover:shadow-xl transition-all duration-300">
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 opacity-70 group-hover:opacity-90 transition-opacity"></div>
                       <Image 
                         src={relatedPost.image} 
