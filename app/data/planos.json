@@ -15,7 +15,7 @@
           "cta": "Assinar Agora",
           "color": "amber",
           "gradient": "from-amber-950/20 to-black/40",
-          "icon": "/icons-whisky/tumbler-glass-svgrepo-com.svg"
+          "icon": "/pricing/barrel-wood-svgrepo-com.svg"
         },
         {
           "name": "GOLD",
@@ -33,7 +33,7 @@
           "cta": "Assinar Agora",
           "color": "amber",
           "gradient": "from-amber-900/20 via-amber-800/10 to-black/40",
-          "icon": "/icons-whisky/gold-bar-svgrepo-com.svg"
+          "icon": "/pricing/crown-svgrepo-com.svg"
         },
         {
           "name": "MASTER RESERVE",
@@ -52,7 +52,7 @@
           "cta": "Assinar Agora",
           "color": "amber",
           "gradient": "from-amber-950/30 via-amber-900/10 to-black/60",
-          "icon": "/icons-whisky/coffee-grain-coffee-svgrepo-com.svg"
+          "icon": "/pricing/square-bottle-svgrepo-com.svg"
         }
       ]
 }

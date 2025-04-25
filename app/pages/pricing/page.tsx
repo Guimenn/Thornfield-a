@@ -576,7 +576,7 @@ export default function Pricing() {
           <div 
             className="absolute inset-0" 
             style={{
-              backgroundImage: 'url("/whiskys-fundo/18.png")',
+              backgroundImage: 'url("/pricing/festival.png")',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               filter: 'blur(6px) saturate(120%)'
@@ -607,7 +607,7 @@ export default function Pricing() {
               <div className="h-[500px] relative rounded-2xl overflow-hidden group shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>
                 <Image 
-                  src="/whiskys-fundo/15.png" 
+                  src="/pricing/cidade.png" 
                   fill 
                   alt="Eventos Sazonais" 
                   className="object-cover transition-transform duration-1000 group-hover:scale-110"
@@ -630,7 +630,7 @@ export default function Pricing() {
               <div className="h-[240px] relative rounded-2xl overflow-hidden group shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>
                 <Image 
-                  src="/whiskys-fundo/10.png" 
+                  src="/pricing/cidade.png" 
                   fill 
                   alt="Highland Tours" 
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -647,7 +647,7 @@ export default function Pricing() {
               <div className="h-[240px] relative rounded-2xl overflow-hidden group shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>
                 <Image 
-                  src="/whiskys-fundo/14.png" 
+                  src="/pricing/degustacao.png" 
                   fill 
                   alt="Barris Personalizados" 
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
