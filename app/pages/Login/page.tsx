@@ -1,4 +1,4 @@
-  'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import React from 'react';
@@ -59,14 +59,22 @@ export default function LoginForm() {
     const authChangeEvent = new CustomEvent('authChange');
     window.dispatchEvent(authChangeEvent);
     
+    // Define o localStorage como ageVerified como true
+    localStorage.setItem('ageVerified', 'true');
+    
+    // Dispara o evento personalizado de verificação de idade
+    const ageVerifiedEvent = new CustomEvent('ageVerified', { detail: true });
+    window.dispatchEvent(ageVerifiedEvent);
+    
     // Verificar URL de retorno e redirecionar de volta para a página de origem
     const returnUrl = localStorage.getItem('returnUrl');
-    if (returnUrl) {
+    if (returnUrl && returnUrl !== window.location.href) {
       console.log('Redirecionando para:', returnUrl);
       localStorage.removeItem('returnUrl'); // Limpa a URL de retorno
       router.push(returnUrl);
     } else {
-      // Se não houver URL de retorno, vai para a página inicial
+      // Se não houver URL de retorno válida, vai para a página inicial
+      localStorage.removeItem('returnUrl');
       router.push('/');
     }
   };
@@ -101,14 +109,8 @@ export default function LoginForm() {
         name: user.displayName || 'Usuário',
         email: user.email
       }));
-
-      // Define o localStorage como ageVerified como true
-      localStorage.setItem('ageVerified', 'true');
-      
-      // Dispara o evento personalizado
-      const ageVerifiedEvent = new CustomEvent('ageVerified', { detail: true });
-      window.dispatchEvent(ageVerifiedEvent);
-
+  
+      // Redireciona após o login (removido a definição duplicada de ageVerified)
       redirectAfterLogin();
     } catch (error: any) {
       console.error('Erro ao fazer login com Google:', error);
@@ -872,4 +874,4 @@ export default function LoginForm() {
       </motion.div>
     </div>
   );
-} 
+}
