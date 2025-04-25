@@ -116,7 +116,7 @@ export default function MaisVendidos() {
 
         {/* Carousel */}
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2  gap-8 lg:gap-16">
             {/* Primeiro whisky visível */}
             <AnimatePresence mode="wait">
               <motion.div 
