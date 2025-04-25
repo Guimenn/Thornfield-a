@@ -591,7 +591,7 @@ export default function BlogPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7 }}
                   >
-                    <Link href={`/blog/${visiblePosts[0].id}`} className="group block">
+                    <Link href={`/pages/blog/${visiblePosts[0].id}`} className="group block">
                       <div className="flex flex-col md:flex-row bg-gray-900/60 rounded-xl overflow-hidden border border-gray-800 hover:border-amber-700/50 transition-all duration-300 shadow-xl">
                         <div className="relative h-48 sm:h-60 md:h-auto md:w-1/2">
                           <Image

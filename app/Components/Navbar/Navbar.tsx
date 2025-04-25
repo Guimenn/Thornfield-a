@@ -182,7 +182,7 @@ export default function Navbar() {
     <>
       {/* NAVBAR */}
       <nav
-        className={`fixed z-30 w-full transition-all duration-500 ${
+        className={`fixed z-50 w-full transition-all duration-500 ${
           scrolled ? "navbar-blur" : "bg-transparent"
         } ${!isVisible ? "-translate-y-full" : "translate-y-0"}`}
       >

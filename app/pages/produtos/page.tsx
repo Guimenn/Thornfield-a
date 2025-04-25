@@ -164,7 +164,7 @@ export default function Bebidas() {
 
       {/* Barra de navegação fixa - oculta em telas menores */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-40 bg-[#0A0501]/95 backdrop-blur-sm border-b border-amber-900/40 shadow-xl transition-transform duration-300 hidden md:block ${
+        className={`fixed top-0 left-0 right-0 z-60 bg-[#0A0501]/95 backdrop-blur-sm border-b border-amber-900/40 shadow-xl transition-transform duration-300 hidden md:block ${
           navFixed ? 'translate-y-0' : 'translate-y-[-100%]'
         }`}
       >
