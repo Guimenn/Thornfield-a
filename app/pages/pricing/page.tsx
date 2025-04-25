@@ -1,10 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import React from "react";
 import { plans } from "../../data/planos.json";
 import { useRouter } from "next/navigation";
+import Footer from "../../Components/Footer/Footer";
 import { XCircle, CheckCircle, Users, Gift, Clock, Star, Award, Wine, GlassWater } from "lucide-react";
+import "./pricing.css";
 
 export default function Pricing() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annually">("annually");
@@ -13,6 +15,28 @@ export default function Pricing() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+  
+  // Referência para o elemento de fundo com parallax
+  const parallaxRef = useRef<HTMLDivElement>(null);
+
+  // Efeito para adicionar o evento de scroll para o parallax
+  useEffect(() => {
+    const handleScroll = () => {
+      if (parallaxRef.current) {
+        const scrollPosition = window.scrollY;
+        // Ajusta a velocidade do parallax (quanto menor o divisor, mais intenso o efeito)
+        const translateY = scrollPosition / 2.5;
+        parallaxRef.current.style.transform = `scale(1.05) translateY(${translateY}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    // Limpa o evento quando o componente é desmontado
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     // Check URL for success parameter
@@ -98,15 +122,22 @@ export default function Pricing() {
       {/* Hero Section com Parallax Aprimorado */}
       <div className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: 'url("/banner.png")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
-          }}
+          className="absolute inset-0 z-0 overflow-hidden"
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-black"></div>
+          <div 
+            ref={parallaxRef}
+            className="absolute inset-0 transform scale-105 blur-[2px] parallax-bg"
+            style={{
+              backgroundImage: 'url("/contract.png")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'contrast(1.1) brightness(0.7)',
+              transform: 'scale(1.05) translateY(0px)',
+              transition: 'transform 0.5s ease-out'
+            }}
+          ></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black opacity-90"></div>
+          <div className="absolute inset-0 bg-black/30 backdrop-filter backdrop-blur-[1px]"></div>
         </div>
         
         {/* Partículas decorativas */}
@@ -122,13 +153,7 @@ export default function Pricing() {
             <div className="mb-8 relative">
               <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-0.5 h-16 bg-gradient-to-b from-transparent to-amber-500/50"></div>
               <div className="inline-block">
-                <Image
-                  src="/logo-thornfield.svg"
-                  alt="Thornfield Logo"
-                  width={180}
-                  height={60}
-                  className="mx-auto opacity-90"
-                />
+              
               </div>
             </div>
             
@@ -148,19 +173,65 @@ export default function Pricing() {
             </p>
             
             <div className="flex items-center justify-center space-x-6 mt-12">
-              <a href="#plans" className="px-10 py-4 rounded-full bg-gradient-to-r from-amber-600 to-amber-800 text-white font-medium border border-amber-700/30 shadow-lg shadow-amber-900/30 hover:shadow-amber-900/50 transition-all duration-300 hover:scale-105 transform">
-                Conheça os Planos
-              </a>
-              <a href="#benefits" className="px-8 py-4 rounded-full bg-black/60 backdrop-blur-sm text-amber-400 font-medium border border-amber-700/20 hover:bg-black/80 hover:border-amber-700/40 transition-all duration-300">
-                Vantagens Exclusivas
-              </a>
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  const plansSection = document.getElementById('plans');
+                  if (plansSection) {
+                    // Armazena uma referência ao elemento antes do setTimeout
+                    const button = e.currentTarget;
+                    // Adiciona classe de animação ao botão
+                    button.classList.add('animate-button-press');
+                    
+                    // Remove a classe após a animação terminar
+                    setTimeout(() => {
+                      button.classList.remove('animate-button-press');
+                    }, 300);
+                    
+                    // Rolagem suave com efeito de easing
+                    plansSection.scrollIntoView({ 
+                      behavior: 'smooth', 
+                      block: 'start'
+                    });
+                  }
+                }}
+                className="px-10 py-4 rounded-full bg-gradient-to-r from-amber-600 to-amber-800 text-white font-medium border border-amber-700/30 shadow-lg shadow-amber-900/30 hover:shadow-amber-900/50 transition-all duration-300 hover:scale-105 transform active:scale-95 active:shadow-inner active:from-amber-700 active:to-amber-900 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:ring-offset-2 focus:ring-offset-black relative overflow-hidden"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+              >
+                <span className="relative z-10">Conheça os Planos</span>
+                <span className="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 rounded-full ripple-effect"></span>
+              </button>
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  const benefitsSection = document.getElementById('benefits');
+                  if (benefitsSection) {
+                    // Armazena uma referência ao elemento antes do setTimeout
+                    const button = e.currentTarget;
+                    // Adiciona classe de animação ao botão
+                    button.classList.add('animate-button-press');
+                    
+                    // Remove a classe após a animação terminar
+                    setTimeout(() => {
+                      button.classList.remove('animate-button-press');
+                    }, 300);
+                    
+                    // Rolagem suave com efeito de easing
+                    benefitsSection.scrollIntoView({ 
+                      behavior: 'smooth', 
+                      block: 'start'
+                    });
+                  }
+                }}
+                className="px-8 py-4 rounded-full bg-black/60 backdrop-blur-sm text-amber-400 font-medium border border-amber-700/20 hover:bg-black/80 hover:border-amber-700/40 transition-all duration-300 active:scale-95 active:bg-black/90 active:text-amber-300 active:border-amber-700/50 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:ring-offset-2 focus:ring-offset-black relative overflow-hidden"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+              >
+                <span className="relative z-10">Vantagens Exclusivas</span>
+                <span className="absolute inset-0 bg-amber-400/10 opacity-0 transition-opacity duration-300 rounded-full ripple-effect"></span>
+              </button>
             </div>
             
-            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 animate-bounce">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -216,7 +287,7 @@ export default function Pricing() {
       </section>
 
       {/* Seletor de Período Aprimorado */}
-      <div id="plans" className="relative py-24 bg-black">
+      <div className="relative py-24 bg-black">
         <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
@@ -229,7 +300,7 @@ export default function Pricing() {
             </p>
           </div>
           
-          <div className="bg-gradient-to-b from-gray-900 to-black border border-amber-900/30 rounded-xl p-8 max-w-2xl mx-auto backdrop-blur-md shadow-2xl">
+          <div   className="bg-gradient-to-b from-gray-900 to-black border border-amber-900/30 rounded-xl p-8 max-w-2xl mx-auto backdrop-blur-md shadow-2xl">
             <p className="text-amber-400/90 text-base text-center mb-5 font-medium">Escolha a periodicidade que melhor se adapta ao seu estilo</p>
             <div className="flex items-center bg-black/60 p-2 rounded-xl border border-amber-900/20 shadow-inner">
               <button
@@ -259,17 +330,20 @@ export default function Pricing() {
               </button>
             </div>
             
-            <div className="mt-6 text-center text-amber-300/70 text-sm">
+            <div  className="mt-6 text-center text-amber-300/70 text-sm">
               {billingPeriod === "annually" ? 
                 "Economize com o pagamento anual e desfrute de benefícios exclusivos" : 
                 "Flexibilidade para testar nossa experiência sem compromisso de longo prazo"}
+              
             </div>
+        
           </div>
         </div>
-      </div>
+        <div id="plans"></div>
+      </div >
 
       {/* Planos de Assinatura Aprimorados */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-950 relative">
+      <section  className="py-20 bg-gradient-to-b from-black to-gray-950 relative">
         <div className="absolute inset-0 opacity-10">
           <div className="h-full w-full bg-[url('/pattern.png')] bg-repeat opacity-20"></div>
         </div>
@@ -421,76 +495,7 @@ export default function Pricing() {
           </div>
         </div>
       </section>
-      
-      {/* Nova seção: Depoimentos */}
-      <section className="py-24 bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/pattern.png')] bg-repeat opacity-5"></div>
-        
-        {/* Elemento decorativo */}
-        <div className="absolute -right-20 bottom-0 w-80 h-80 opacity-10">
-          <Image
-            src="/icons-whisky/tumbler-glass-svgrepo-com.svg"
-            alt="Decorative element"
-            width={300}
-            height={300}
-          />
-        </div>
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center mb-16">
-            <span className="inline-block mb-4 px-4 py-1 bg-amber-900/20 rounded-full border border-amber-600/20 text-amber-400 text-sm font-medium">
-              O QUE DIZEM NOSSOS MEMBROS
-            </span>
-            <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">Depoimentos</h2>
-            <p className="text-white/70 text-lg max-w-2xl mx-auto">
-              Confira a experiência de quem já faz parte do nosso clube exclusivo
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                name: "André Mendonça",
-                role: "Membro Gold há 2 anos",
-                photo: "/profile-placeholder.jpg",
-                text: "As degustações exclusivas são incríveis. Conheci rótulos que jamais encontraria no mercado tradicional e a troca de experiências com outros entusiastas é inestimável."
-              },
-              {
-                name: "Carla Ribeiro",
-                role: "Membro Master Reserve há 1 ano",
-                photo: "/profile-placeholder.jpg",
-                text: "A visita à destilaria foi uma experiência transformadora. O atendimento personalizado e o acesso a edições limitadas fazem cada centavo valer a pena."
-              },
-              {
-                name: "Paulo Andrade",
-                role: "Membro Standard há 6 meses",
-                photo: "/profile-placeholder.jpg",
-                text: "Mesmo no plano básico, o nível de exclusividade é surpreendente. Os eventos mensais e a newsletter com conteúdo educativo elevaram meu conhecimento sobre whisky."
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-gradient-to-b from-gray-900 to-black border border-amber-900/20 rounded-xl p-8 shadow-xl hover:border-amber-700/30 transition-all duration-300">
-                <div className="flex items-start mb-6">
-                  <div className="flex-shrink-0 mr-4">
-                    <div className="w-12 h-12 rounded-full bg-amber-900/30 flex items-center justify-center text-amber-400">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M10 11h-4a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v6c0 2.667 -1.333 4.333 -4 5" />
-                        <path d="M19 11h-4a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v6c0 2.667 -1.333 4.333 -4 5" />
-                      </svg>
-                    </div>
-                  </div>
-                  <p className="text-white/80 italic text-sm leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-                </div>
-                <div className="border-t border-amber-900/20 pt-4">
-                  <p className="text-white font-medium">{testimonial.name}</p>
-                  <p className="text-amber-400/80 text-sm">{testimonial.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    
       
       {/* Divisor decorativo */}
       <div className="relative py-12 bg-black">
@@ -659,74 +664,11 @@ export default function Pricing() {
             </div>
           </div>
           
-          {/* Mini Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-black/60 backdrop-blur-md border border-amber-900/20 rounded-xl p-6 hover:border-amber-700/40 transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-lg bg-amber-900/20 mb-4 flex items-center justify-center">
-                <Wine className="w-6 h-6 text-amber-400" />
-              </div>
-              <h3 className="text-xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors">Maturação Exclusiva</h3>
-              <p className="text-white/70 text-sm">
-                Acompanhe o processo de maturação de barris exclusivos selecionados especialmente para membros.
-              </p>
-            </div>
-            
-            <div className="bg-black/60 backdrop-blur-md border border-amber-900/20 rounded-xl p-6 hover:border-amber-700/40 transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-lg bg-amber-900/20 mb-4 flex items-center justify-center">
-                <Star className="w-6 h-6 text-amber-400" />
-              </div>
-              <h3 className="text-xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors">Edições Comemorativas</h3>
-              <p className="text-white/70 text-sm">
-                Receba garrafas exclusivas com seu nome no rótulo para celebrar datas especiais e momentos importantes.
-              </p>
-            </div>
-            
-            <div className="bg-black/60 backdrop-blur-md border border-amber-900/20 rounded-xl p-6 hover:border-amber-700/40 transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-lg bg-amber-900/20 mb-4 flex items-center justify-center">
-                <Gift className="w-6 h-6 text-amber-400" />
-              </div>
-              <h3 className="text-xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors">Kits Exclusivos</h3>
-              <p className="text-white/70 text-sm">
-                Receba regularmente amostras cuidadosamente selecionadas acompanhadas de conteúdo exclusivo e detalhado.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
-      
-      {/* Nova seção: Call-to-Action Final */}
-      <section className="py-20 bg-gradient-to-b from-gray-950 to-black relative">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 opacity-20 bg-[url('/pattern.png')] bg-repeat"></div>
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-700/30 to-transparent"></div>
-        </div>
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
-              Comece Sua Jornada <span className="text-amber-400">Hoje</span>
-            </h2>
-            <p className="text-white/70 text-lg mb-12 max-w-2xl mx-auto">
-              Junte-se à comunidade exclusiva Thornfield e transforme sua experiência com o whisky.
-              De degustações únicas a edições limitadas, uma nova forma de apreciar está esperando por você.
-            </p>
-            
-            <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
-              <a href="#plans" className="px-8 py-4 rounded-full bg-gradient-to-r from-amber-600 to-amber-800 text-white font-medium border border-amber-700/30 shadow-lg shadow-amber-900/30 hover:shadow-amber-900/50 transition-all duration-300 hover:scale-105 transform w-full md:w-auto">
-                Ver Planos
-              </a>
-              <a href="/pages/Contact" className="px-8 py-4 rounded-full bg-black/60 backdrop-blur-sm text-amber-400 font-medium border border-amber-700/20 hover:bg-black/80 hover:border-amber-700/40 transition-all duration-300 w-full md:w-auto">
-                Fale Conosco
-              </a>
-            </div>
-            
-            <div className="flex items-center justify-center gap-2 mt-12 text-amber-400/70">
-              <Clock size={16} />
-              <span className="text-sm">Promoção por tempo limitado: 20% de desconto em planos anuais</span>
-            </div>
-          </div>
-        </div>
-      </section>
+
+      <Footer />
+    
 
       {/* Success Message */}
       {showSuccessMessage && (
