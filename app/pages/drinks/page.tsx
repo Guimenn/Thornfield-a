@@ -206,8 +206,7 @@ export default function Drinks() {
             backgroundImage: 'url("/drinks-images/banner.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            transform: `translateY(${scrollProgress * 0.5}px)`
+            backgroundAttachment: 'fixed'          
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>

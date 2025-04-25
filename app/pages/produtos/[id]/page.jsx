@@ -74,21 +74,8 @@ export default function WhiskyDetalhe({ params }) {
     <div className="min-h-screen bg-black text-white">
 
       {/* Hero Section */}
-      <section className="pt-20">
-        <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] overflow-hidden">
-          {/* Botão de voltar */}
-          <div className="absolute top-4 sm:top-6 md:top-10 left-4 sm:left-6 z-20">
-            <Link
-              href="/pages/produtos"
-              className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-black/50 backdrop-blur-sm rounded-md border border-amber-500/30 text-amber-500 hover:bg-black/70 hover:text-amber-400 transition-all duration-300"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg&quot" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              <span className="text-sm sm:text-base">Voltar</span>
-            </Link>
-          </div>
-         
+      <section>
+        <div className="relative h-[70vh] sm:h-[80vh] md:h-[90vh] overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0">
             <Image
@@ -97,6 +84,7 @@ export default function WhiskyDetalhe({ params }) {
               fill
               sizes="100vw"
               className="object-cover object-center sm:object-center brightness-[0.85] sm:brightness-100"
+              
               priority
               quality={90}
             />
@@ -245,6 +233,20 @@ export default function WhiskyDetalhe({ params }) {
           </div>
         </div>
       </section>
+
+      {/* Adicionar o botão de voltar aqui, antes do Footer */}
+      <div className="max-w-7xl mx-auto px-6 md:px-8 my-12 flex justify-center">
+        <Link
+          href="/pages/produtos"
+          className="flex items-center gap-2 px-6 py-3 bg-black/50 backdrop-blur-sm rounded-md border border-amber-500/30 text-amber-500 hover:bg-black/70 hover:text-amber-400 transition-all duration-300"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span className="text-base">Voltar para produtos</span>
+        </Link>
+      </div>
+      
       <Footer/>
     </div>
   );

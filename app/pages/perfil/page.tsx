@@ -645,6 +645,9 @@ export default function PerfilPage() {
                                             <div>
                                                 <p className="text-amber-200/60 text-sm font-medium mb-1">Tipo de conta</p>
                                                 <p className="text-white text-lg">{subscription ? `${subscription.plan}` : 'Padrão'}</p>
+                                                {subscription && subscription.status === 'active' && (
+                                                    <p className="text-amber-400/80 text-sm mt-1">{subscription.billing === 'monthly' ? 'Assinatura Mensal' : 'Assinatura Anual'}</p>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
