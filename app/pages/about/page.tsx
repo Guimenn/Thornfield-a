@@ -322,7 +322,7 @@ export default function About() {
                 <div className="h-px w-8 sm:w-12 lg:w-16 bg-amber-500"></div>
                 <span className="text-amber-500 font-light tracking-widest text-sm sm:text-base">PROCESSO</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-6 sm:mb-8 lg:mb-12 text-white tracking-tight animate-fade-in-up font-serif">THORNFIELD</h1>
+              <h1 className="text-4xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 lg:mb-12 text-white tracking-tight animate-fade-in-up font-serif">THORNFIELD</h1>
               <div className="h-1 w-12 sm:w-16 lg:w-24 bg-amber-500 mb-4 sm:mb-6 lg:mb-8 animate-width-grow"></div>
               <p className="text-base sm:text-lg lg:text-xl leading-relaxed text-gray-300 font-light animate-fade-in-up max-w-2xl">
                 O processo de criação do Thornfield é uma verdadeira obra de arte. Envelhecido em barris de carvalho americano e europeu, cada garrafa carrega notas complexas de baunilha, caramelo e frutas secas, com um final suave e persistente.

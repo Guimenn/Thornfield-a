@@ -27,7 +27,7 @@ export default function AwardsShowcase() {
       year: "2023",
       product: "Ultra Reserve 18 Anos",
       organization: "International Whisky Competition",
-      image: "/images/awards/award-gold.png",
+      image: "/awards/68.png",
       category: ["destaque", "internacional", "ouro"]
     },
     {
@@ -36,7 +36,7 @@ export default function AwardsShowcase() {
       year: "2023",
       product: "Malcolm Fraser",
       organization: "Icons of Whisky",
-      image: "/images/awards/award-distiller.png",
+      image: "/awards/76.png",
       category: ["destaque", "internacional"]
     },
     {
@@ -45,7 +45,7 @@ export default function AwardsShowcase() {
       year: "2023",
       product: "Thornfield Distillery",
       organization: "Scotch Whisky Association",
-      image: "/images/awards/award-sustainability.png",
+      image: "/awards/70.png",
       category: ["destaque", "sustentabilidade"]
     },
     {
@@ -54,7 +54,7 @@ export default function AwardsShowcase() {
       year: "2023",
       product: "Highland Glory 15 Anos",
       organization: "San Francisco World Spirits Competition",
-      image: "/images/awards/award-double-gold.png",
+      image: "/awards/71.png",
       category: ["destaque", "internacional", "ouro"]
     },
     {
@@ -63,7 +63,7 @@ export default function AwardsShowcase() {
       year: "2022",
       product: "Processo de Reciclagem de Água",
       organization: "Sustainable Spirits Initiative",
-      image: "/images/awards/award-sustainability.png",
+      image: "/awards/72.png",
       category: ["destaque", "sustentabilidade"]
     },
     {
@@ -72,7 +72,7 @@ export default function AwardsShowcase() {
       year: "2021",
       product: "Linha Reserve Series",
       organization: "Green Packaging Awards",
-      image: "/images/awards/award-sustainability.png",
+      image: "/awards/73.png",
       category: ["sustentabilidade"]
     },
     {
@@ -81,7 +81,7 @@ export default function AwardsShowcase() {
       year: "2022",
       product: "Thornfield Distillery",
       organization: "Climate Positive Awards",
-      image: "/images/awards/award-sustainability.png",
+      image: "/awards/74.png",
       category: ["sustentabilidade"]
     },
     {
@@ -90,7 +90,7 @@ export default function AwardsShowcase() {
       year: "2023",
       product: "Iniciativa Energia Renovável",
       organization: "Sustainable Spirits Coalition",
-      image: "/images/awards/award-sustainability.png",
+      image: "/awards/75.png",
       category: ["sustentabilidade"]
     },
     {
@@ -99,7 +99,7 @@ export default function AwardsShowcase() {
       year: "2024",
       product: "Obsidian Veil 20 anos",
       organization: "International Whisky Competition",
-      image: "/images/awards/award-gold.png",
+      image: "/awards/69.png",
       category: ["destaque", "internacional", "ouro"]
     }
   ];

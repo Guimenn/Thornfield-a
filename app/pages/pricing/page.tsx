@@ -148,10 +148,9 @@ export default function Pricing() {
           <div className="absolute bottom-1/4 right-1/3 w-2 h-2 bg-amber-600 rounded-full animate-ping" style={{ animationDuration: '6s', animationDelay: '1.5s' }}></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-6">
+        <div className="relative mt-[100px]  z-10 container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8 relative">
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-0.5 h-16 bg-gradient-to-b from-transparent to-amber-500/50"></div>
               <div className="inline-block">
               
               </div>
@@ -238,8 +237,8 @@ export default function Pricing() {
       
       {/* Nova seção de benefícios */}
       <section id="benefits" className="py-28 relative bg-black">
-        <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="absolute  inset-0 bg-[url('/pattern.png')] opacity-5"></div>
+        <div className="container  mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
             <div className="inline-block mb-4">
               <div className="px-4 py-1 bg-amber-900/20 rounded-full border border-amber-600/20 text-amber-400 text-sm font-medium">
@@ -349,7 +348,7 @@ export default function Pricing() {
         </div>
         
         <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-10 max-w-7xl mx-auto">
             {plans.map((plan, index) => (
               <div 
                 key={plan.name}

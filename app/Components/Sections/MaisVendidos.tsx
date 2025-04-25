@@ -247,7 +247,7 @@ function WhiskyCard({ whisky, index, isReference }: { whisky: Whisky, index: num
             </div>
             
             <div className="flex items-center justify-between mt-auto">
-              <Link href={`/product/${whisky.id}`}>
+              <Link href={`/pages/produtos/${whisky.id}`}>
                 <Button>
                   Ver Detalhes
                 </Button>

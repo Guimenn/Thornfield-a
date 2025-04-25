@@ -421,10 +421,20 @@ export default function LoginForm() {
 
   return (
     <div className="h-screen flex bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
-      {/* Botão de voltar melhorado */}
+      {/* Botão de voltar melhorado - Verifica URL de retorno */}
       <Link
-        href="/"
+        href={typeof window !== 'undefined' && localStorage.getItem('returnUrl')?.includes('/pages/pricing') ? '/pages/pricing' : '/'}
         className="absolute top-6 left-6 z-50 flex items-center gap-2 bg-black/30 hover:bg-black/50 text-amber-400 hover:text-amber-300 px-4 py-2 rounded-full transition-all duration-300 border border-amber-500/30 hover:border-amber-500/50 shadow-lg"
+        onClick={(e) => {
+          // Verificar se há uma URL de retorno no localStorage
+          if (typeof window !== 'undefined') {
+            const returnUrl = localStorage.getItem('returnUrl');
+            if (returnUrl && returnUrl.includes('/pages/pricing')) {
+              e.preventDefault();
+              router.push('/pages/pricing');
+            }
+          }
+        }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M19 12H5M12 19l-7-7 7-7"/>

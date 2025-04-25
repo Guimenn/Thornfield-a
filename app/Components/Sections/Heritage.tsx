@@ -1,7 +1,9 @@
 "use client";
 import { useRef } from 'react';
 import Image from 'next/image';
-import { motion, useInView } from 'framer-motion';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 export default function Heritage() {
   const ref = useRef<HTMLDivElement>(null);
@@ -29,9 +31,7 @@ export default function Heritage() {
                 <span className="inline-block text-amber-500 font-medium tracking-wider text-sm mb-4">NOSSA HERANÇA</span>
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">Uma Legacy de <br/> Excelência e <br/> Tradição Escocesa</h2>
                 <p className="text-gray-400 max-w-lg">
-                  Nas Highlands escocesas, entre vales nevoentos e rios cristalinos, nasceu em 1832 a destilaria Thornfield. 
-                  Fundada por William Thornfield, ex-marinheiro e entusiasta das artes da destilação, nossa marca preserva 
-                  até hoje os segredos e o conhecimento passados através de cinco gerações.
+                Nas Highlands escocesas, entre vales nevoentos e rios cristalinos, nasceu em 2018 a destilaria Thornfield. Fundada por Renan Queiroz, Gabriel Palmieri e Guilherme Men, três entusiastas das artes da destilação, nossa marca preserva até hoje os segredos e o conhecimento passados através de cinco gerações.
                 </p>
               </div>
               
@@ -46,22 +46,25 @@ export default function Heritage() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="h-px w-12 bg-amber-700/60"></div>
-                  <span className="text-white font-serif text-lg">Mais de 20 prêmios internacionais</span>
+                  <span className="text-white font-serif text-lg">4 prêmios internacionais</span>
                 </div>
               </div>
               
               <div className="mt-12">
+              <Link href="/../../pages/about" passHref>
                 <motion.button
+                
                   initial={{ opacity: 0, y: 10 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="px-8 py-3 bg-amber-700 hover:bg-amber-600 text-white rounded-md transition-colors font-medium flex items-center gap-2"
+                  className="px-8 cursor-pointer py-3 bg-amber-700 hover:bg-amber-600 text-white rounded-md transition-colors font-medium flex items-center gap-2"
                 >
                   Nossa História
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </motion.button>
+                </Link>
               </div>
             </motion.div>
           </div>
