@@ -598,17 +598,9 @@ export default function PerfilPage() {
                                                 <Edit size={18} className="text-amber-400" />
                                             </button>
                                         </div>
-                                        <p className="text-amber-400/90 text-lg font-medium">
-                                            {subscription ? `Thornfield ${subscription.plan}` : ''}
-                                        </p>
-                                        {subscription && subscription.status === 'active' && (
-                                            <button
-                                                onClick={() => setIsCancelSubscriptionModalOpen(true)}
-                                                className="mt-2 px-4 py-2 rounded-full bg-red-900/20 text-red-400 hover:bg-red-900/30 hover:scale-105 transition-all duration-300 text-sm"
-                                            >
-                                                Cancelar assinatura
-                                            </button>
-                                        )}
+                                        
+                                       
+                                        
                                     </div>
                                 </div>
 
@@ -652,37 +644,47 @@ export default function PerfilPage() {
                                             </div>
                                             <div>
                                                 <p className="text-amber-200/60 text-sm font-medium mb-1">Tipo de conta</p>
-                                                <p className="text-white text-lg">Padrão</p>
+                                                <p className="text-white text-lg">{subscription ? `${subscription.plan}` : 'Padrão'}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-4 md:space-y-0 pt-8 border-t border-amber-600/20">
-                                    <div className="flex flex-col justify-between md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                                <div className="flex flex-col items-center justify-center pt-8 border-t border-amber-600/20">
+                                    <div className="flex flex-wrap justify-center items-center gap-4">
                                         <button
                                             onClick={handleLogout}
-                                            className="flex items-center space-x-3 px-8 py-4 rounded-full bg-red-900/20 text-red-400 hover:bg-red-900/30 hover:scale-105 transition-all duration-300 shadow-lg shadow-red-900/10"
+                                            className="flex items-center justify-center space-x-3 px-4 py-4 rounded-full bg-red-900/20 text-red-400 hover:bg-red-900/30 hover:scale-105 transition-all duration-300 shadow-lg shadow-red-900/10 w-auto min-w-[180px]"
                                         >
                                             <LogOut size={20} />
                                             <span className="font-medium">Sair da conta</span>
                                         </button>
                                         
+                                        {subscription && subscription.status === 'active' && (
+                                            <button
+                                                onClick={() => setIsCancelSubscriptionModalOpen(true)}
+                                                className="flex items-center justify-center space-x-3 px-4 py-4 rounded-full bg-red-900/20 text-red-400 hover:bg-red-900/30 hover:scale-105 transition-all duration-300 shadow-lg shadow-red-900/10 w-auto min-w-[180px]"
+                                            >
+                                                <CreditCard size={20} />
+                                                <span className="font-medium">Cancelar assinatura</span>
+                                            </button>
+                                        )}
                                         
-                                    </div>
-                                    <button
+                                        <button
                                             onClick={openChangePasswordModal}
-                                            className="flex items-center space-x-3 px-8 py-4 rounded-full bg-amber-900/20 text-amber-400 hover:bg-amber-900/30 hover:scale-105 transition-all duration-300 shadow-lg shadow-amber-900/10"
+                                            className="flex items-center justify-center space-x-3 px-4 py-4 rounded-full bg-amber-900/20 text-amber-400 hover:bg-amber-900/30 hover:scale-105 transition-all duration-300 shadow-lg shadow-amber-900/10 w-auto min-w-[180px]"
                                         >
                                             <KeyRound size={20} />
                                             <span className="font-medium">Alterar senha</span>
                                         </button>
-                                    <Link
-                                        href="/"
-                                        className="flex items-center space-x-3 px-8 py-4 rounded-full bg-amber-900/20 text-amber-400 hover:bg-amber-900/30 hover:scale-105 transition-all duration-300 shadow-lg shadow-amber-900/10"
-                                    >
-                                        <span className="font-medium">Voltar para a loja</span>
-                                    </Link>
+                                        
+                                        <Link
+                                            href="/"
+                                            className="flex items-center justify-center space-x-3 px-4 py-4 rounded-full bg-amber-900/20 text-amber-400 hover:bg-amber-900/30 hover:scale-105 transition-all duration-300 shadow-lg shadow-amber-900/10 w-auto min-w-[180px]"
+                                        >
+                                            <span className="font-medium">Voltar para a loja</span>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
