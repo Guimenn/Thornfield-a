@@ -7,9 +7,9 @@ import Footer from '../../Components/Footer/Footer';
 
 export default function TermosPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white" >
       {/* Header */}
-      <div className="relative h-64 bg-gradient-to-b from-amber-900/30 to-black">
+      <div className="relative mt-2 h-100 bg-gradient-to-b from-amber-900/30 to-black">
         <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-10"></div>
         <div className="container mx-auto px-4 md:px-8 h-full flex items-center justify-center">
           <motion.div
