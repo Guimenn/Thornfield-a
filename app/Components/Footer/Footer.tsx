@@ -28,31 +28,34 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Links Section - Herança */}
-          <div className="space-y-4">
-            <h3 className="text-xs uppercase tracking-[0.25em] text-amber-600 font-semibold mb-5">Herança</h3>
-            <ul className="space-y-2.5">
-              <li><Link href="/pages/about#tradicao" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Tradição</Link></li>
-              <li><Link href="/pages/about#processo" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Processo</Link></li>
-              <li><Link href="/pages/about#terroir" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Terroir</Link></li>
-              <li><Link href="/pages/about#mestres" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Mestres</Link></li>
-            </ul>
-          </div>
+          {/* Links Sections Container */}
+          <div className="sm:col-span-2 lg:col-span-2 grid grid-cols-2 gap-8">
+            {/* Links Section - Herança */}
+            <div className="space-y-4">
+              <h3 className="text-xs uppercase tracking-[0.25em] text-amber-600 font-semibold mb-5">Herança</h3>
+              <ul className="space-y-2.5">
+                <li><Link href="/pages/about#tradicao" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Tradição</Link></li>
+                <li><Link href="/pages/about#processo" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Processo</Link></li>
+                <li><Link href="/pages/about#terroir" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Terroir</Link></li>
+                <li><Link href="/pages/about#mestres" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Mestres</Link></li>
+              </ul>
+            </div>
 
-          {/* Links Section - Coleção */}
-          <div className="space-y-4">
-            <h3 className="text-xs uppercase tracking-[0.25em] text-amber-600 font-semibold mb-5">SOBRE NÓS</h3>
-            <ul className="space-y-2.5">
-              <li><Link href="/" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Home</Link></li>
-              <li><Link href="/pages/about" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Sobre</Link></li>
-              <li><Link href="/pages/blog" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Blog</Link></li>
-              <li><Link href="/pages/produtos" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Coleção</Link></li>
-            </ul>
+            {/* Links Section - Sobre Nós */}
+            <div className="space-y-4">
+              <h3 className="text-xs uppercase tracking-[0.25em] text-amber-600 font-semibold mb-5">SOBRE NÓS</h3>
+              <ul className="space-y-2.5">
+                <li><Link href="/" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Home</Link></li>
+                <li><Link href="/pages/about" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Sobre</Link></li>
+                <li><Link href="/pages/blog" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Blog</Link></li>
+                <li><Link href="/pages/produtos" className="text-sm text-gray-300 hover:text-amber-400 transition-colors duration-300">Coleção</Link></li>
+              </ul>
+            </div>
           </div>
 
           {/* Social & Contact Section */}
-          <div className="space-y-6">
-            <div className="space-y-4">
+          <div className="space-y-6 ">
+            <div className="s lg:block lg:space-x-0 lg:space-y-6pace-y-4">
               <h3 className="text-xs uppercase tracking-[0.25em] text-amber-600 font-semibold">Siga-nos</h3>
               <div className="flex space-x-4">
                 <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-amber-400 transition-colors duration-300">
