@@ -176,6 +176,22 @@ export default function Navbar() {
       imagem: "/foto-menu/5.png",
       alt: "Imagem do Menu 5",
     },
+    {
+      imagem: "/foto-menu/6.png",
+      alt: "Imagem do Menu 6",
+    },
+    {
+      imagem: "/foto-menu/7.png",
+      alt: "Imagem do Menu 7",
+    },
+    {
+      imagem: "/foto-menu/8.png",
+      alt: "Imagem do Menu 8",
+    },
+    {
+      imagem: "/foto-menu/9.png",
+      alt: "Imagem do Menu 9",
+    }
   ];
 
   return (
@@ -186,12 +202,12 @@ export default function Navbar() {
           scrolled ? "navbar-blur" : "bg-transparent"
         } ${!isVisible ? "-translate-y-full" : "translate-y-0"}`}
       >
-        <div className="grid h-[70px] grid-cols-[1fr_180px_1fr]">
+        <div className="grid h-[70px] grid-cols-[1fr_auto_1fr] md:grid-cols-[1fr_180px_1fr]">
           {/* Esquerda - Menu */}
           <div className="flex h-[70px] items-center justify-start border-b border-white">
             <button
               onClick={handleOpenMenu}
-              className={`menu-button group ml-7 rounded-full p-3 transition-colors duration-300 cursor-pointer hover:bg-white/5 ${isOpen ? "hidden" : ""}`}
+              className={`menu-button group ml-3 md:ml-7 rounded-full p-2 md:p-3 transition-colors duration-300 cursor-pointer hover:bg-white/5 ${isOpen ? "hidden" : ""}`}
               aria-label="Abrir Menu"
             >
               <div className="menu-icon">
@@ -217,14 +233,14 @@ export default function Navbar() {
                 <img 
                   src="/cabra.png" 
                   alt="Logo Thornfield" 
-                  className="w-40" 
+                  className="w-28 md:w-40" 
                 />
               </a>
             </div>
           </div>
 
           {/* Direita - Ícones */}
-          <div className="flex h-[70px] items-center justify-end space-x-4 border-b border-white pr-8">
+          <div className="flex h-[70px] items-center justify-end space-x-2 md:space-x-4 border-b border-white pr-3 md:pr-8">
             <AnimatePresence>
               {isSearchOpen ? (
                 <motion.div
@@ -308,7 +324,7 @@ export default function Navbar() {
 
               {/* Menu do Usuário - Desktop (hover) / Mobile (click) */}
               <div
-                className={`absolute top-full right-[-50px] z-50 mt-2 w-[130px] rounded-lg border border-white/10 bg-gradient-to-b from-black/95 to-black/90 shadow-lg shadow-black/50 backdrop-blur-sm transition-all duration-300 user-menu-dropdown
+                className={`absolute top-full right-[-40px] md:right-[0px] xl:right-[-50px] z-50 mt-2 w-[130px] rounded-lg border border-white/10 bg-gradient-to-b from-black/95 to-black/90 shadow-lg shadow-black/50 backdrop-blur-sm transition-all duration-300 user-menu-dropdown
                 md:invisible md:translate-y-2 md:transform md:opacity-0 md:group-hover:visible md:group-hover:translate-y-0 md:group-hover:opacity-100
                 ${isUserMenuOpen ? "visible translate-y-0 opacity-100" : "invisible translate-y-2 opacity-0 md:invisible md:translate-y-2 md:opacity-0"}`}
               >
@@ -437,18 +453,18 @@ export default function Navbar() {
             {/* Botão Fechar */}
             <button
               onClick={handleCloseMenu}
-              className="absolute top-6 left-6 p-2 text-white/70 transition-colors duration-300 hover:text-white menu-close-button z-10"
+              className="absolute top-4 right-4 md:top-6 md:left-6 p-2 text-white/70 transition-colors duration-300 hover:text-white menu-close-button z-10"
               aria-label="Fechar Menu"
             >
-              <svg width="32" height="32" viewBox="0 0 32 32"><g fill="currentColor"><path d="m14.585 16-4.95 4.95 1.415 1.414L22.364 11.05l-1.415-1.414-4.95 4.95-4.949-4.95-1.414 1.414 4.95 4.95ZM20.95 22.364l-3.536-3.536 1.414-1.414 3.536 3.536-1.415 1.414Z"></path></g></svg>
+              <svg width="28" height="28" viewBox="0 0 32 32"><g fill="currentColor"><path d="m14.585 16-4.95 4.95 1.415 1.414L22.364 11.05l-1.415-1.414-4.95 4.95-4.949-4.95-1.414 1.414 4.95 4.95ZM20.95 22.364l-3.536-3.536 1.414-1.414 3.536 3.536-1.415 1.414Z"></path></g></svg>
             </button>
 
             <div className="h-full md:grid md:grid-cols-[1fr_auto] md:gap-4">
               {/* Coluna do Menu */}
-              <div className="pt-14 md:pt-[90px] lg:pt-[120px] md:pl-8 lg:pl-[80px] menu-content-inner">
+              <div className="pt-16 md:pt-[90px] lg:pt-[120px] px-4 md:pl-8 lg:pl-[80px] menu-content-inner">
                 {/* Links do Menu */}
                 <nav className="flex-1" aria-label="Menu de Navegação">
-                  <ul className="space-y-3 md:space-y-4 lg:space-y-6">
+                  <ul className="space-y-4 md:space-y-4 lg:space-y-6">
                     {menuItems.map((item) => (
                       <li
                         key={item.name}
@@ -457,7 +473,7 @@ export default function Navbar() {
                         <a
                           href={item.href}
                           onClick={handleCloseMenu}
-                          className="group menu-link text-lg md:text-xl lg:text-2xl font-light tracking-[0.15em] text-white/90 uppercase transition-colors duration-500"
+                          className="group menu-link text-base md:text-xl lg:text-2xl font-light tracking-[0.15em] text-white/90 uppercase transition-colors duration-500"
                         >
                           {item.name}
                         </a>

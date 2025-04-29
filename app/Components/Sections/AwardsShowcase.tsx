@@ -2,8 +2,9 @@
 
 import { useRef, useState } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { X } from 'lucide-react';
 
 export default function AwardsShowcase() {
   const [ref, inView] = useInView({
@@ -12,6 +13,7 @@ export default function AwardsShowcase() {
   });
 
   const [activeCategory, setActiveCategory] = useState("destaque");
+  const [selectedAward, setSelectedAward] = useState(null);
 
   const categories = [
     { id: "destaque", name: "Destaques" },
@@ -107,6 +109,10 @@ export default function AwardsShowcase() {
   const filteredAwards = activeCategory === "destaque" 
     ? awards.filter(award => award.category.includes("destaque"))
     : awards.filter(award => award.category.includes(activeCategory));
+
+  const handleCloseModal = () => {
+    setSelectedAward(null);
+  };
 
   return (
     <section ref={ref} className="relative py-32 bg-gradient-to-b from-[#0A0501] to-[#0D0702] overflow-hidden">
@@ -217,7 +223,7 @@ export default function AwardsShowcase() {
                   duration: 0.5
                 }
               } : {}}
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#171411]/80 to-[#0c0a08]/80 backdrop-blur-sm border border-amber-900/20 hover:border-amber-800/40 transition-all duration-500 hover:shadow-xl hover:shadow-amber-900/10"
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[#171411]/80 to-[#0c0a08]/80 backdrop-blur-sm border border-amber-900/20 hover:border-amber-800/40 transition-all duration-500 hover:shadow-xl hover:shadow-amber-900/10 pb-2"
             >
               {/* Year badge */}
               <div className="absolute top-0 right-0 bg-gradient-to-br from-amber-700 to-amber-900 text-amber-100 text-sm font-bold px-4 py-1 z-10 shadow-md transform origin-top-right group-hover:scale-110 transition-transform duration-300">
@@ -225,13 +231,18 @@ export default function AwardsShowcase() {
               </div>
               
               <div className="p-6 pb-4">
-                <div className="flex items-center justify-center h-16 mb-6 relative">
+                <div className="flex items-center justify-center h-32 mb-6 relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-600/10 to-amber-500/10 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-amber-500/5 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
                   <Image
                     src={award.image}
                     alt={award.title}
-                    width={64}
-                    height={64}
-                    className="h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-110"
+                    width={140}
+                    height={140}
+                    quality={100}
+                    priority
+                    className="h-28 w-auto object-contain transition-all duration-500 group-hover:scale-110 drop-shadow-lg filter group-hover:brightness-110 group-hover:contrast-110 cursor-pointer"
+                    onClick={() => setSelectedAward(award)}
                   />
                 </div>
                 
@@ -261,6 +272,63 @@ export default function AwardsShowcase() {
           </p>
         </motion.div>
       </div>
+
+      {/* Modal para visualização expandida */}
+      <AnimatePresence>
+        {selectedAward && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+            onClick={handleCloseModal}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative max-w-5xl w-full bg-gradient-to-br from-[#171411]/90 to-[#0c0a08]/90 p-6 rounded-xl border border-amber-900/30 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                className="absolute top-4 right-4 text-white/70 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-2 transition-all duration-300 z-20"
+                onClick={handleCloseModal}
+              >
+                <X size={24} />
+              </button>
+              
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-serif text-amber-100">{selectedAward.title}</h3>
+                <p className="text-amber-500">{selectedAward.product}</p>
+              </div>
+              
+              <div className="relative overflow-hidden rounded-lg bg-black/30 flex items-center justify-center h-[70vh] max-h-[700px]">
+                <div 
+                  className="relative w-full h-full flex items-center justify-center overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-600/5 to-amber-500/5 rounded-full blur-3xl opacity-30"></div>
+                  <Image
+                    src={selectedAward.image}
+                    alt={selectedAward.title}
+                    width={800}
+                    height={800}
+                    quality={100}
+                    priority
+                    className="object-contain transition-all duration-300 drop-shadow-2xl max-h-full max-w-full"
+                    style={{ 
+                      objectFit: 'contain',
+                      width: 'auto',
+                      height: 'auto'
+                    }}
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
-} 
+}
