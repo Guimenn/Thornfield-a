@@ -1,22 +1,37 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+
+// Simulação de um banco de dados em memória para desenvolvimento
+// Em produção, isso será resetado a cada deploy, então você precisará
+// implementar uma solução de banco de dados real como MongoDB, PostgreSQL, etc.
+let stockUpdates: Record<string, number> = {};
 
 export async function POST(request: Request) {
   try {
     const { whiskyId, quantityToSubtract } = await request.json();
     console.log('Received request:', { whiskyId, quantityToSubtract });
 
-    // Convert whiskyId to string to ensure consistent comparison
+    // Converte whiskyId para string para garantir comparação consistente
     const idToFind = String(whiskyId);
 
-    const filePath = path.join(process.cwd(), 'app/data/whiskies.json');
-    console.log('File path:', filePath);
+    // Em um ambiente de produção como o Vercel, não podemos modificar arquivos
+    // Precisamos usar um banco de dados ou serviço de armazenamento
     
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const data = JSON.parse(fileContent);
-    console.log('Current data:', data);
+    // 1. Obter os dados atuais (em produção, isso viria de um banco de dados)
+    let response;
+    try {
+      // Fazemos uma chamada para nossa própria API para obter os dados atuais
+      response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/whiskies`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch whiskies data');
+      }
+    } catch (fetchError) {
+      console.error('Error fetching whiskies data:', fetchError);
+      return NextResponse.json({ success: false, error: 'Error fetching data' }, { status: 500 });
+    }
 
+    const data = await response.json();
+    
     const whiskyIndex = data.whiskies.findIndex((w: any) => String(w.id) === idToFind);
     console.log('Whisky index:', whiskyIndex);
     
@@ -25,32 +40,39 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Whisky not found' }, { status: 404 });
     }
 
-    if (data.whiskies[whiskyIndex].quantity < quantityToSubtract) {
+    const currentQuantity = data.whiskies[whiskyIndex].quantity;
+    
+    // Verificar se temos estoque suficiente
+    // Também consideramos atualizações anteriores que ainda não foram persistidas
+    const previousUpdates = stockUpdates[idToFind] || 0;
+    const effectiveQuantity = currentQuantity - previousUpdates;
+    
+    if (effectiveQuantity < quantityToSubtract) {
       console.error('Not enough quantity in stock');
       return NextResponse.json({ success: false, error: 'Not enough quantity in stock' }, { status: 400 });
     }
 
-    console.log('Current quantity:', data.whiskies[whiskyIndex].quantity);
-    data.whiskies[whiskyIndex].quantity -= quantityToSubtract;
-    console.log('New quantity:', data.whiskies[whiskyIndex].quantity);
+    // Atualizar nosso registro em memória de atualizações de estoque
+    stockUpdates[idToFind] = (stockUpdates[idToFind] || 0) + quantityToSubtract;
     
-    // Ensure the file exists and is writable
-    if (!fs.existsSync(filePath)) {
-      console.error('File does not exist:', filePath);
-      return NextResponse.json({ success: false, error: 'File not found' }, { status: 500 });
-    }
-
-    try {
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-      console.log('File updated successfully');
-    } catch (writeError) {
-      console.error('Error writing to file:', writeError);
-      return NextResponse.json({ success: false, error: 'Error writing to file' }, { status: 500 });
-    }
+    console.log('Stock updates:', stockUpdates);
+    console.log('Updated quantity for whisky', idToFind, 'from', currentQuantity, 'to', currentQuantity - stockUpdates[idToFind]);
     
-    return NextResponse.json({ success: true });
+    // Em um ambiente real, aqui você faria uma chamada para um banco de dados
+    // para atualizar permanentemente o estoque
+    
+    return NextResponse.json({ 
+      success: true,
+      message: 'Stock updated successfully in memory',
+      newQuantity: effectiveQuantity - quantityToSubtract
+    });
   } catch (error) {
     console.error('Error updating whisky quantity:', error);
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
-} 
+}
+
+// Adicionar um endpoint GET para depuração (remover em produção)
+export async function GET() {
+  return NextResponse.json({ stockUpdates });
+}
