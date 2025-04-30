@@ -220,7 +220,7 @@ const Payment = () => {
               className="payment-button"
               onClick={() => router.push('/pages/produtos')}
             >
-              Voltar ao Carrinho
+              Voltar à Coleção
             </button>
           </div>
         </div>
