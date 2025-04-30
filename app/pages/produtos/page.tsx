@@ -135,7 +135,7 @@ export default function Bebidas() {
               <div className="mb-4 sm:mb-8">
                 <div className="flex items-center gap-2 sm:gap-4 mb-2 sm:mb-3">
                   <div className="h-[1px] w-10 sm:w-16 bg-gradient-to-r from-amber-500 to-transparent"></div>
-                  <span className="text-amber-500 text-xs sm:text-sm tracking-[0.3em] sm:tracking-[0.5em] font-light">EST. 1887</span>
+                  <span className="text-amber-500 text-xs sm:text-sm tracking-[0.3em] sm:tracking-[0.5em] font-light">EST. 2018</span>
                 </div>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif tracking-wide text-white mb-4 sm:mb-8">
                   THORNFIELD
