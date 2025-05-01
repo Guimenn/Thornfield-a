@@ -21,7 +21,8 @@ Este é o **template oficial do Flowbite React com Next.js**, ideal para quem de
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Flowbite React](https://flowbite-react.com/)
 - [TypeScript](https://www.typescriptlang.org/)
-
+- [NodeJS](https://nodejs.org/pt)
+- [Firebase](https://firebase.google.com/?hl=pt-br)
 ---
 
 ## 📁 Estrutura de Pastas
