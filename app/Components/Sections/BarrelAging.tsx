@@ -160,9 +160,9 @@ export default function BarrelAging() {
 
         {/* Citação sobre envelhecimento */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.4, delay: 0.4}}
           className="max-w-4xl mx-auto mt-24 py-12 px-6 border-t border-b border-amber-900/30 text-center"
         >
           <blockquote className="text-xl md:text-2xl font-serif text-white italic">

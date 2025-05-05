@@ -420,7 +420,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="h-screen flex bg-gradient-to-br from-gray-900 via-gray-800 to-black relative">
+    <div className="h-screen flex bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
       {/* Botão de voltar melhorado - Verifica URL de retorno */}
       <Link
         href={typeof window !== 'undefined' && localStorage.getItem('returnUrl')?.includes('/pages/pricing') ? '/pages/pricing' : '/'}
@@ -450,389 +450,391 @@ export default function LoginForm() {
       </div>
       
       {/* Lado esquerdo - Formulário */}
-      <div className="w-full md:w-1/2 p-8 md:p-12 bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-md relative z-10 flex flex-col justify-center">
-        {/* Logo com animação */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex justify-center mb-6"
-        >
-          <div className="relative w-40 h-40 md:w-48 md:h-48">
-            <div className="absolute inset-0 bg-amber-500/20 rounded-full filter blur-xl animate-pulse"></div>
-            <Image
-              src="/cabra.png"
-              alt="Whisky Logo"
-              fill
-              className="object-contain drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]"
-              priority
-            />
-          </div>
-        </motion.div>
-
-      
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-gray-300 text-center mb-8 text-base md:text-lg font-light tracking-wide"
-        >
-          Entre para acessar nossa seleção exclusiva de whiskies premium
-        </motion.p>
-
-        {/* Mensagem de erro geral */}
-        <AnimatePresence>
-          {showError && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 max-w-md mx-auto w-full"
-              role="alert"
-            >
-              <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-              </svg>
-              <span className="sr-only">Info</span>
-              <div>
-                <span className="font-medium">Erro!</span> {error}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Mensagem de sucesso */}
-        <AnimatePresence>
-          {showSuccess && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800 max-w-md mx-auto w-full"
-              role="alert"
-            >
-              <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-              </svg>
-              <span className="sr-only">Info</span>
-              <div>
-                <span className="font-medium">Sucesso!</span> {successMessage}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Mensagem de ajuda para popup fechado */}
-        <AnimatePresence>
-          {showPopupHelp && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="flex items-center p-4 mb-4 text-sm text-amber-800 border border-amber-300 rounded-lg bg-amber-50 dark:bg-gray-800 dark:text-amber-400 dark:border-amber-800 max-w-md mx-auto w-full"
-              role="alert"
-            >
-              <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-              </svg>
-              <span className="sr-only">Dica</span>
-              <div>
-                <span className="font-medium">Dica:</span> Se você está tendo problemas com o popup, use o botão "Continuar com Google" abaixo.
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Abas de Login/Criar Conta */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex justify-center mb-8 max-w-md mx-auto w-full"
-        >
-          <div className="flex bg-black/40 rounded-lg p-1 w-full relative">
-            {/* Background animado */}
-            <motion.div
-              className="absolute top-1 left-1 h-[calc(100%-8px)] rounded-md bg-amber-600"
-              initial={false}
-              animate={{
-                width: isCreatingAccount ? 'calc(50% - 4px)' : 'calc(50% - 4px)',
-                x: isCreatingAccount ? 'calc(100% + 4px)' : '0%',
-              }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            />
-            
-            <button
-              onClick={() => setIsCreatingAccount(false)}
-              className={`flex-1 py-2 px-4 rounded-md flex items-center justify-center space-x-2 transition-all duration-300 relative z-10 ${
-                !isCreatingAccount
-                  ? 'text-white'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              <FaSignInAlt size={16} />
-              <span className="font-medium">Entrar</span>
-            </button>
-            <button
-              onClick={() => setIsCreatingAccount(true)}
-              className={`flex-1 py-2 px-4 rounded-md flex items-center justify-center space-x-2 transition-all duration-300 relative z-10 ${
-                isCreatingAccount
-                  ? 'text-white'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              <FaUserPlus size={16} />
-              <span className="font-medium">Criar Conta</span>
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Formulário de email/senha */}
-        <form 
-          onSubmit={
-            isCreatingAccount 
-              ? handleEmailPasswordSignIn 
-              : (isForgotPassword 
-                  ? handleForgotPassword 
-                  : (isResetingPassword 
-                      ? handleResetPassword 
-                      : handleEmailPasswordSignIn))
-          } 
-          className="space-y-4 max-w-md mx-auto w-full"
-        >
-          {/* Campo de email */}
+      <div className="w-full md:w-1/2 p-6 md:p-8 lg:p-10 xl:p-12 bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-md relative z-10 flex flex-col justify-between h-screen overflow-y-auto md:overflow-hidden">
+        <div className="flex flex-col justify-center h-full">
+          {/* Logo com animação */}
           <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex justify-center mb-4 md:mb-6"
+          >
+            <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-36 lg:h-36">
+              <div className="absolute inset-0 bg-amber-500/20 rounded-full filter blur-xl animate-pulse"></div>
+              <Image
+                src="/cabra.png"
+                alt="Whisky Logo"
+                fill
+                className="object-contain drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]"
+                priority
+              />
+            </div>
+          </motion.div>
+
+        
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="relative group"
+            className="text-gray-300 text-center mb-3 md:mb-4 lg:mb-6 text-sm md:text-base lg:text-lg font-light tracking-wide"
           >
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
-              <FaWineGlassAlt size={20} />
-            </div>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={`w-full bg-black/40 border ${
-                errors.email ? 'border-red-500' : 'border-gold-500/30'
-              } rounded-lg pl-12 pr-4 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
-              placeholder="Email"
-              disabled={isResetingPassword}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1 ml-1">{errors.email}</p>
-            )}
-          </motion.div>
+            Entre para acessar nossa seleção exclusiva de whiskies premium
+          </motion.p>
 
-          {/* Formulário de login regular (não esqueceu senha, não está redefinindo) */}
-          {!isForgotPassword && !isResetingPassword && (
-            <>
+          {/* Mensagem de erro geral */}
+          <AnimatePresence>
+            {showError && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="relative group"
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 max-w-md mx-auto w-full"
+                role="alert"
               >
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
-                  <FaFingerprint size={20} />
-                </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full bg-black/40 border ${
-                    errors.password ? 'border-red-500' : 'border-gold-500/30'
-                  } rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
-                  placeholder="Senha"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
-                >
-                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-                </button>
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>
-                )}
-              </motion.div>
-
-              {/* Campo de confirmação de senha (apenas para criar conta) */}
-              <AnimatePresence>
-                {isCreatingAccount && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="relative group overflow-hidden"
-                  >
-                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
-                      <FaFingerprint size={20} />
-                    </div>
-                    <input
-                      type={showConfirmPassword ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className={`w-full bg-black/40 border ${
-                        errors.confirmPassword ? 'border-red-500' : 'border-gold-500/30'
-                      } rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
-                      placeholder="Confirmar Senha"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
-                    >
-                      {showConfirmPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-                    </button>
-                    {errors.confirmPassword && (
-                      <p className="text-red-500 text-sm mt-1 ml-1">{errors.confirmPassword}</p>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Link para esqueceu a senha (apenas na tela de login, não de criar conta) */}
-              {!isCreatingAccount && (
-                <div className="text-right">
-                  <button
-                    type="button"
-                    onClick={() => setIsForgotPassword(true)}
-                    className="text-amber-400 hover:text-amber-300 text-sm transition-colors duration-300"
-                  >
-                    Esqueceu a senha?
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-
-          {/* Formulário de redefinição de senha */}
-          {isResetingPassword && (
-            <>
-              <div className="text-center mb-4">
-                <p className="text-amber-400">Redefinindo senha para: {email}</p>
-                <p className="text-gray-400 text-sm mt-1">A senha deve ter pelo menos 6 caracteres.</p>
-              </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="relative group"
-              >
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
-                  <FaFingerprint size={20} />
-                </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className={`w-full bg-black/40 border border-gold-500/30 rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
-                  placeholder="Nova Senha"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
-                >
-                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-                </button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                className="relative group"
-              >
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
-                  <FaFingerprint size={20} />
-                </div>
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  value={confirmNewPassword}
-                  onChange={(e) => setConfirmNewPassword(e.target.value)}
-                  className={`w-full bg-black/40 border border-gold-500/30 rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
-                  placeholder="Confirmar Nova Senha"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
-                >
-                  {showConfirmPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-                </button>
-              </motion.div>
-            </>
-          )}
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3 px-4 bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-lg font-medium hover:from-amber-700 hover:to-amber-900 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-900/20 cursor-pointer"
-          >
-            {isLoading ? (
-              <span className="flex items-center justify-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                 </svg>
-                Processando...
-              </span>
-            ) : isForgotPassword 
-                ? 'Verificar Email' 
-                : (isResetingPassword 
-                    ? 'Atualizar Senha' 
-                    : (isCreatingAccount 
-                        ? 'Criar Conta' 
-                        : 'Entrar'))}
-          </button>
+                <span className="sr-only">Info</span>
+                <div>
+                  <span className="font-medium">Erro!</span> {error}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {(isForgotPassword || isResetingPassword) && (
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsForgotPassword(false);
-                  setIsResetingPassword(false);
-                }}
-                className="text-amber-400 hover:text-amber-300 text-sm transition-colors duration-300"
+          {/* Mensagem de sucesso */}
+          <AnimatePresence>
+            {showSuccess && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800 max-w-md mx-auto w-full"
+                role="alert"
               >
-                Voltar para login
+                <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span className="sr-only">Info</span>
+                <div>
+                  <span className="font-medium">Sucesso!</span> {successMessage}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Mensagem de ajuda para popup fechado */}
+          <AnimatePresence>
+            {showPopupHelp && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center p-4 mb-4 text-sm text-amber-800 border border-amber-300 rounded-lg bg-amber-50 dark:bg-gray-800 dark:text-amber-400 dark:border-amber-800 max-w-md mx-auto w-full"
+                role="alert"
+              >
+                <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span className="sr-only">Dica</span>
+                <div>
+                  <span className="font-medium">Dica:</span> Se você está tendo problemas com o popup, use o botão "Continuar com Google" abaixo.
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Abas de Login/Criar Conta */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex justify-center mb-3 md:mb-4 lg:mb-6 max-w-md mx-auto w-full"
+          >
+            <div className="flex bg-black/40 rounded-lg p-1 w-full relative">
+              {/* Background animado */}
+              <motion.div
+                className="absolute top-1 left-1 h-[calc(100%-8px)] rounded-md bg-amber-600"
+                initial={false}
+                animate={{
+                  width: isCreatingAccount ? 'calc(50% - 4px)' : 'calc(50% - 4px)',
+                  x: isCreatingAccount ? 'calc(100% + 4px)' : '0%',
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+              
+              <button
+                onClick={() => setIsCreatingAccount(false)}
+                className={`flex-1 py-2 px-4 rounded-md flex items-center justify-center space-x-2 transition-all duration-300 relative z-10 ${
+                  !isCreatingAccount
+                    ? 'text-white'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <FaSignInAlt size={16} />
+                <span className="font-medium">Entrar</span>
+              </button>
+              <button
+                onClick={() => setIsCreatingAccount(true)}
+                className={`flex-1 py-2 px-4 rounded-md flex items-center justify-center space-x-2 transition-all duration-300 relative z-10 ${
+                  isCreatingAccount
+                    ? 'text-white'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <FaUserPlus size={16} />
+                <span className="font-medium">Criar Conta</span>
               </button>
             </div>
-          )}
-        </form>
+          </motion.div>
 
-        {/* Separador com texto */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1.2 }}
-          className="flex items-center justify-center my-6 max-w-md mx-auto w-full"
-        >
-          <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent w-full"></div>
-          <span className="text-gray-400 text-sm mx-4 whitespace-nowrap">Ou continue com</span>
-          <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent w-full"></div>
-        </motion.div>
+          {/* Formulário de email/senha */}
+          <form 
+            onSubmit={
+              isCreatingAccount 
+                ? handleEmailPasswordSignIn 
+                : (isForgotPassword 
+                    ? handleForgotPassword 
+                    : (isResetingPassword 
+                        ? handleResetPassword 
+                        : handleEmailPasswordSignIn))
+            } 
+            className="space-y-2 md:space-y-3 max-w-md mx-auto w-full"
+          >
+            {/* Campo de email */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="relative group"
+            >
+              <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
+                <FaWineGlassAlt size={20} />
+              </div>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`w-full bg-black/40 border ${
+                  errors.email ? 'border-red-500' : 'border-gold-500/30'
+                } rounded-lg pl-12 pr-4 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                placeholder="Email"
+                disabled={isResetingPassword}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1 ml-1">{errors.email}</p>
+              )}
+            </motion.div>
 
-        {/* Botão do Google melhorado */}
-        <motion.button
-          onClick={handleGoogleSignIn}
-          disabled={isLoading}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1.3 }}
-          className="w-full max-w-md mx-auto flex items-center justify-center gap-3 bg-amber-600/10 hover:bg-amber-600/20 text-amber-400 border border-amber-500/30 hover:border-amber-500/50 rounded-lg py-3 px-4 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-amber-900/20 cursor-pointer"
-        >
-          <FaGoogle className="text-amber-400" size={20} />
-          <span className="font-medium">Continuar com Google</span>
-        </motion.button>
+            {/* Formulário de login regular (não esqueceu senha, não está redefinindo) */}
+            {!isForgotPassword && !isResetingPassword && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  className="relative group"
+                >
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
+                    <FaFingerprint size={20} />
+                  </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={`w-full bg-black/40 border ${
+                      errors.password ? 'border-red-500' : 'border-gold-500/30'
+                    } rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                    placeholder="Senha"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
+                  >
+                    {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                  </button>
+                  {errors.password && (
+                    <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>
+                  )}
+                </motion.div>
+
+                {/* Campo de confirmação de senha (apenas para criar conta) */}
+                <AnimatePresence>
+                  {isCreatingAccount && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="relative group overflow-hidden"
+                    >
+                      <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
+                        <FaFingerprint size={20} />
+                      </div>
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className={`w-full bg-black/40 border ${
+                          errors.confirmPassword ? 'border-red-500' : 'border-gold-500/30'
+                        } rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                        placeholder="Confirmar Senha"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
+                      >
+                        {showConfirmPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                      </button>
+                      {errors.confirmPassword && (
+                        <p className="text-red-500 text-sm mt-1 ml-1">{errors.confirmPassword}</p>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Link para esqueceu a senha (apenas na tela de login, não de criar conta) */}
+                {!isCreatingAccount && (
+                  <div className="text-right">
+                    <button
+                      type="button"
+                      onClick={() => setIsForgotPassword(true)}
+                      className="text-amber-400 hover:text-amber-300 text-sm transition-colors duration-300"
+                    >
+                      Esqueceu a senha?
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Formulário de redefinição de senha */}
+            {isResetingPassword && (
+              <>
+                <div className="text-center mb-4">
+                  <p className="text-amber-400">Redefinindo senha para: {email}</p>
+                  <p className="text-gray-400 text-sm mt-1">A senha deve ter pelo menos 6 caracteres.</p>
+                </div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  className="relative group"
+                >
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
+                    <FaFingerprint size={20} />
+                  </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className={`w-full bg-black/40 border border-gold-500/30 rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                    placeholder="Nova Senha"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
+                  >
+                    {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                  </button>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  className="relative group"
+                >
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gold-500/70 group-hover:text-gold-500 transition-colors duration-300">
+                    <FaFingerprint size={20} />
+                  </div>
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmNewPassword}
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    className={`w-full bg-black/40 border border-gold-500/30 rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all duration-300 group-hover:bg-black/50`}
+                    placeholder="Confirmar Nova Senha"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gold-500/70 hover:text-gold-500 transition-colors duration-300"
+                  >
+                    {showConfirmPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                  </button>
+                </motion.div>
+              </>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3 px-4 bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-lg font-medium hover:from-amber-700 hover:to-amber-900 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-900/20 cursor-pointer"
+            >
+              {isLoading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processando...
+                </span>
+              ) : isForgotPassword 
+                  ? 'Verificar Email' 
+                  : (isResetingPassword 
+                      ? 'Atualizar Senha' 
+                      : (isCreatingAccount 
+                          ? 'Criar Conta' 
+                          : 'Entrar'))}
+            </button>
+
+            {(isForgotPassword || isResetingPassword) && (
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsForgotPassword(false);
+                    setIsResetingPassword(false);
+                  }}
+                  className="text-amber-400 hover:text-amber-300 text-sm transition-colors duration-300"
+                >
+                  Voltar para login
+                </button>
+              </div>
+            )}
+          </form>
+
+          {/* Separador com texto */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+            className="flex items-center justify-center my-3 md:my-4 max-w-md mx-auto w-full"
+          >
+            <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent w-full"></div>
+            <span className="text-gray-400 text-xs md:text-sm mx-2 md:mx-3 whitespace-nowrap">Ou continue com</span>
+            <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent w-full"></div>
+          </motion.div>
+
+          {/* Botão do Google melhorado */}
+          <motion.button
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.3 }}
+            className="w-full max-w-md mx-auto flex items-center justify-center gap-3 bg-amber-600/10 hover:bg-amber-600/20 text-amber-400 border border-amber-500/30 hover:border-amber-500/50 rounded-lg py-2 md:py-3 px-4 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-amber-900/20 cursor-pointer mb-3 md:mb-0"
+          >
+            <FaGoogle className="text-amber-400" size={18} />
+            <span className="font-medium text-sm md:text-base">Continuar com Google</span>
+          </motion.button>
+        </div>
       </div>
 
       {/* Lado direito - Imagem (visível apenas em telas médias e grandes) */}
@@ -855,28 +857,28 @@ export default function LoginForm() {
         </div>
         
         {/* Overlay com texto */}
-        <div className="absolute inset-0 flex flex-col justify-center items-center p-12 text-center">
+        <div className="absolute inset-0 flex flex-col justify-center items-center p-6 md:p-8 lg:p-10 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-[#D4AF37] mb-6 tracking-wider drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+            className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#D4AF37] mb-3 md:mb-4 tracking-wider drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]"
           >
-            Thornfield
+            THORNFIELD
           </motion.h2>
           
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="w-32 h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent mb-8"
+            className="w-20 md:w-24 lg:w-28 h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent mb-3 md:mb-5 lg:mb-6"
           ></motion.div>
           
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="text-xl md:text-3xl text-gray-300 max-w-xl leading-relaxed font-light tracking-wide"
+            className="text-base md:text-lg lg:text-xl xl:text-2xl text-gray-300 max-w-xs md:max-w-sm lg:max-w-md leading-relaxed font-light tracking-wide"
           >
             Descubra o mundo dos whiskies premium e faça parte de nossa comunidade exclusiva
           </motion.p>

@@ -309,6 +309,7 @@ const SubscriptionForm = ({
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Função para mostrar feedback estilizado
   const showStyledFeedback = (success: boolean, message: string) => {
@@ -347,6 +348,9 @@ const SubscriptionForm = ({
       return;
     }
 
+    // Ativar o estado de carregamento
+    setIsLoading(true);
+
     try {
       // Verificar se email já existe e cadastrar
       const db = getFirestore();
@@ -358,6 +362,7 @@ const SubscriptionForm = ({
       if (!querySnapshot.empty) {
         // Email já cadastrado
         showStyledFeedback(false, `Este email ${email} já está inscrito em nossa newsletter.`);
+        setIsLoading(false);
         return;
       }
 
@@ -384,6 +389,7 @@ const SubscriptionForm = ({
         if (!response.ok) {
           console.error('Erro ao enviar email para Google Script');
           showStyledFeedback(false, "Não foi possível enviar a confirmação para seu email. Mas sua inscrição foi registrada com sucesso!");
+          setIsLoading(false);
           return;
         }
 
@@ -392,6 +398,7 @@ const SubscriptionForm = ({
       } catch (error) {
         console.error('Erro na API:', error);
         showStyledFeedback(false, "Não foi possível enviar a confirmação para seu email. Mas sua inscrição foi registrada com sucesso!");
+        setIsLoading(false);
         return;
       }
 
@@ -401,6 +408,9 @@ const SubscriptionForm = ({
     } catch (error) {
       console.error("Erro:", error);
       showStyledFeedback(false, "Ocorreu um erro ao processar sua inscrição. Por favor, tente novamente.");
+    } finally {
+      // Desativar o estado de carregamento independente do resultado
+      setIsLoading(false);
     }
   };
 
@@ -472,13 +482,23 @@ const SubscriptionForm = ({
 
       <button
         type="button"
-        className="w-full bg-gradient-to-r from-amber-700 to-amber-500 text-white font-medium py-3 px-6 rounded-lg hover:from-amber-600 hover:to-amber-400 transition-all duration-300 shadow-lg flex items-center justify-center"
+        className="w-full bg-gradient-to-r from-amber-700 to-amber-500 text-white font-medium py-3 px-6 rounded-lg hover:from-amber-600 hover:to-amber-400 transition-all duration-300 shadow-lg flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
         onClick={cadastrarNewsletter}
+        disabled={isLoading}
       >
-        <span>Assinar Newsletter Mensal</span>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 ml-2">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-        </svg>
+        {isLoading ? (
+          <>
+            <span>Processando</span>
+            <div className="ml-3 h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          </>
+        ) : (
+          <>
+            <span>Assinar Newsletter Mensal</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 ml-2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+            </svg>
+          </>
+        )}
       </button>
 
       <p className="text-xs text-gray-500 mt-4 text-center">

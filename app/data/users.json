@@ -55,6 +55,15 @@
       "lastLogin": "2025-04-25T01:28:00.706Z",
       "password": "Renanzin10$#",
       "passwordUpdatedAt": "2025-04-25T18:56:47.345Z"
+    },
+    {
+      "uid": "HfDmLOcofERtanFPQHRhW1C9NNC3",
+      "photoURL": "/profile_photos/HfDmLOcofERtanFPQHRhW1C9NNC3_1746399432775.jpeg",
+      "createdAt": "2025-05-04T22:57:13.632Z",
+      "email": "renanqsrodrigues@gmail.com",
+      "displayName": "Renan Queiroz",
+      "provider": "google",
+      "lastLogin": "2025-05-05T22:59:00.058Z"
     }
   ]
 }
