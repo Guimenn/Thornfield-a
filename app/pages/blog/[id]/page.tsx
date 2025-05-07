@@ -691,41 +691,7 @@ export default function BlogPostPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-         {/* Barra de interação */}
-         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-3 sm:mb-4 md:mb-6 pb-2 sm:pb-3 md:pb-4 border-b border-[#333333]">
-              <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto mb-3 sm:mb-0">
-                <button 
-                  onClick={handleLike}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all ${
-                    hasLiked 
-                      ? 'bg-[#D4A24E]/20 text-[#D4A24E] border border-[#D4A24E]/30' 
-                      : 'hover:bg-[#333333] border border-transparent'
-                  }`}
-                >
-                  <ThumbsUp size={18} className={hasLiked ? 'fill-[#D4A24E]' : ''} />
-                  <span className="font-medium">{likeCount}</span>
-                </button>
-                <button className="flex items-center gap-2 px-5 py-2.5 rounded-full hover:bg-[#333333] transition-all border border-transparent">
-                  <MessageSquare size={18} />
-                  <span className="font-medium">Comentar</span>
-                </button>
-              </div>
-              <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
-                <button className="p-2.5 rounded-full hover:bg-[#333333] transition-all border border-transparent">
-                  <Share2 size={18} />
-                </button>
-                <button 
-                  onClick={handleBookmark}
-                  className={`p-2.5 rounded-full transition-all ${
-                    isBookmarked 
-                      ? 'bg-[#D4A24E]/20 text-[#D4A24E] border border-[#D4A24E]/30' 
-                      : 'hover:bg-[#333333] border border-transparent'
-                  }`}
-                >
-                  <Bookmark size={18} className={isBookmarked ? 'fill-[#D4A24E]' : ''} />
-                </button>
-              </div>
-            </div>
+        
 
           {/* Conteúdo do artigo */}
           <div 
