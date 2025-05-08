@@ -18,19 +18,19 @@ const timelineData = [
   },
   {
     year: '2019',
-    image: '/timeline/timeline2.png',
+    image: '/timeline/2019.png',
     title: 'A Busca pela Perfeição',
     description: 'Gabriel, o alquimista, mergulha nos segredos da destilação. Renan desenvolve a estratégia do negócio, enquanto Guimen trabalha na identidade da marca. Anos de pesquisa e experimentação começam.'
   },
   {
     year: '2020',
-    image: '/timeline/timeline3.png',
+    image: '/timeline/2020.png',
     title: 'Processo Único',
     description: 'Após incontáveis testes, desenvolvem um processo de destilação único. Cada detalhe é minuciosamente estudado: o terroir da cevada, a pureza da água e o tempo exato de envelhecimento nos barris.'
   },
   {
     year: '2021',
-    image: '/timeline/timeline4.png',
+    image: '/timeline/2021.png',
     title: 'A Fórmula Perfeita',
     description: 'Finalmente chegam à fórmula perfeita: um whisky encorpado, com notas marcantes de carvalho e um final aveludado. Nasce oficialmente a Thornfield, um nome que carrega força e mistério.'
   },
@@ -42,7 +42,7 @@ const timelineData = [
   },
   {
     year: '2023',
-    image: '/timeline/timeline6.png',
+    image: '/whiskys-fundo/17.png',
     title: 'O Legado Continua',
     description: 'Hoje, a Thornfield é uma celebração da autenticidade e inovação. Cada garrafa carrega uma história de superação e o compromisso inabalável com a excelência na arte da destilação.'
   }
